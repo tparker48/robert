@@ -71,7 +71,8 @@ def wait_for_rob():
     while(rob_is_busy()):
         time.sleep(0.04)
 
-
-
+#--- 
+# do something
+#---
 
 client_socket.close()
