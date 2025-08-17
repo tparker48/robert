@@ -72,9 +72,6 @@ def wait_for_rob():
         time.sleep(0.04)
 
 
-halt()
-move([-1,-1], relative=True)
-
 
 
 client_socket.close()
