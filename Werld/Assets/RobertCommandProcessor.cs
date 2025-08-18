@@ -15,10 +15,12 @@ public class RobertCommandProcessor : MonoBehaviour
     bool command_running = false;
 
     RobertMotorics motorics;
+    RobertSensors sensors;
 
     void Start()
     {
         motorics = GetComponent<RobertMotorics>();
+        sensors = GetComponent<RobertSensors>();
     }
 
     void Update()
@@ -90,15 +92,21 @@ public class RobertCommandProcessor : MonoBehaviour
                 return JsonConvert.SerializeObject(busy_response);
             case PositionQuery.id:
                 PositionQueryResponse position_response = new PositionQueryResponse();
-                position_response.position = new float[3];
-                position_response.rotation = new float[3];
-                position_response.position[0] = transform.position.x;
-                position_response.position[1] = transform.position.y;
-                position_response.position[2] = transform.position.z;
-                position_response.rotation[0] = transform.rotation.x;
-                position_response.rotation[1] = transform.rotation.y;
-                position_response.rotation[2] = transform.rotation.z;
+                position_response.position = new float[3] { 
+                    transform.position.x,
+                    transform.position.y,
+                    transform.position.z
+                };
+                position_response.rotation = new float[3] {
+                    transform.rotation.eulerAngles.x,
+                    transform.rotation.eulerAngles.y,
+                    transform.rotation.eulerAngles.z
+                };
                 return JsonConvert.SerializeObject(position_response);
+            case SensorQuery.id:
+                SensorQueryResponse sensor_response = new SensorQueryResponse();
+                sensor_response.readings = sensors.CheckSensors();
+                return JsonConvert.SerializeObject(sensor_response);
             default:
                 return "Unrecognized cmd_id";
         }

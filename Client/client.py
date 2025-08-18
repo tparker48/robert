@@ -58,6 +58,15 @@ def get_rotation():
     response = recieved_data.decode('utf-8')
     return json.loads(response)['rotation']
 
+def check_sensors():
+    raw_cmd = json.dumps({
+        "cmd_id": "sensor_query"
+    })
+    client_socket.send(raw_cmd.encode('utf-8'))
+    recieved_data = client_socket.recv(1024)
+    response = recieved_data.decode('utf-8')
+    return json.loads(response)['readings']
+
 def rob_is_busy():
     raw_cmd = json.dumps({
         "cmd_id": "busy_query"
@@ -72,7 +81,19 @@ def wait_for_rob():
         time.sleep(0.04)
 
 #----
-# do something
+
+while True:
+    move([100,0], relative=True)
+
+    while True:
+        time.sleep(0.02)
+        sensors = check_sensors()
+        if sensors[1]:
+            halt()
+            rotate(90, relative=True)
+            wait_for_rob()
+            break
+
 #----
 
 client_socket.close()

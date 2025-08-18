@@ -80,11 +80,10 @@ public class RobertMotorics : MonoBehaviour
         Vector3 newTarget = new Vector3(cmd.position[0], 0.0f, cmd.position[1]);
         if (cmd.relative)
         {
-            newTarget += transform.position;
+            newTarget = transform.position + transform.forward * cmd.position[0] + transform.right * cmd.position[1];
         }
         newTarget[1] = transform.position.y;
         targetPosition = newTarget;
-        Debug.Log(targetPosition);
     }
 
     public void HandleRotateCommand(RotateCommand cmd)

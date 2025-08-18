@@ -46,3 +46,10 @@ public class PositionQueryResponse {
     public float[] position { get; set; }
     public float[] rotation { get; set; }
 }
+
+public class SensorQuery: Command {
+    public const string id = "sensor_query";
+}
+public class SensorQueryResponse {
+    public bool[] readings { get; set; } 
+}
