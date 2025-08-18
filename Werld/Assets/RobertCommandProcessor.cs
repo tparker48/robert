@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Newtonsoft.Json;
 
 
 public class RobertCommandProcessor : MonoBehaviour
 {
-    Queue<string> commandQueue = new Queue<string>();
+    public int id;
 
     float ticker = 1.0f;
     float command_delay = 0.02f;
@@ -17,8 +16,13 @@ public class RobertCommandProcessor : MonoBehaviour
     RobertMotorics motorics;
     RobertSensors sensors;
 
+    Queue<string> commandQueue = new Queue<string>();
+
     void Start()
     {
+        TCPServer server = FindObjectOfType<TCPServer>();
+        server.RegisterNewBot(this);
+
         motorics = GetComponent<RobertMotorics>();
         sensors = GetComponent<RobertSensors>();
     }

@@ -87,7 +87,7 @@ def wait_for_rob(bot_id: int):
         time.sleep(0.04)
 
 #----
-id = 0
+id = 1
 
 while True:
     rotate(bot_id=id, angle=34, relative=True)

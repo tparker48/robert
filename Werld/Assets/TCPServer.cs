@@ -6,16 +6,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class TCPServer : MonoBehaviour
 {
-    private int port = 30120;
-    RobertCommandProcessor commandProcessor = null;
+    private Dictionary<int, RobertCommandProcessor> bots;
 
-    // Start is called before the first frame update
+    private int port = 30120;
+
     async void Start()
     {
-        commandProcessor = GetComponent<RobertCommandProcessor>();
         await StartServer();
     }
 
@@ -58,13 +58,24 @@ public class TCPServer : MonoBehaviour
             stream = client.GetStream();
             byte[] buffer = new byte[1024];
             int bytesRead;
+            string response;
 
             while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
             {
                 string recievedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                string response = commandProcessor.OnCommandRecieved(recievedData);
+                Command obj = JsonConvert.DeserializeObject<Command>(recievedData);
+
+                if (bots.ContainsKey(obj.bot_id) && bots[obj.bot_id] != null)
+                {
+                    response = bots[obj.bot_id].OnCommandRecieved(recievedData);
+                }
+                else
+                {
+                    response = $"ERROR: Could not find bot with bot_id: {obj.bot_id}";
+                }
+
                 byte[] response_bytes = Encoding.UTF8.GetBytes(response);
-                await stream.WriteAsync(response_bytes, 0, response_bytes.Length);  
+                await stream.WriteAsync(response_bytes, 0, response_bytes.Length);
             }
         }
         catch (Exception e)
@@ -78,5 +89,13 @@ public class TCPServer : MonoBehaviour
         }
     }
 
-    
+    public void RegisterNewBot(RobertCommandProcessor bot)
+    {
+        if (bots == null)
+        {
+            bots = new Dictionary<int, RobertCommandProcessor>();
+        }
+
+        bots.Add(bot.id, bot);
+    }
 }

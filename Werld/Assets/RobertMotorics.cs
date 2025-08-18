@@ -34,6 +34,7 @@ public class RobertMotorics : MonoBehaviour
             Vector3 posDiff = targetPosition - transform.position;
             if (posDiff.magnitude <= positionTolerance)
             {
+                transform.position = targetPosition;
                 targetPosition = transform.position;
                 moving = false;
             }
@@ -42,7 +43,7 @@ public class RobertMotorics : MonoBehaviour
                 float speedMult = 1.0f;
                 if (posDiff.magnitude <= positionDeadzone)
                 {
-                    Debug.Log("IN DEADZONE");
+                    //Debug.Log("IN DEADZONE");
                     speedMult = posDeadzoneMult;
                 }
 
@@ -57,6 +58,7 @@ public class RobertMotorics : MonoBehaviour
 
             if (rotDiff <= rotationTolerance)
             {
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, targetRotation, transform.rotation.eulerAngles.z);
                 targetRotation = transform.rotation.eulerAngles.y;
                 rotating = false;
             }
