@@ -88,12 +88,11 @@ def wait_for_rob(bot_id: int):
 
 #----
 id = 0
+#rotate(id, -350, relative=True)
+move(id, [1,0], relative=True)
+time.sleep(1)
+halt(id)
 
-while True:
-    rotate(bot_id=id, angle=34, relative=True)
-    wait_for_rob(id)
-    rotate(bot_id=id, angle=-34, relative=True)
-    wait_for_rob(id)
 #----
 
 client_socket.close()

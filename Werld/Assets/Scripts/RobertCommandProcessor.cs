@@ -21,6 +21,10 @@ public class RobertCommandProcessor : MonoBehaviour
     void Start()
     {
         TCPServer server = FindObjectOfType<TCPServer>();
+        if (server == null)
+        {
+            throw new Exception("No TCPServer object found!");
+        }
         server.RegisterNewBot(this);
 
         motorics = GetComponent<RobertMotorics>();
