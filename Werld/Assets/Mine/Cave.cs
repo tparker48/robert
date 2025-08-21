@@ -16,12 +16,27 @@ public class Cave : MonoBehaviour
 
     public bool regen;
 
-    public List<RobertCommandProcessor> roberts;
+    public List<Robert> roberts;
 
 
     private CaveCell[,] cells;
     private Vector3 cellSize;
     public int caveSize = 120;
+
+    public static Cave Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -98,7 +113,7 @@ public class Cave : MonoBehaviour
             {
                 for (int y = 0; y < caveSize; y++)
                 {
-                    state[newState,x,y] = RunCaveCA(ref state, oldState, x, y);
+                    state[newState, x, y] = RunCaveCA(ref state, oldState, x, y);
                 }
             }
 
@@ -123,9 +138,9 @@ public class Cave : MonoBehaviour
     private bool RunCaveCA(ref bool[,,] state, int oldState, int x, int y)
     {
         int neighborCount = 0;
-        for (int i = x-1; i <= x+1; i++)
+        for (int i = x - 1; i <= x + 1; i++)
         {
-            for (int j = y-1; j <= y+1; j++)
+            for (int j = y - 1; j <= y + 1; j++)
             {
                 // don't count self
                 if (i == x && j == y) continue;
@@ -164,7 +179,7 @@ public class Cave : MonoBehaviour
     {
         HashSet<Vector2Int> addList = new HashSet<Vector2Int>();
 
-        foreach (RobertCommandProcessor robert in roberts)
+        foreach (Robert robert in roberts)
         {
             int robX = Mathf.RoundToInt(robert.transform.position.x);
             int robY = Mathf.RoundToInt(robert.transform.position.z);
@@ -173,7 +188,7 @@ public class Cave : MonoBehaviour
             {
                 for (int yOffset = -10; yOffset <= 10; yOffset++)
                 {
-                    int x = Math.Clamp(robX + xOffset, 0, caveSize-1);
+                    int x = Math.Clamp(robX + xOffset, 0, caveSize - 1);
                     int y = Math.Clamp(robY + yOffset, 0, caveSize - 1);
 
                     if (CellNeedsCollider(robX, robY, x, y))
@@ -222,6 +237,57 @@ public class Cave : MonoBehaviour
         return true;
     }
 
+    public Vector2Int GetCellCoords(Vector3 worldCoords)
+    {
+        int x = (int)MathF.Round(worldCoords.x - transform.position.x);
+        int y = (int)MathF.Round(worldCoords.z - transform.position.z);
+        return new Vector2Int(x, y);
+    }
+
+    public bool CellInBounds(int x, int y)
+    {
+        return x >= 0 && y >= 0 && x < caveSize && y < caveSize;
+    }
+    
+    public float GetCellToughness(Vector3 worldCoords)
+    {
+        Vector2Int coords = GetCellCoords(worldCoords);
+        if (CanMine(coords.x, coords.y))
+        {
+            return cells[coords.x, coords.y].GetToughness();
+        }
+        return 0.0f;
+    }
+
+    public Dictionary<InventoryItem, uint> MineCell(Vector3 worldCoords)
+    {
+        Vector2Int coords = GetCellCoords(worldCoords);
+        int x = coords.x;
+        int y = coords.y;
+
+        if (CanMine(x,y))
+        {
+            if (cells[x, y].collider != null)
+            {
+                Destroy(cells[x, y].collider);
+                cells[x, y].collider = null;
+            }
+            return cells[x, y].MineCell();
+        }
+        return new Dictionary<InventoryItem, uint>();
+    }
+
+    public bool CanMine(int x, int y)
+    {
+        return CellInBounds(x, y) && cells[x, y].CanMine();
+    }
+
+    public bool CanMine(Vector3 worldCoords)
+    {
+        Vector2Int coords = GetCellCoords(worldCoords);
+        return CellInBounds(coords.x, coords.y) && cells[coords.x, coords.y].CanMine();
+    }
+
     void OnDrawGizmos()
     {
         if (cells != null)
@@ -244,8 +310,8 @@ public class Cave : MonoBehaviour
                         {
                             Gizmos.color = Color.red;
                         }
-                            
-                        Gizmos.DrawCube(transform.position + new Vector3(x, cellSize.y/2, y), cellSize);
+
+                        Gizmos.DrawCube(transform.position + new Vector3(x, cellSize.y / 2, y), cellSize);
                     }
                 }
             }

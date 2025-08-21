@@ -102,7 +102,7 @@ public class RobertMotorics : MonoBehaviour
         rotDir = cmd.angle > 0.0 ? 1.0f : -1.0f;
     }
 
-    public bool inMotion()
+    public bool Busy()
     {
         return moving || rotating;
     }

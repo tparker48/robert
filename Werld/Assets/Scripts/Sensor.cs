@@ -23,7 +23,7 @@ public class Sensor : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Hit on sensor {sensorId}");
+        //Debug.Log($"Hit on sensor {sensorId}");
         sensedObjects.Add(collider.gameObject);
     }
     void OnTriggerExit(Collider collider)

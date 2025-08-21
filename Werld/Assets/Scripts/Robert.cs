@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
 
-public class RobertCommandProcessor : MonoBehaviour
+public class Robert : MonoBehaviour
 {
     public int id;
 
@@ -13,8 +12,10 @@ public class RobertCommandProcessor : MonoBehaviour
     float command_delay = 0.02f;
     bool command_running = false;
 
-    RobertMotorics motorics;
     RobertSensors sensors;
+    RobertInventory inventory;
+    RobertDrill drill;
+    RobertMotorics motorics;
 
     Queue<string> commandQueue = new Queue<string>();
 
@@ -29,14 +30,17 @@ public class RobertCommandProcessor : MonoBehaviour
 
         motorics = GetComponent<RobertMotorics>();
         sensors = GetComponent<RobertSensors>();
+        inventory = GetComponent<RobertInventory>();
+        drill = GetComponent<RobertDrill>();
+        drill.LinkInventory(ref inventory);
     }
 
     void Update()
     {
-        ticker += Time.deltaTime;
-        if (ticker < command_delay) return;
+        //ticker += Time.deltaTime;
+        //if (ticker < command_delay) return;
 
-        command_running = motorics.inMotion();
+        command_running = IsCommandRunning();
 
         if (!command_running)
         {
@@ -50,7 +54,7 @@ public class RobertCommandProcessor : MonoBehaviour
         ticker = 0.0f;
     }
 
-    public string OnCommandRecieved(string recieved_data)
+    public Response OnCommandRecieved(string recieved_data)
     {
         Command obj = JsonConvert.DeserializeObject<Command>(recieved_data);
 
@@ -61,12 +65,12 @@ public class RobertCommandProcessor : MonoBehaviour
         else if (obj.cmd_id == "halt")
         {
             HandleHalt(recieved_data);
-            return "Halting!";
+            return Response.GenericResponse("Halting...");
         }
         else
         {
             commandQueue.Enqueue(recieved_data);
-            return "Command Queued!";
+            return Response.GenericResponse("Command Queued!");
         }
     }
 
@@ -76,12 +80,16 @@ public class RobertCommandProcessor : MonoBehaviour
         switch (cmd.cmd_id)
         {
             case MoveCommand.id:
-                MoveCommand mv_cmd = JsonConvert.DeserializeObject<MoveCommand>(recieved_data);
-                motorics.HandleMoveCommand(mv_cmd);
+                MoveCommand moveCommand = JsonConvert.DeserializeObject<MoveCommand>(recieved_data);
+                motorics.HandleMoveCommand(moveCommand);
                 break;
             case RotateCommand.id:
-                RotateCommand rot_cmd = JsonConvert.DeserializeObject<RotateCommand>(recieved_data);
-                motorics.HandleRotateCommand(rot_cmd);
+                RotateCommand rotateCommand = JsonConvert.DeserializeObject<RotateCommand>(recieved_data);
+                motorics.HandleRotateCommand(rotateCommand);
+                break;
+            case MineCommand.id:
+                MineCommand mineCommand = JsonConvert.DeserializeObject<MineCommand>(recieved_data);
+                drill.HandleMineCommand(mineCommand);
                 break;
             default:
                 Debug.Log("Unrecognized cmd_id");
@@ -89,7 +97,7 @@ public class RobertCommandProcessor : MonoBehaviour
         }
     }
 
-    string HandleQuery(string recieved_data)
+    Response HandleQuery(string recieved_data)
     {
         Command query = JsonConvert.DeserializeObject<Command>(recieved_data);
         switch (query.cmd_id)
@@ -97,7 +105,7 @@ public class RobertCommandProcessor : MonoBehaviour
             case BusyQuery.id:
                 BusyQueryResponse busy_response = new BusyQueryResponse();
                 busy_response.busy = commandQueue.Count != 0 || command_running;
-                return JsonConvert.SerializeObject(busy_response);
+                return busy_response;
             case PositionQuery.id:
                 PositionQueryResponse position_response = new PositionQueryResponse();
                 position_response.position = new float[3] { 
@@ -110,13 +118,25 @@ public class RobertCommandProcessor : MonoBehaviour
                     transform.rotation.eulerAngles.y,
                     transform.rotation.eulerAngles.z
                 };
-                return JsonConvert.SerializeObject(position_response);
+                return position_response;
             case SensorQuery.id:
                 SensorQueryResponse sensor_response = new SensorQueryResponse();
                 sensor_response.readings = sensors.CheckSensors();
-                return JsonConvert.SerializeObject(sensor_response);
+                return sensor_response;
+            case InventoryQuery.id:
+                InventoryQuery inv_query = JsonConvert.DeserializeObject<InventoryQuery>(recieved_data);
+                if (RobertInventory.IsValidItemId(inv_query.item_id))
+                {
+                    InventoryQueryResponse inv_response = new InventoryQueryResponse();
+                    inv_response.amount = inventory.GetItemCount(inv_query.item_id);
+                    return inv_response;
+                }
+                else
+                {
+                    return Response.ErrorResponse("Unrecognized Item Id");
+                }                
             default:
-                return "Unrecognized cmd_id";
+                return Response.ErrorResponse("Unrecognized cmd_id");
         }
     }
 
@@ -125,11 +145,17 @@ public class RobertCommandProcessor : MonoBehaviour
 
         // cancel any active commands
         motorics.Halt();
+        drill.Halt();
 
         if (hlt_cmd.clear_command_buffer)
         {
             commandQueue.Clear();
         }
     }
+
+    private bool IsCommandRunning()
+    {
+        return motorics.Busy() || drill.Busy();
+    } 
     
 }

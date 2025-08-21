@@ -4,24 +4,34 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
 
 public class TCPServer : MonoBehaviour
 {
-    private Dictionary<int, RobertCommandProcessor> bots;
+    private Dictionary<int, Robert> bots;
 
-    private int port = 30120;
+    private int port = 3003;
+    private CancellationTokenSource _cancellationTokenSource;
 
     async void Start()
     {
-        await StartServer();
+        Debug.Log("Starting Server...");
+        _cancellationTokenSource = new CancellationTokenSource();
+        await StartServer(_cancellationTokenSource.Token);
+        Debug.Log("Server Stopped!");
     }
 
-    void Update() { }
+    private void OnDestroy()
+    {
+        Debug.Log("Sending shutdown to server task");
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
+    }
 
-    private async Task StartServer()
+    private async Task StartServer(CancellationToken cancellationToken)
     {
         TcpListener listener = null;
         try
@@ -31,13 +41,23 @@ public class TCPServer : MonoBehaviour
             listener.Start();
             Debug.Log($"Server listening on port {port}...");
 
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 // Accept a new client connection asynchronously
-                TcpClient client = await listener.AcceptTcpClientAsync();
-                Debug.Log("Client conected!");
-
-                _ = HandleClientAsync(client);
+                using (cancellationToken.Register(listener.Stop))
+                {
+                    try
+                    {
+                        TcpClient client = await listener.AcceptTcpClientAsync();
+                        Debug.Log("Client conected!");
+                        _ = HandleClientAsync(client);
+                    }
+                    catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        Debug.Log("Server listener cancelled");
+                    }
+                }
+                
             }
         }
         catch (SocketException e)
@@ -58,7 +78,7 @@ public class TCPServer : MonoBehaviour
             stream = client.GetStream();
             byte[] buffer = new byte[1024];
             int bytesRead;
-            string response;
+            Response response;
 
             while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
             {
@@ -71,11 +91,12 @@ public class TCPServer : MonoBehaviour
                 }
                 else
                 {
-                    response = $"ERROR: Could not find bot with bot_id: {obj.bot_id}";
+                    response = Response.ErrorResponse($"ERROR: Could not find bot with bot_id: {obj.bot_id}");
                 }
 
-                byte[] response_bytes = Encoding.UTF8.GetBytes(response);
-                await stream.WriteAsync(response_bytes, 0, response_bytes.Length);
+                string responseString = JsonConvert.SerializeObject(response);
+                byte[] responseBytes = Encoding.UTF8.GetBytes(responseString);
+                await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
             }
         }
         catch (Exception e)
@@ -89,11 +110,11 @@ public class TCPServer : MonoBehaviour
         }
     }
 
-    public void RegisterNewBot(RobertCommandProcessor bot)
+    public void RegisterNewBot(Robert bot)
     {
         if (bots == null)
         {
-            bots = new Dictionary<int, RobertCommandProcessor>();
+            bots = new Dictionary<int, Robert>();
         }
 
         bots.Add(bot.id, bot);
