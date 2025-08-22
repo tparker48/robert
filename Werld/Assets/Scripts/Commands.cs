@@ -99,3 +99,12 @@ public class InventoryQueryResponse : Response
 {
     public int amount { get; set; }
 }
+
+public class MineScanQuery : Command
+{
+    new public const string id = "mine_scan_query";
+}
+public class MineScanQueryResponse : Response
+{
+    public int[,] map;
+}

@@ -2,7 +2,6 @@ import robapi
 
 robert = robapi.RobertController()
 
-while True:
-    robert.move([1,0])
-    robert.wait_until_free()
-    robert.move([-1,0])
+scan_results = robert.scan_mine()
+for line in scan_results:
+    print([int(ch) for ch in line])

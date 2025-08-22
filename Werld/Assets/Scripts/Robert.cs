@@ -134,7 +134,19 @@ public class Robert : MonoBehaviour
                 else
                 {
                     return Response.ErrorResponse("Unrecognized Item Id");
-                }                
+                }
+            case MineScanQuery.id:
+                MineScanQuery scanQuery = JsonConvert.DeserializeObject<MineScanQuery>(recieved_data);
+                if (drill.InMine())
+                {
+                    MineScanQueryResponse scanResponse = new MineScanQueryResponse();
+                    scanResponse.map = drill.HandleMineScanQuery(scanQuery);
+                    return scanResponse;
+                }
+                else
+                {
+                    return Response.ErrorResponse("Not in mine");
+                }
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }

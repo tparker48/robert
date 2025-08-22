@@ -6,6 +6,9 @@ public class RobertDrill : MonoBehaviour
     private bool mining = false;
     private float mineSpeed = 1.0f;
     private float mineTimer = 0.0f;
+
+    private int scanRadius = 2;
+
     private Vector3 mineTarget;
     private RobertInventory inventory;
 
@@ -58,6 +61,16 @@ public class RobertDrill : MonoBehaviour
             mineTimer = Cave.Instance.GetCellToughness(mineTarget) * mineSpeed;
             mining = true;
         }
+    }
+
+    public int[,] HandleMineScanQuery(MineScanQuery _)
+    {
+        return Cave.Instance.Scan(transform.position, scanRadius); 
+    }
+
+    public bool InMine()
+    {
+        return true;
     }
 
     public bool Busy()

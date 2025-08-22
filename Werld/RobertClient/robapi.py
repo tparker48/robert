@@ -55,15 +55,15 @@ class RobertController:
 
     def get_position(self):
         response = self.send_command('position_query')
-        return json.loads(response)['position']
+        return response['position']
 
     def get_rotation(self):
         response = self.send_command('position_query')
-        return json.loads(response)['rotation']
+        return response['rotation']
 
     def check_sensors(self):
         response = self.send_command('sensor_query')
-        return json.loads(response)['readings']
+        return response['readings']
 
     def get_item_count(self, item_id: int):
         response = self.send_command('inventory_query', args={
@@ -74,10 +74,11 @@ class RobertController:
 
     def is_busy(self):
         response = self.send_command(cmd_id='busy_query')
-        if response:
-            return response['busy']
-        else:
-            return False
+        return response['busy']
+        
+    def scan_mine(self):
+        response = self.send_command(cmd_id='mine_scan_query')
+        return response['map']
 
     def wait_until_free(self):
         while(self.is_busy()):

@@ -7,8 +7,8 @@ public struct CaveCell
     {
         Air,
         Wall,
-        Border,
-        Ore
+        Ore,
+        Border
     }
 
     public CaveCellType type;

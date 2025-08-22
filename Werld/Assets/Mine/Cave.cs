@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 using SimplexNoise;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -286,6 +287,35 @@ public class Cave : MonoBehaviour
     {
         Vector2Int coords = GetCellCoords(worldCoords);
         return CellInBounds(coords.x, coords.y) && cells[coords.x, coords.y].CanMine();
+    }
+
+    public int[,] Scan(Vector3 worldCoords, int scanRadius)
+    {
+        Vector2Int coords = GetCellCoords(worldCoords);
+
+        int scanSize = scanRadius + scanRadius + 1;
+        int[,] scanResult = new int[scanSize, scanSize];
+
+        for (int xOffset = -scanRadius; xOffset <= scanRadius; xOffset++)
+        {
+            for (int yOffset = -scanRadius; yOffset <= scanRadius; yOffset++)
+            {
+                int x = coords.x+xOffset;
+                int y = coords.y+yOffset;
+                int xIndex = x + scanRadius - coords.x;
+                int yIndex = scanSize-(y + scanRadius - coords.y) - 1;
+                if (CellInBounds(x, y))
+                {
+                    scanResult[yIndex, xIndex] = (int)cells[x, y].type;
+                }
+                else
+                {
+                    scanResult[yIndex, xIndex] = (int)CaveCell.CaveCellType.Border;
+                }
+            }
+        }
+
+        return scanResult;
     }
 
     void OnDrawGizmos()
