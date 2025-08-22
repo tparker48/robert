@@ -14,7 +14,7 @@ class RobertController:
         self.bot_id = bot_id
     
     def __del__(self):
-        print('deleting')
+        print('Closing TCP Connection')
         self.socket.close()
     
     def send_command(self, cmd_id: str, args: dict = {}, log_errors: bool = True):

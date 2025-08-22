@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,11 @@ public class RobertMotorics : MonoBehaviour
     float positionDeadzone = 0.3f;
     float positionTolerance = 0.01f;
 
-    float rotSpeed = 120.0f;
+    float rotSpeed = 100.0f;
     float rotDir = 1.0f;
-    float rotDeadzoneMult = 0.1f;
-    float rotDeadZone = 1.0f;
-    float rotationTolerance = 0.1f;
+    float rotDeadzoneMult = 0.08f;
+    float rotDeadZone = 1.25f;
+    float rotationTolerance = 0.30f;
 
     bool moving = false;
     bool rotating = false;
@@ -54,6 +55,7 @@ public class RobertMotorics : MonoBehaviour
         if (rotating)
         {
             float rotDiff = Mathf.Abs(targetRotation - transform.rotation.eulerAngles.y);
+            Debug.Log(rotDiff);
             if (rotDiff > 360) rotDiff -= 360.0f;
 
             if (rotDiff <= rotationTolerance)
@@ -67,7 +69,7 @@ public class RobertMotorics : MonoBehaviour
                 float speedMult = 1.0f;
                 if (rotDiff <= rotDeadZone)
                 {
-                    Debug.Log("IN DEADZONE");
+                    // ramp speed down as we get closer
                     speedMult = rotDeadzoneMult;
                 }
                 transform.rotation = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + rotDir * rotSpeed * speedMult * Time.deltaTime, 0.0f);
