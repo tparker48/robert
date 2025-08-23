@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RobertInventory : MonoBehaviour
@@ -30,7 +31,8 @@ public class RobertInventory : MonoBehaviour
 
     public void AddFrom(Dictionary<InventoryItem, uint> loot)
     {
-        foreach(InventoryItem item in loot.Keys){
+        foreach (InventoryItem item in loot.Keys)
+        {
             AddItem(item, loot[item]);
         }
     }
@@ -53,7 +55,7 @@ public class RobertInventory : MonoBehaviour
         if (IsValidItemId(itemId))
         {
             InventoryItem item = (InventoryItem)itemId;
-            return (int) (inventory.ContainsKey(item) ? inventory[item] : 0);
+            return (int)(inventory.ContainsKey(item) ? inventory[item] : 0);
         }
         return -1;
     }
@@ -66,5 +68,16 @@ public class RobertInventory : MonoBehaviour
     public uint GetItemCount(InventoryItem item)
     {
         return inventory.ContainsKey(item) ? inventory[item] : 0;
+    }
+
+    public int[] GetItemIdList()
+    {
+        InventoryItem[] items = inventory.Keys.ToArray<InventoryItem>();
+        int[] itemIds = new int[items.Length];
+        for (int i = 0; i < items.Length; i++)
+        {
+            itemIds[i] = (int)items[i];
+        }
+        return itemIds;
     }
 }

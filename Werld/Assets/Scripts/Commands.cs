@@ -52,6 +52,12 @@ public class MineCommand : Command
     public string direction { get; set; }
 }
 
+public class PlantCommand : Command
+{
+    new public const string id = "plant";
+    public string seedType { get; set; }
+}
+
 public class HaltCommand : Command
 {
     new public const string id = "halt";
@@ -90,21 +96,40 @@ public class SensorQueryResponse : Response
     public bool[] readings { get; set; }
 }
 
-public class InventoryQuery : Command
+public class ItemQuery : Command
 {
-    new public const string id = "inventory_query";
+    new public const string id = "item_query";
     public int item_id { get; set; }
 }
-public class InventoryQueryResponse : Response
+public class ItemQueryResponse : Response
 {
     public int amount { get; set; }
 }
 
-public class MineScanQuery : Command
+public class InventoryListQuery : Command
 {
-    new public const string id = "mine_scan_query";
+    new public const string id = "inventory_list_query";
 }
-public class MineScanQueryResponse : Response
+public class InventoryListQueryResponse : Response
+{
+    public int[] item_ids;
+}
+
+public class MineralQuery : Command
+{
+    new public const string id = "mineral_query";
+}
+public class MineralQueryResponse : Response
 {
     public int[,] map;
+}
+
+public class BeaconQuery : Command
+{
+    new public const string id = "beacon_query";
+}
+public class BeaconQueryResponse : Response
+{
+    public string[] beacons;
+    public float[,] relative_positions;
 }

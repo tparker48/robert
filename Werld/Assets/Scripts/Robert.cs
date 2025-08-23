@@ -123,24 +123,28 @@ public class Robert : MonoBehaviour
                 SensorQueryResponse sensor_response = new SensorQueryResponse();
                 sensor_response.readings = sensors.CheckSensors();
                 return sensor_response;
-            case InventoryQuery.id:
-                InventoryQuery inv_query = JsonConvert.DeserializeObject<InventoryQuery>(recieved_data);
-                if (RobertInventory.IsValidItemId(inv_query.item_id))
+            case ItemQuery.id:
+                ItemQuery item_query = JsonConvert.DeserializeObject<ItemQuery>(recieved_data);
+                if (RobertInventory.IsValidItemId(item_query.item_id))
                 {
-                    InventoryQueryResponse inv_response = new InventoryQueryResponse();
-                    inv_response.amount = inventory.GetItemCount(inv_query.item_id);
-                    return inv_response;
+                    ItemQueryResponse item_response = new ItemQueryResponse();
+                    item_response.amount = inventory.GetItemCount(item_query.item_id);
+                    return item_response;
                 }
                 else
                 {
                     return Response.ErrorResponse("Unrecognized Item Id");
                 }
-            case MineScanQuery.id:
-                MineScanQuery scanQuery = JsonConvert.DeserializeObject<MineScanQuery>(recieved_data);
+            case InventoryListQuery.id:
+                InventoryListQueryResponse inv_response = new InventoryListQueryResponse();
+                inv_response.item_ids = inventory.GetItemIdList();
+                return inv_response;
+            case MineralQuery.id:
+                MineralQuery scanQuery = JsonConvert.DeserializeObject<MineralQuery>(recieved_data);
                 if (drill.InMine())
                 {
-                    MineScanQueryResponse scanResponse = new MineScanQueryResponse();
-                    scanResponse.map = drill.HandleMineScanQuery(scanQuery);
+                    MineralQueryResponse scanResponse = new MineralQueryResponse();
+                    scanResponse.map = drill.HandleMineralQuery(scanQuery);
                     return scanResponse;
                 }
                 else

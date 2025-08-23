@@ -63,7 +63,7 @@ public class RobertDrill : MonoBehaviour
         }
     }
 
-    public int[,] HandleMineScanQuery(MineScanQuery _)
+    public int[,] HandleMineralQuery(MineralQuery _)
     {
         return Cave.Instance.Scan(transform.position, scanRadius); 
     }
