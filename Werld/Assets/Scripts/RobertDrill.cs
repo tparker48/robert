@@ -1,12 +1,9 @@
 using System;
 using UnityEngine;
 
-public class RobertDrill : MonoBehaviour
+public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 {
-    private bool mining = false;
     private float mineSpeed = 1.0f;
-    private float mineTimer = 0.0f;
-
     private int scanRadius = 2;
 
     private Vector3 mineTarget;
@@ -14,36 +11,21 @@ public class RobertDrill : MonoBehaviour
 
     void Start()
     {
-
+        inventory = GetComponentInParent<RobertInventory>();
     }
 
     void Update()
     {
-        if (mining)
-        {
-            if (mineTimer <= 0.0f)
-            {
-                inventory.AddFrom(Cave.Instance.MineCell(mineTarget));
-                mining = false;
-            }
-            mineTimer -= Time.deltaTime;
-        }
+        UpdateTask(Time.deltaTime);
     }
 
-    public void Halt()
+    protected override void ExecuteOnTaskEnd(MineCommand task)
     {
-        mining = false;
-    }
-
-    public void LinkInventory(ref RobertInventory inventory)
-    {
-        this.inventory = inventory;
+        inventory.AddFrom(Cave.Instance.MineCell(mineTarget));
     }
 
     public void HandleMineCommand(MineCommand mineCommand)
     {
-        if (mining) return;
-
         mineTarget = transform.position + 1.4f * transform.forward;
 
         if (mineCommand.direction == "left")
@@ -58,8 +40,8 @@ public class RobertDrill : MonoBehaviour
 
         if (Cave.Instance.CanMine(mineTarget))
         {
-            mineTimer = Cave.Instance.GetCellToughness(mineTarget) * mineSpeed;
-            mining = true;
+            float mineTime = Cave.Instance.GetCellToughness(mineTarget) * mineSpeed;
+            StartTimedTask(mineCommand, mineTime);
         }
     }
 
@@ -71,10 +53,5 @@ public class RobertDrill : MonoBehaviour
     public bool InMine()
     {
         return true;
-    }
-
-    public bool Busy()
-    {
-        return mining;
     }
 }

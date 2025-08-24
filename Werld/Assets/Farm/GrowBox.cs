@@ -19,12 +19,13 @@ public class GrowBox : MonoBehaviour
         }
     }
 
-    public void PlantSeeds(InventoryItem seeds)
+    public bool PlantSeeds(InventoryItem seeds)
     {
         if (Empty())
         {
             plant = CreatePlantFromSeeds(seeds);
         }
+        return plant != null;
     }
 
     public Dictionary<InventoryItem, uint> Harvest()

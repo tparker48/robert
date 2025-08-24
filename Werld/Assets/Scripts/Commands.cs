@@ -55,7 +55,7 @@ public class MineCommand : Command
 public class PlantCommand : Command
 {
     new public const string id = "plant";
-    public string seedType { get; set; }
+    public int seed_item_id { get; set; }
 }
 
 public class HaltCommand : Command

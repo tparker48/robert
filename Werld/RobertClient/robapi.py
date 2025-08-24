@@ -48,6 +48,11 @@ class RobertController:
             "direction": direction
         })
     
+    def plant(self, seed_item_id: int):
+        return self.send_command('plant', args={
+            "seed_item_id": seed_item_id
+        })
+
     def halt(self, clear_command_buffer=True):
         return self.send_command('halt', args={
             'clear_command_buffer': clear_command_buffer

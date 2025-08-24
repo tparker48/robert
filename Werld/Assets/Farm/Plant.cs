@@ -28,7 +28,6 @@ public abstract class Plant
     {
         ageInSeconds += Time.deltaTime;
         UpdatePlantPhase();
-        Debug.Log(phase);
     }
 
     private void UpdatePlantPhase()

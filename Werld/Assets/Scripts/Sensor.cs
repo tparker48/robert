@@ -37,7 +37,7 @@ public class Sensor : MonoBehaviour
         sensedObjects.Remove(collider.gameObject);
     }
 
-    public List<GameObject> getSensedObjects() {
+    public List<GameObject> GetSensedObjects() {
         // TODO: filter out null objects, which can occur if an object
         // enters the collider and is destroyed before exiting
         return sensedObjects.ToList();

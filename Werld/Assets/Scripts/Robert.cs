@@ -15,6 +15,7 @@ public class Robert : MonoBehaviour
     RobertSensors sensors;
     RobertInventory inventory;
     RobertDrill drill;
+    RobertPlanter planter;
     RobertMotorics motorics;
     RobertBeaconScanner beaconScanner;
 
@@ -33,21 +34,16 @@ public class Robert : MonoBehaviour
         sensors = GetComponent<RobertSensors>();
         inventory = GetComponent<RobertInventory>();
         drill = GetComponent<RobertDrill>();
+        planter = GetComponent<RobertPlanter>();
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
 
-        if (beaconScanner == null)
-        {
-            Debug.Log("NIOOOOO");
-        }
-
-        drill.LinkInventory(ref inventory);
+        inventory.AddItem(InventoryItem.LettuceSeeds, 10);
     }
 
     void Update()
     {
         //ticker += Time.deltaTime;
         //if (ticker < command_delay) return;
-
         command_running = IsCommandRunning();
 
         if (!command_running)
@@ -99,6 +95,10 @@ public class Robert : MonoBehaviour
                 MineCommand mineCommand = JsonConvert.DeserializeObject<MineCommand>(recieved_data);
                 drill.HandleMineCommand(mineCommand);
                 break;
+            case PlantCommand.id:
+                PlantCommand plantCommand = JsonConvert.DeserializeObject<PlantCommand>(recieved_data);
+                planter.HandlePlantCommand(plantCommand);
+                break;
             default:
                 Debug.Log("Unrecognized cmd_id");
                 break;
@@ -116,7 +116,7 @@ public class Robert : MonoBehaviour
                 return busy_response;
             case PositionQuery.id:
                 PositionQueryResponse position_response = new PositionQueryResponse();
-                position_response.position = new float[3] { 
+                position_response.position = new float[3] {
                     transform.position.x,
                     transform.position.y,
                     transform.position.z
@@ -167,12 +167,14 @@ public class Robert : MonoBehaviour
         }
     }
 
-    void HandleHalt(string recieved_data) {
+    void HandleHalt(string recieved_data)
+    {
         HaltCommand hlt_cmd = JsonConvert.DeserializeObject<HaltCommand>(recieved_data);
 
-        // cancel any active commands
-        motorics.Halt();
-        drill.Halt();
+        foreach (RobertTaskExecutor executor in GetComponents<RobertTaskExecutor>())
+        {
+            executor.Halt();
+        }
 
         if (hlt_cmd.clear_command_buffer)
         {
@@ -182,7 +184,14 @@ public class Robert : MonoBehaviour
 
     private bool IsCommandRunning()
     {
-        return motorics.Busy() || drill.Busy();
-    } 
-    
+        foreach (RobertTaskExecutor executor in GetComponents<RobertTaskExecutor>())
+        {
+            if (executor.IsBusy())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
