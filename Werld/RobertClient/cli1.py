@@ -2,6 +2,8 @@ import robapi
 
 robert = robapi.RobertController()
 
-scan_results = robert.scan_mine()
-for line in scan_results:
-    print([int(ch) for ch in line])
+beacons = robert.scan_beacons()
+for beacon_name, relative_position in beacons:
+    print('Moving to', beacon_name)
+    print(relative_position)
+    robert.move(relative_position, relative=True)

@@ -16,6 +16,7 @@ public class Robert : MonoBehaviour
     RobertInventory inventory;
     RobertDrill drill;
     RobertMotorics motorics;
+    RobertBeaconScanner beaconScanner;
 
     Queue<string> commandQueue = new Queue<string>();
 
@@ -32,6 +33,13 @@ public class Robert : MonoBehaviour
         sensors = GetComponent<RobertSensors>();
         inventory = GetComponent<RobertInventory>();
         drill = GetComponent<RobertDrill>();
+        beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
+
+        if (beaconScanner == null)
+        {
+            Debug.Log("NIOOOOO");
+        }
+
         drill.LinkInventory(ref inventory);
     }
 
@@ -149,8 +157,11 @@ public class Robert : MonoBehaviour
                 }
                 else
                 {
-                    return Response.ErrorResponse("Not in mine");
+                    return Response.ErrorResponse("Not in mine!");
                 }
+            case BeaconQuery.id:
+                BeaconQuery beaconQuery = JsonConvert.DeserializeObject<BeaconQuery>(recieved_data);
+                return beaconScanner.HandleBeaconQuery(beaconQuery);
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }

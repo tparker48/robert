@@ -13,7 +13,7 @@ public class TCPServer : MonoBehaviour
 {
     private Dictionary<int, Robert> bots;
 
-    private int port = 3003;
+    private int port = 3000;
     private CancellationTokenSource _cancellationTokenSource;
 
     async void Start()
@@ -21,7 +21,6 @@ public class TCPServer : MonoBehaviour
         Debug.Log("Starting Server...");
         _cancellationTokenSource = new CancellationTokenSource();
         await StartServer(_cancellationTokenSource.Token);
-        Debug.Log("Server Stopped!");
     }
 
     private void OnDestroy()
@@ -57,8 +56,8 @@ public class TCPServer : MonoBehaviour
                         Debug.Log("Server listener cancelled");
                     }
                 }
-                
             }
+            Debug.Log("Stopping Server!");
         }
         catch (SocketException e)
         {

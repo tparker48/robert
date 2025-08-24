@@ -127,9 +127,10 @@ public class MineralQueryResponse : Response
 public class BeaconQuery : Command
 {
     new public const string id = "beacon_query";
+    public bool relative { get; set; }
 }
 public class BeaconQueryResponse : Response
 {
     public string[] beacons;
-    public float[,] relative_positions;
+    public float[,] positions;
 }

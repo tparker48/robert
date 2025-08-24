@@ -4,7 +4,7 @@ import time
 from typing import List
 
 ROBERT_TCP_SERVER_IP = "127.0.0.1"
-ROBERT_TCP_SERVER_PORT = 3003
+ROBERT_TCP_SERVER_PORT = 3000
 
 class RobertController:
     def __init__(self, bot_id: int = 0):
@@ -37,7 +37,7 @@ class RobertController:
             "relative": relative
         })
 
-    def rotate(self, angle: float, relative: bool = False):
+    def rotate(self, angle: float, relative: bool = True):
         return self.send_command('rotate', args={
             "angle": angle,
             "relative": relative
@@ -65,12 +65,21 @@ class RobertController:
         response = self.send_command('sensor_query')
         return response['readings']
 
+    def scan_beacons(self, relative: bool = True):
+        response = self.send_command('beacon_query', args = {
+            'relative': relative
+        })
+        return list(zip(response['beacons'], response['positions']))
+
     def get_item_count(self, item_id: int):
-        response = self.send_command('inventory_query', args={
-            "cmd_id": "inventory_query",
+        response = self.send_command('item_query', args={
             "item_id": item_id
         })
         return response['message'] if response['error'] else response['amount']
+
+    def get_item_list(self):
+        response = self.send_command('inventory_list_query')
+        return response['message'] if response['error'] else response['item_ids']
 
     def is_busy(self):
         response = self.send_command(cmd_id='busy_query')
