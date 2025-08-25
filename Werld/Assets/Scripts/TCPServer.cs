@@ -13,7 +13,7 @@ public class TCPServer : MonoBehaviour
 {
     private Dictionary<int, Robert> bots;
 
-    private int port = 3000;
+    private int port = 3001;
     private CancellationTokenSource _cancellationTokenSource;
 
     async void Start()
@@ -49,7 +49,7 @@ public class TCPServer : MonoBehaviour
                     {
                         TcpClient client = await listener.AcceptTcpClientAsync();
                         Debug.Log("Client conected!");
-                        _ = HandleClientAsync(client);
+                        _ = HandleClientAsync(client, cancellationToken);
                     }
                     catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
                     {
@@ -69,7 +69,7 @@ public class TCPServer : MonoBehaviour
         }
     }
 
-    private async Task HandleClientAsync(TcpClient client)
+    private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
     {
         NetworkStream stream = null;
         try
@@ -79,7 +79,7 @@ public class TCPServer : MonoBehaviour
             int bytesRead;
             Response response;
 
-            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) != 0)
             {
                 string recievedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Command obj = JsonConvert.DeserializeObject<Command>(recievedData);

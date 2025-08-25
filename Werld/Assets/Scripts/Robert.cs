@@ -37,7 +37,7 @@ public class Robert : MonoBehaviour
         planter = GetComponent<RobertPlanter>();
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
 
-        inventory.AddItem(InventoryItem.LettuceSeeds, 10);
+        inventory.AddItem(Item.LettuceSeeds, 10);
     }
 
     void Update()
@@ -133,19 +133,25 @@ public class Robert : MonoBehaviour
                 return sensor_response;
             case ItemQuery.id:
                 ItemQuery item_query = JsonConvert.DeserializeObject<ItemQuery>(recieved_data);
-                if (RobertInventory.IsValidItemId(item_query.item_id))
+                try
                 {
+                    Item item = (Item)Enum.Parse(typeof(Item), item_query.item_name);
                     ItemQueryResponse item_response = new ItemQueryResponse();
-                    item_response.amount = inventory.GetItemCount(item_query.item_id);
+                    item_response.amount = inventory.GetItemCount(item);
                     return item_response;
                 }
-                else
+                catch
                 {
-                    return Response.ErrorResponse("Unrecognized Item Id");
+                    return Response.ErrorResponse($"Item '{item_query.item_name}' does not exist!");
                 }
-            case InventoryListQuery.id:
-                InventoryListQueryResponse inv_response = new InventoryListQueryResponse();
-                inv_response.item_ids = inventory.GetItemIdList();
+            case InventoryQuery.id:
+                InventoryQueryResponse inv_response = new InventoryQueryResponse();
+                inv_response.inventory = new Dictionary<string, uint>();
+                Dictionary<Item, uint> inv = inventory.GetInventory();
+                foreach (Item item in inv.Keys)
+                {
+                    inv_response.inventory[item.ToString()] = inv[item];
+                }
                 return inv_response;
             case MineralQuery.id:
                 MineralQuery scanQuery = JsonConvert.DeserializeObject<MineralQuery>(recieved_data);

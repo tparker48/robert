@@ -20,7 +20,6 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
     float positionTolerance = 0.01f;
 
     float rotSpeed = 100.0f;
-    float rotDir = 1.0f;
     float rotDeadzoneMult = 0.08f;
     float rotDeadZone = 1.25f;
     float rotationTolerance = 0.30f;
@@ -53,7 +52,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         float newTarget = cmd.angle;
         if (cmd.relative)
         {
-            newTarget += transform.rotation.eulerAngles.y;
+            newTarget += transform.localEulerAngles.y;
         }
         if (newTarget > 360.0f) newTarget -= 360.0f;
         else if (newTarget < 0) newTarget += 360.0f;
@@ -62,7 +61,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         rotateTask.rotateCommand = cmd;
         rotateTask.targetRotation = newTarget;
         rotateTask.rotationDir = cmd.angle > 0.0 ? 1.0f : -1.0f;
-        rotateTask.initialDiff = GetRotationDiff(transform.rotation.eulerAngles.y, newTarget);
+        rotateTask.initialDiff = GetRotationDiff(transform.localEulerAngles.y, newTarget);
         StartProgressiveTask(rotateTask);
     }
 
@@ -83,7 +82,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         Vector3 posDiff = GetPositionDiff(transform.position, task.targetPosition);
         if (posDiff.magnitude <= positionTolerance)
         {
-            transform.position = task.targetPosition;
+            transform.position = new Vector3(task.targetPosition.x, transform.position.y, task.targetPosition.z);
             task.targetPosition = transform.position;
         }
         else
@@ -100,7 +99,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
 
     private void UpdateRotation(MoveTask task)
     {
-        float rotDiff = GetRotationDiff(transform.rotation.eulerAngles.y, task.targetRotation);
+        float rotDiff = GetRotationDiff(transform.localEulerAngles.y, task.targetRotation);
         if (rotDiff <= rotationTolerance)
         {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, task.targetRotation, transform.rotation.eulerAngles.z);
@@ -114,12 +113,16 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
                 // ramp speed down as we get closer
                 speedMult = rotDeadzoneMult;
             }
-            transform.rotation = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + rotDir * rotSpeed * speedMult * Time.deltaTime, 0.0f);
+            //transform.rotation = Quaternion.Euler(0.0f, transform.localEulerAngles.y + rotDir * rotSpeed * speedMult * Time.deltaTime, 0.0f);
+            float rotationAmount = task.rotationDir * rotSpeed * speedMult * Time.deltaTime;
+            transform.Rotate(Vector3.up * rotationAmount, Space.Self);
         }
     }
 
     protected Vector3 GetPositionDiff(Vector3 sourcePosition, Vector3 targetPosition)
     {
+        sourcePosition.y = 0;
+        targetPosition.y = 0;
         return targetPosition - sourcePosition;
     }
 
@@ -138,7 +141,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         }
         else if (task.rotateCommand != null)
         {
-            return task.targetRotation == transform.rotation.eulerAngles.y;
+            return task.targetRotation == transform.localEulerAngles.y;
         }
         else return true;
     }
@@ -152,7 +155,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         }
         else if (task.rotateCommand != null)
         {
-            currentDiff = GetRotationDiff(transform.rotation.eulerAngles.y, task.targetRotation);
+            currentDiff = GetRotationDiff(transform.localEulerAngles.y, task.targetRotation);
         }
 
         if (task.initialDiff != 0.0)

@@ -18,7 +18,7 @@ public class Sensor : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         // ignore the ground 
-        if (collider.CompareTag("Ground"))
+        if (collider.CompareTag("Ground") || collider.CompareTag("Beacon"))
         {
             return;
         }

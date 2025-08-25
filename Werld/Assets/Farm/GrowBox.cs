@@ -19,7 +19,7 @@ public class GrowBox : MonoBehaviour
         }
     }
 
-    public bool PlantSeeds(InventoryItem seeds)
+    public bool PlantSeeds(Item seeds)
     {
         if (Empty())
         {
@@ -28,9 +28,9 @@ public class GrowBox : MonoBehaviour
         return plant != null;
     }
 
-    public Dictionary<InventoryItem, uint> Harvest()
+    public Dictionary<Item, uint> Harvest()
     {
-        Dictionary<InventoryItem, uint> plantLoot = new Dictionary<InventoryItem, uint>();
+        Dictionary<Item, uint> plantLoot = new Dictionary<Item, uint>();
 
         if (CanHarvest())
         {
@@ -54,11 +54,11 @@ public class GrowBox : MonoBehaviour
         return plant == null;
     }
 
-    private Plant CreatePlantFromSeeds(InventoryItem seeds)
+    private Plant CreatePlantFromSeeds(Item seeds)
     {
         switch (seeds)
         {
-            case InventoryItem.LettuceSeeds:
+            case Item.LettuceSeeds:
                 return new Lettuce();
             default:
                 return null;

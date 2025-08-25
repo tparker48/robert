@@ -24,7 +24,7 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
 
     public void ProcessPlantCommand(PlantCommand plantCommand)
     {
-        InventoryItem seedEnum = (InventoryItem)plantCommand.seed_item_id;
+        Item seedEnum = (Item)plantCommand.seed_item_id;
         if (sensors.CheckForObjectType<GrowBox>())
         {
             Debug.Log("Found Grow Box for PlantCommand!");

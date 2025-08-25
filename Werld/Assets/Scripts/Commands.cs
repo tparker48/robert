@@ -1,6 +1,5 @@
 
-using System.Security.Cryptography;
-using UnityEditor.VersionControl;
+using System.Collections.Generic;
 
 public class Command
 {
@@ -99,20 +98,20 @@ public class SensorQueryResponse : Response
 public class ItemQuery : Command
 {
     new public const string id = "item_query";
-    public int item_id { get; set; }
+    public string item_name { get; set; }
 }
 public class ItemQueryResponse : Response
 {
-    public int amount { get; set; }
+    public uint amount { get; set; }
 }
 
-public class InventoryListQuery : Command
+public class InventoryQuery : Command
 {
-    new public const string id = "inventory_list_query";
+    new public const string id = "inventory_query";
 }
-public class InventoryListQueryResponse : Response
+public class InventoryQueryResponse : Response
 {
-    public int[] item_ids;
+    public Dictionary<string, uint> inventory;
 }
 
 public class MineralQuery : Command

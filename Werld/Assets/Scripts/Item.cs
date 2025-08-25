@@ -1,4 +1,4 @@
-public enum InventoryItem
+public enum Item
 {
     Bits,
     Stone,

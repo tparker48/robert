@@ -20,17 +20,17 @@ public struct CaveCell
         collider = null;
     }
 
-    public Dictionary<InventoryItem, uint> MineCell()
+    public Dictionary<Item, uint> MineCell()
     {
-        Dictionary<InventoryItem, uint> loot = new Dictionary<InventoryItem, uint>();
+        Dictionary<Item, uint> loot = new Dictionary<Item, uint>();
 
         switch (type)
         {
             case CaveCellType.Wall:
-                loot.Add(InventoryItem.Stone, (uint)Random.Range(1, 3));
+                loot.Add(Item.Stone, (uint)Random.Range(1, 3));
                 break;
             case CaveCellType.Ore:
-                loot.Add(InventoryItem.Stone, 1);
+                loot.Add(Item.Stone, 1);
                 break;
         }
 

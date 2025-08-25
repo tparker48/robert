@@ -4,7 +4,7 @@ import time
 from typing import List
 
 ROBERT_TCP_SERVER_IP = "127.0.0.1"
-ROBERT_TCP_SERVER_PORT = 3000
+ROBERT_TCP_SERVER_PORT = 3001
 
 class RobertController:
     def __init__(self, bot_id: int = 0):
@@ -76,15 +76,15 @@ class RobertController:
         })
         return list(zip(response['beacons'], response['positions']))
 
-    def get_item_count(self, item_id: int):
+    def get_item_count(self, item_name: str):
         response = self.send_command('item_query', args={
-            "item_id": item_id
+            "item_name": item_name
         })
         return response['message'] if response['error'] else response['amount']
 
-    def get_item_list(self):
-        response = self.send_command('inventory_list_query')
-        return response['message'] if response['error'] else response['item_ids']
+    def get_inventory(self):
+        response = self.send_command('inventory_query')
+        return response['message'] if response['error'] else response['inventory']
 
     def is_busy(self):
         response = self.send_command(cmd_id='busy_query')

@@ -15,7 +15,7 @@ public abstract class Plant
     public float[] phaseTimes;
     public PlantPhase phase;
     public string plantName;
-    public InventoryItem seedItemEnum;
+    public Item seedItemEnum;
 
     public Plant()
     {
@@ -54,7 +54,7 @@ public abstract class Plant
         }
     }
 
-    public Dictionary<InventoryItem, uint> Harvest(float harvestMultiplier)
+    public Dictionary<Item, uint> Harvest(float harvestMultiplier)
     {
         if (phase == PlantPhase.mature)
         {
@@ -63,35 +63,35 @@ public abstract class Plant
         else if (phase == PlantPhase.withered)
         {
             Debug.Log("Dead Plant Harvested!");
-            return new Dictionary<InventoryItem, uint> { { InventoryItem.DryLeaves, 4 } };
+            return new Dictionary<Item, uint> { { Item.DryLeaves, 4 } };
         }
         else
         {
             // should not reach this, but return empty dict just in case
-            return new Dictionary<InventoryItem, uint>();
+            return new Dictionary<Item, uint>();
         }
     }
 
-    protected abstract Dictionary<InventoryItem, uint> GetHarvestLoot(float harvestMultiplier);
+    protected abstract Dictionary<Item, uint> GetHarvestLoot(float harvestMultiplier);
     protected abstract float[] GetGrowthPhaseTimes();
 }
 
 public class Lettuce : Plant
 {
     new public string plantName = "Lettuce";
-    new public InventoryItem seedItemEnum = InventoryItem.LettuceSeeds;
+    new public Item seedItemEnum = Item.LettuceSeeds;
 
-    override protected Dictionary<InventoryItem, uint> GetHarvestLoot(float harvestMultiplier)
+    override protected Dictionary<Item, uint> GetHarvestLoot(float harvestMultiplier)
     {
         Debug.Log("Lettuce Harvested!");
 
         uint lettuceDrop = (uint)(Random.Range(6, 12) * harvestMultiplier);
         uint seedDrop = (uint)(Random.Range(0, 3) * harvestMultiplier);
 
-        return new Dictionary<InventoryItem, uint>
+        return new Dictionary<Item, uint>
         {
-            {InventoryItem.Lettuce, lettuceDrop},
-            {InventoryItem.LettuceSeeds, seedDrop}
+            {Item.Lettuce, lettuceDrop},
+            {Item.LettuceSeeds, seedDrop}
         };
     }
 

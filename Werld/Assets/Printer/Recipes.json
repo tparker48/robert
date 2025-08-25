@@ -1,0 +1,12 @@
+{
+    "recipes":
+        {
+            "Bits": {
+                "level": 1,
+                "quantity": 1,
+                "inputs": {
+                    "Bits": 1
+                }
+            }
+        }
+}
