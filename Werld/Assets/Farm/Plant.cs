@@ -54,7 +54,7 @@ public abstract class Plant
         }
     }
 
-    public Dictionary<Item, uint> Harvest(float harvestMultiplier)
+    public ItemGroup Harvest(float harvestMultiplier)
     {
         if (phase == PlantPhase.mature)
         {
@@ -63,16 +63,16 @@ public abstract class Plant
         else if (phase == PlantPhase.withered)
         {
             Debug.Log("Dead Plant Harvested!");
-            return new Dictionary<Item, uint> { { Item.DryLeaves, 4 } };
+            return new ItemGroup { { Item.DryLeaves, 4 } };
         }
         else
         {
             // should not reach this, but return empty dict just in case
-            return new Dictionary<Item, uint>();
+            return new ItemGroup();
         }
     }
 
-    protected abstract Dictionary<Item, uint> GetHarvestLoot(float harvestMultiplier);
+    protected abstract ItemGroup GetHarvestLoot(float harvestMultiplier);
     protected abstract float[] GetGrowthPhaseTimes();
 }
 
@@ -81,14 +81,14 @@ public class Lettuce : Plant
     new public string plantName = "Lettuce";
     new public Item seedItemEnum = Item.LettuceSeeds;
 
-    override protected Dictionary<Item, uint> GetHarvestLoot(float harvestMultiplier)
+    override protected ItemGroup GetHarvestLoot(float harvestMultiplier)
     {
         Debug.Log("Lettuce Harvested!");
 
         uint lettuceDrop = (uint)(Random.Range(6, 12) * harvestMultiplier);
         uint seedDrop = (uint)(Random.Range(0, 3) * harvestMultiplier);
 
-        return new Dictionary<Item, uint>
+        return new ItemGroup
         {
             {Item.Lettuce, lettuceDrop},
             {Item.LettuceSeeds, seedDrop}

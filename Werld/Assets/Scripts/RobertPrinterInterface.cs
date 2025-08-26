@@ -1,40 +1,82 @@
+using System;
 using UnityEngine;
 
 public class RobertPrinterInterface : MonoBehaviour
 {
-    private RobertInventory inventory;
+    private ItemContainer inventory;
     private RobertSensors sensors;
+
+    private static Response noPrinterError = Response.ErrorResponse("No Printer in Range!");
 
     public void Start()
     {
-        inventory = GetComponentInParent<RobertInventory>();
+        inventory = GetComponentInParent<ItemContainer>();
         sensors = GetComponentInParent<RobertSensors>();
     }
 
     public void HandlePrinterFillCommand(PrinterFillCommand fillCommand)
     {
-        Debug.LogError("This Command has not been implemented!");
-    }
+        Printer printer = GetPrinterInRange();
+        if (printer == null) return;
 
-    public void HandlePrinterExecuteCommand(PrinterExecuteCommand executeCommand)
-    {
-        Debug.LogError("This Command has not been implemented!");
+        ItemGroup itemsToAdd = new ItemGroup(fillCommand.items_to_add);
+        printer.AddInputsFrom(ref inventory, itemsToAdd);
     }
 
     public void HandlePrinterRetrieveCommand(PrinterRetrieveCommand retrieveCommand)
     {
-        Debug.LogError("This Command has not been implemented!");
-    }
+        Printer printer = GetPrinterInRange();
+        if (printer == null) return;
 
-    public Response HandlePrinterStatusQuery(PrinterStatusQuery printerQuery) {
-        if (sensors.CheckForObjectType<Printer>())
+        ItemGroup itemsToCollect = new ItemGroup(retrieveCommand.items_to_collect);
+
+        if (retrieveCommand.from_input)
         {
-            Printer printer = sensors.GetObjectType<Printer>();
-            return printer.HandlePrinterStatusQuery(printerQuery);
+            printer.RemoveInputsTo(retrieveCommand.collect_all, ref inventory, itemsToCollect);
         }
         else
         {
-            return Response.ErrorResponse("No printer near bot!");
+            printer.RemoveOutputsTo(retrieveCommand.collect_all, ref inventory, itemsToCollect);
+        }        
+    }
+
+    public void HandlePrinterQueueJobCommand(PrinterQueueJob executeCommand)
+    {
+        Printer printer = GetPrinterInRange();
+        if (printer == null) return;
+
+        try
+        {
+            Item itemToPrint = (Item)Enum.Parse(typeof(Item), executeCommand.item_to_print);
+            printer.QueuePrintJob(itemToPrint);
         }
+        catch
+        {
+            Debug.Log("Invalid Item Name!");
+        }
+    }
+
+    public void HandlePrinterStopCommand(PrinterStopCommand _)
+    {
+        Printer printer = GetPrinterInRange();
+        if (printer == null) return;
+        printer.Stop();
+    }
+
+    public Response HandlePrinterStatusQuery(PrinterStatusQuery printerQuery)
+    {
+        Printer printer = GetPrinterInRange();
+        if (printer == null) return Response.ErrorResponse("No printer near bot!");
+        return printer.HandlePrinterStatusQuery(printerQuery);
+    }
+
+    private Printer GetPrinterInRange()
+    {
+        Printer printer = null;
+        if (!sensors.GetObjectOfType(ref printer))
+        {
+            Debug.Log("No Printer In Range!");
+        }
+        return printer;
     }
 }

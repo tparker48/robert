@@ -7,11 +7,11 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
     private int scanRadius = 2;
 
     private Vector3 mineTarget;
-    private RobertInventory inventory;
+    private ItemContainer inventory;
 
     void Start()
     {
-        inventory = GetComponentInParent<RobertInventory>();
+        inventory = GetComponentInParent<ItemContainer>();
     }
 
     void Update()

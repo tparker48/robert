@@ -260,7 +260,7 @@ public class Cave : MonoBehaviour
         return 0.0f;
     }
 
-    public Dictionary<Item, uint> MineCell(Vector3 worldCoords)
+    public ItemGroup MineCell(Vector3 worldCoords)
     {
         Vector2Int coords = GetCellCoords(worldCoords);
         int x = coords.x;
@@ -275,7 +275,7 @@ public class Cave : MonoBehaviour
             }
             return cells[x, y].MineCell();
         }
-        return new Dictionary<Item, uint>();
+        return new ItemGroup();
     }
 
     public bool CanMine(int x, int y)

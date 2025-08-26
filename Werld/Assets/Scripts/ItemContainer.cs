@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemContainer : MonoBehaviour
 {
-    private Dictionary<Item, uint> items = new Dictionary<Item, uint>();
+    private ItemGroup items = new ItemGroup();
     private uint capacity = 4;
     private uint maxItemStackSize = 64;
 
@@ -35,9 +35,9 @@ public class ItemContainer : MonoBehaviour
         return false;
     }
 
-    public bool AddItems(Dictionary<Item, uint> loot)
+    public bool AddItems(ItemGroup loot)
     {
-        Dictionary<Item, uint> newState = new Dictionary<Item, uint>(items);
+        ItemGroup newState = new ItemGroup(items);
         foreach (Item item in loot.Keys)
         {
             if (newState.ContainsKey(item))
@@ -66,9 +66,9 @@ public class ItemContainer : MonoBehaviour
         return true;
     }
 
-    public bool RemoveItems(Dictionary<Item, uint> remove)
+    public bool RemoveItems(ItemGroup remove)
     {
-        Dictionary<Item, uint> newState = new Dictionary<Item, uint>(items);
+        ItemGroup newState = new ItemGroup(items);
         foreach (Item item in remove.Keys)
         {
             if (newState.ContainsKey(item) && newState[item] >= remove[item])
@@ -85,7 +85,7 @@ public class ItemContainer : MonoBehaviour
         return true;
     }
 
-    public Dictionary<Item, uint> GetInventory()
+    public ItemGroup GetInventory()
     {
         return items;
     }
@@ -115,5 +115,21 @@ public class ItemContainer : MonoBehaviour
     public void Clear()
     {
         items.Clear();
+    }
+
+    public bool TakeItemsFrom(ref ItemContainer source, ItemGroup itemsToMove)
+    {
+        if (source.RemoveItems(itemsToMove))
+        {
+            if (AddItems(itemsToMove))
+            {
+                return true;
+            }
+            else
+            {
+                source.AddItems(itemsToMove);
+            }
+        }
+        return false;
     }
 }

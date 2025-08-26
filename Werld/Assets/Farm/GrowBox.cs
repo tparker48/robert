@@ -28,9 +28,9 @@ public class GrowBox : MonoBehaviour
         return plant != null;
     }
 
-    public Dictionary<Item, uint> Harvest()
+    public ItemGroup Harvest()
     {
-        Dictionary<Item, uint> plantLoot = new Dictionary<Item, uint>();
+        ItemGroup plantLoot = new ItemGroup();
 
         if (CanHarvest())
         {

@@ -2,4 +2,5 @@ import robapi
 
 robert = robapi.RobertController()
 
-print(robert.get_inventory())
+robert.printer_fill(items={'LettuceSeeds': 5})
+print(robert.get_printer_status())

@@ -63,9 +63,9 @@ public class PrinterFillCommand : Command
     public Dictionary<string, uint> items_to_add { get; set; }
 }
 
-public class PrinterExecuteCommand : Command
+public class PrinterQueueJob : Command
 {
-    new public const string id = "printer_execute";
+    new public const string id = "printer_queue_job";
     public string item_to_print { get; set; }
     public int quantity { get; set; }
 }

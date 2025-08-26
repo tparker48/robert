@@ -13,7 +13,7 @@ public class Robert : MonoBehaviour
     bool command_running = false;
 
     RobertSensors sensors;
-    RobertInventory inventory;
+    ItemContainer inventory;
     RobertDrill drill;
     RobertPlanter planter;
     RobertMotorics motorics;
@@ -33,11 +33,11 @@ public class Robert : MonoBehaviour
 
         motorics = GetComponent<RobertMotorics>();
         sensors = GetComponent<RobertSensors>();
-        inventory = GetComponent<RobertInventory>();
+        inventory = GetComponent<ItemContainer>();
         drill = GetComponent<RobertDrill>();
         planter = GetComponent<RobertPlanter>();
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
-
+        printerInterface = GetComponent<RobertPrinterInterface>();
 
         inventory.AddItem(Item.LettuceSeeds, 10);
     }
@@ -105,13 +105,17 @@ public class Robert : MonoBehaviour
                 PrinterFillCommand fillCommand = JsonConvert.DeserializeObject<PrinterFillCommand>(recieved_data);
                 printerInterface.HandlePrinterFillCommand(fillCommand);
                 break;
-            case PrinterExecuteCommand.id:
-                PrinterExecuteCommand executeCommand = JsonConvert.DeserializeObject<PrinterExecuteCommand>(recieved_data);
-                printerInterface.HandlePrinterExecuteCommand(executeCommand);
+            case PrinterQueueJob.id:
+                PrinterQueueJob executeCommand = JsonConvert.DeserializeObject<PrinterQueueJob>(recieved_data);
+                printerInterface.HandlePrinterQueueJobCommand(executeCommand);
                 break;
             case PrinterRetrieveCommand.id:
                 PrinterRetrieveCommand retreiveCommand = JsonConvert.DeserializeObject<PrinterRetrieveCommand>(recieved_data);
                 printerInterface.HandlePrinterRetrieveCommand(retreiveCommand);
+                break;
+            case PrinterStopCommand.id:
+                PrinterStopCommand stopCommand = JsonConvert.DeserializeObject<PrinterStopCommand>(recieved_data);
+                printerInterface.HandlePrinterStopCommand(stopCommand);
                 break;
             default:
                 Debug.Log("Unrecognized cmd_id");
@@ -160,12 +164,7 @@ public class Robert : MonoBehaviour
                 }
             case InventoryQuery.id:
                 InventoryQueryResponse inv_response = new InventoryQueryResponse();
-                inv_response.inventory = new Dictionary<string, uint>();
-                Dictionary<Item, uint> inv = inventory.GetInventory();
-                foreach (Item item in inv.Keys)
-                {
-                    inv_response.inventory[item.ToString()] = inv[item];
-                }
+                inv_response.inventory = inventory.GetInventory().ToStringKeys();
                 return inv_response;
             case MineralQuery.id:
                 MineralQuery scanQuery = JsonConvert.DeserializeObject<MineralQuery>(recieved_data);

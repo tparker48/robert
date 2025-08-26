@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
 {
-    private RobertInventory inventory;
+    private ItemContainer inventory;
     private RobertSensors sensors;
 
     public void Start()
     {
-        inventory = GetComponentInParent<RobertInventory>();
+        inventory = GetComponentInParent<ItemContainer>();
         sensors = GetComponentInParent<RobertSensors>();
     }
 
@@ -25,10 +25,10 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
     public void ProcessPlantCommand(PlantCommand plantCommand)
     {
         Item seedEnum = (Item)plantCommand.seed_item_id;
-        if (sensors.CheckForObjectType<GrowBox>())
+        GrowBox box = null;
+        if (sensors.GetObjectOfType(ref box))
         {
             Debug.Log("Found Grow Box for PlantCommand!");
-            GrowBox box = sensors.GetObjectType<GrowBox>();
             if (box.Empty() && inventory.GetItemCount(seedEnum) > 0)
             {
                 Debug.Log("GrowBox is empty and we have at least 1 seed!");

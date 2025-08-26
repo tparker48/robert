@@ -20,9 +20,9 @@ public struct CaveCell
         collider = null;
     }
 
-    public Dictionary<Item, uint> MineCell()
+    public ItemGroup MineCell()
     {
-        Dictionary<Item, uint> loot = new Dictionary<Item, uint>();
+        ItemGroup loot = new ItemGroup();
 
         switch (type)
         {

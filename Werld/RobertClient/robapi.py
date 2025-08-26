@@ -52,6 +52,35 @@ class RobertController:
         return self.send_command('plant', args={
             "seed_item_id": seed_item_id
         })
+    
+    def printer_fill(self, items: dict):
+        return self.send_command('printer_fill', args={
+            'items_to_add': items
+        })
+    
+    def printer_queue_job(self, item_to_print: str, quantity: int):
+        return self.send_command('printer_queue_job', args={
+            'item_to_print': item_to_print,
+            'quantity': quantity
+        })
+
+    def printer_stop(self):
+        return self.send_command('printer_stop')
+
+    def printer_retrieve(self, from_input: bool, collect_all: bool, items_to_collect: dict = {}):
+        return self.send_command('printer_retrieve', args={
+            'from_input': from_input,
+            'collect_all': collect_all,
+            'items_to_collect': items_to_collect
+        })
+
+    def is_printer_in_range(self):
+        response = self.send_command('printer_status_query')
+        return not response['error']
+    
+    def get_printer_status(self):
+        response = self.send_command('printer_status_query')
+        return response
 
     def halt(self, clear_command_buffer=True):
         return self.send_command('halt', args={
