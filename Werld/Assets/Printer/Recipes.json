@@ -3,7 +3,7 @@
         {
             "Bits": {
                 "level": 1,
-                "quantity": 1,
+                "printTime": 1.0,
                 "inputs": {
                     "Bits": 1
                 }

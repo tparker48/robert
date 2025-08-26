@@ -57,12 +57,37 @@ public class PlantCommand : Command
     public int seed_item_id { get; set; }
 }
 
+public class PrinterFillCommand : Command
+{
+    new public const string id = "printer_fill";
+    public Dictionary<string, uint> items_to_add { get; set; }
+}
+
+public class PrinterExecuteCommand : Command
+{
+    new public const string id = "printer_execute";
+    public string item_to_print { get; set; }
+    public int quantity { get; set; }
+}
+
+public class PrinterStopCommand : Command
+{
+    new public const string id = "printer_stop";
+}
+
+public class PrinterRetrieveCommand : Command
+{
+    new public const string id = "printer_retrieve";
+    public bool from_input { get; set; }
+    public bool collect_all { get; set; }
+    public Dictionary<string, uint> items_to_collect { get; set; }
+}
+
 public class HaltCommand : Command
 {
     new public const string id = "halt";
     public bool clear_command_buffer { get; set; }
 }
-
 
 // QUERIES
 public class BusyQuery : Command
@@ -132,4 +157,15 @@ public class BeaconQueryResponse : Response
 {
     public string[] beacons;
     public float[,] positions;
+}
+
+public class PrinterStatusQuery : Command
+{
+    new public const string id = "printer_status_query";
+}
+public class PrinterStatusQueryResponse : Response
+{
+    public Dictionary<string, uint> inputs { get; set; }
+    public Dictionary<string, uint> outputs { get; set; }
+    public bool busy;
 }

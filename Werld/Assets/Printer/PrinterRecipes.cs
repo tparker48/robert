@@ -11,7 +11,7 @@ public class Recipes
 public class Recipe
 {
     public uint level { get; set; }
-    public uint quantity { get; set; }
+    public float printTime { get; set; }
     public Dictionary<string, uint> inputs { get; set; }
 }
 

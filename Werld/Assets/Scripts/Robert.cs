@@ -18,6 +18,7 @@ public class Robert : MonoBehaviour
     RobertPlanter planter;
     RobertMotorics motorics;
     RobertBeaconScanner beaconScanner;
+    RobertPrinterInterface printerInterface;
 
     Queue<string> commandQueue = new Queue<string>();
 
@@ -36,6 +37,7 @@ public class Robert : MonoBehaviour
         drill = GetComponent<RobertDrill>();
         planter = GetComponent<RobertPlanter>();
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
+
 
         inventory.AddItem(Item.LettuceSeeds, 10);
     }
@@ -98,6 +100,18 @@ public class Robert : MonoBehaviour
             case PlantCommand.id:
                 PlantCommand plantCommand = JsonConvert.DeserializeObject<PlantCommand>(recieved_data);
                 planter.HandlePlantCommand(plantCommand);
+                break;
+            case PrinterFillCommand.id:
+                PrinterFillCommand fillCommand = JsonConvert.DeserializeObject<PrinterFillCommand>(recieved_data);
+                printerInterface.HandlePrinterFillCommand(fillCommand);
+                break;
+            case PrinterExecuteCommand.id:
+                PrinterExecuteCommand executeCommand = JsonConvert.DeserializeObject<PrinterExecuteCommand>(recieved_data);
+                printerInterface.HandlePrinterExecuteCommand(executeCommand);
+                break;
+            case PrinterRetrieveCommand.id:
+                PrinterRetrieveCommand retreiveCommand = JsonConvert.DeserializeObject<PrinterRetrieveCommand>(recieved_data);
+                printerInterface.HandlePrinterRetrieveCommand(retreiveCommand);
                 break;
             default:
                 Debug.Log("Unrecognized cmd_id");
@@ -168,6 +182,9 @@ public class Robert : MonoBehaviour
             case BeaconQuery.id:
                 BeaconQuery beaconQuery = JsonConvert.DeserializeObject<BeaconQuery>(recieved_data);
                 return beaconScanner.HandleBeaconQuery(beaconQuery);
+            case PrinterStatusQuery.id:
+                PrinterStatusQuery printerQuery = JsonConvert.DeserializeObject<PrinterStatusQuery>(recieved_data);
+                return printerInterface.HandlePrinterStatusQuery(printerQuery);
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }

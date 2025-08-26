@@ -21,7 +21,7 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 
     protected override void ExecuteOnTaskEnd(MineCommand task)
     {
-        inventory.AddFrom(Cave.Instance.MineCell(mineTarget));
+        inventory.AddItems(Cave.Instance.MineCell(mineTarget));
     }
 
     public void HandleMineCommand(MineCommand mineCommand)
