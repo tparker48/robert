@@ -45,12 +45,12 @@ public class RobertPrinterInterface : MonoBehaviour
         Printer printer = GetPrinterInRange();
         if (printer == null) return;
 
-        try
+        if (Items.ItemExists(executeCommand.item_to_print))
         {
-            Item itemToPrint = (Item)Enum.Parse(typeof(Item), executeCommand.item_to_print);
+            Item itemToPrint = Items.Lookup(executeCommand.item_to_print);
             printer.QueuePrintJob(itemToPrint);
         }
-        catch
+        else
         {
             Debug.Log("Invalid Item Name!");
         }

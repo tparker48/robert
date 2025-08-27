@@ -27,15 +27,14 @@ public struct CaveCell
         switch (type)
         {
             case CaveCellType.Wall:
-                loot.Add(Item.Stone, (uint)Random.Range(1, 3));
+                loot.Add(Items.Lookup("Stone"), (uint)Random.Range(1, 3));
                 break;
             case CaveCellType.Ore:
-                loot.Add(Item.Stone, 1);
+                loot.Add(Items.Lookup("Stone"), 1);
                 break;
         }
 
         type = CaveCellType.Air;
-
         return loot;
     }
 

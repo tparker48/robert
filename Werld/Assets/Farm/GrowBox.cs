@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 
 public class GrowBox : MonoBehaviour
 {
-    private Plant plant;
+    private PlantEntity plant;
     private float harvestMultiplier = 1.0f;
 
     void Start()
@@ -54,14 +55,16 @@ public class GrowBox : MonoBehaviour
         return plant == null;
     }
 
-    private Plant CreatePlantFromSeeds(Item seeds)
+    private PlantEntity CreatePlantFromSeeds(Item seeds)
     {
-        switch (seeds)
+        Plant plantToGrow = Plants.FromSeeds(seeds);
+        if (seeds != null)
         {
-            case Item.LettuceSeeds:
-                return new Lettuce();
-            default:
-                return null;
+            return new PlantEntity(plantToGrow);
+        }
+        else
+        {
+            return null;
         }
     }
 }

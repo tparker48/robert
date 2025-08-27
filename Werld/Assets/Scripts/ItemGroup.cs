@@ -19,7 +19,7 @@ public class ItemGroup : Dictionary<Item, uint>
     {
         foreach (string itemName in stringKeys.Keys)
         {
-            Item item = (Item)Enum.Parse(typeof(Item), itemName);
+            Item item = Items.Lookup(itemName);
             Add(item, stringKeys[itemName]);
         }
     }
@@ -29,7 +29,7 @@ public class ItemGroup : Dictionary<Item, uint>
         Dictionary<string, uint> stringKeys = new Dictionary<string, uint>();
         foreach (Item item in this.Keys)
         {
-            stringKeys[item.ToString()] = this[item];
+            stringKeys[item.name] = this[item];
         }
         return stringKeys;
     }

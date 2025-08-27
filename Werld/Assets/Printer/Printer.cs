@@ -56,9 +56,9 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
             return false;
         }
 
-        if (PrinterRecipes.RecipeExists(printItem))
+        if (Recipes.RecipeExists(printItem.name))
         {
-            Recipe recipe = PrinterRecipes.GetRecipe(printItem);
+            Recipe recipe = Recipes.Lookup(printItem.name);
             PrintJob printJob = new PrintJob();
             printJob.printItem = printItem;
             printJob.printTime = recipe.printTime * printSpeed;
@@ -71,7 +71,7 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     private void ExecutePrintJob(PrintJob printJob)
     {
         Item printItem = printJob.printItem;
-        Recipe recipe = PrinterRecipes.GetRecipe(printItem);
+        Recipe recipe = Recipes.Lookup(printItem.name);
         ItemGroup recipeInputs = new ItemGroup(recipe.inputs);
         // check we have enough of the required inputs
         foreach (Item item in recipeInputs.Keys)
@@ -105,11 +105,11 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
         resp.outputs = new Dictionary<string, uint>();
         foreach (Item input in inputs.GetItemsList())
         {
-            resp.inputs[input.ToString()] = inputs.GetItemCount(input);
+            resp.inputs[input.name] = inputs.GetItemCount(input);
         }
         foreach (Item output in outputs.GetItemsList())
         {
-            resp.outputs[output.ToString()] = outputs.GetItemCount(output);
+            resp.outputs[output.name] = outputs.GetItemCount(output);
         }
         return resp;
     }

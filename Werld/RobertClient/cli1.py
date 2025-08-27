@@ -1,6 +1,7 @@
-import robapi
+from robapi import RobertController
 
-robert = robapi.RobertController()
+robert = RobertController()
 
-robert.printer_fill(items={'LettuceSeeds': 5})
+robert.printer_fill(items={"Lettuce Seeds": 5})
+
 print(robert.get_printer_status())

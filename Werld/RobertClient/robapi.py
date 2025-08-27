@@ -3,8 +3,10 @@ import json
 import time
 from typing import List
 
+
 ROBERT_TCP_SERVER_IP = "127.0.0.1"
 ROBERT_TCP_SERVER_PORT = 3001
+
 
 class RobertController:
     def __init__(self, bot_id: int = 0):
@@ -48,9 +50,9 @@ class RobertController:
             "direction": direction
         })
     
-    def plant(self, seed_item_id: int):
+    def plant(self, seed_item: str):
         return self.send_command('plant', args={
-            "seed_item_id": seed_item_id
+            "seed_item": seed_item
         })
     
     def printer_fill(self, items: dict):

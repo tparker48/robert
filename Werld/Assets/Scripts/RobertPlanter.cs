@@ -24,18 +24,18 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
 
     public void ProcessPlantCommand(PlantCommand plantCommand)
     {
-        Item seedEnum = (Item)plantCommand.seed_item_id;
+        Item seedItem = Items.Lookup(plantCommand.seed_item);
         GrowBox box = null;
         if (sensors.GetObjectOfType(ref box))
         {
             Debug.Log("Found Grow Box for PlantCommand!");
-            if (box.Empty() && inventory.GetItemCount(seedEnum) > 0)
+            if (box.Empty() && inventory.GetItemCount(seedItem) > 0)
             {
                 Debug.Log("GrowBox is empty and we have at least 1 seed!");
-                if (box.PlantSeeds(seedEnum))
+                if (box.PlantSeeds(seedItem))
                 {
                     Debug.Log("Planted!");
-                    inventory.RemoveItem(seedEnum, 1);
+                    inventory.RemoveItem(seedItem, 1);
                 }
             }
         }

@@ -39,7 +39,7 @@ public class Robert : MonoBehaviour
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
         printerInterface = GetComponent<RobertPrinterInterface>();
 
-        inventory.AddItem(Item.LettuceSeeds, 10);
+        inventory.AddItem(Items.Lookup("Lettuce Seeds"), 10);
     }
 
     void Update()
@@ -151,17 +151,19 @@ public class Robert : MonoBehaviour
                 return sensor_response;
             case ItemQuery.id:
                 ItemQuery item_query = JsonConvert.DeserializeObject<ItemQuery>(recieved_data);
-                try
+
+                if (Items.ItemExists(item_query.item_name))
                 {
-                    Item item = (Item)Enum.Parse(typeof(Item), item_query.item_name);
+                    Item item = Items.Lookup(item_query.item_name);
                     ItemQueryResponse item_response = new ItemQueryResponse();
                     item_response.amount = inventory.GetItemCount(item);
                     return item_response;
                 }
-                catch
-                {
+                else {
                     return Response.ErrorResponse($"Item '{item_query.item_name}' does not exist!");
                 }
+
+                
             case InventoryQuery.id:
                 InventoryQueryResponse inv_response = new InventoryQueryResponse();
                 inv_response.inventory = inventory.GetInventory().ToStringKeys();

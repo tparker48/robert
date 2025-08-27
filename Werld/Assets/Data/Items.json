@@ -1,0 +1,22 @@
+{
+    "dataObjects": [
+        {
+            "name": "Bits"
+        },
+        {
+            "name": "Stone"
+        },
+        {
+            "name": "Raw Ore"
+        },
+        {
+            "name": "Lettuce"
+        },
+        {
+            "name": "Lettuce Seeds"
+        },
+        {
+            "name": "Dry Leaves"
+        }
+    ]
+}

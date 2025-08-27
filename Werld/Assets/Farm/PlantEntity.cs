@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public enum PlantPhase
 {
@@ -9,19 +9,16 @@ public enum PlantPhase
     withered
 }
 
-public abstract class Plant
+public class PlantEntity
 {
-    public float ageInSeconds;
-    public float[] phaseTimes;
+    public Plant plant;
+    private float ageInSeconds;
     public PlantPhase phase;
-    public string plantName;
-    public Item seedItemEnum;
 
-    public Plant()
+    public PlantEntity(Plant plant)
     {
         ageInSeconds = 0.0f;
-        phaseTimes = GetGrowthPhaseTimes();
-        Debug.Log("Plant Created!");
+        this.plant = plant;
     }
 
     public void Update()
@@ -34,7 +31,7 @@ public abstract class Plant
     {
         for (uint phaseNum = (uint)PlantPhase.withered; phaseNum >= (uint)PlantPhase.young; phaseNum--)
         {
-            if (ageInSeconds >= phaseTimes[phaseNum-1])
+            if (ageInSeconds >= plant.growthPhaseTimes[phaseNum - 1])
             {
                 phase = (PlantPhase)phaseNum;
                 return;
@@ -50,7 +47,7 @@ public abstract class Plant
         }
         else
         {
-            return phaseTimes[(int)PlantPhase.mature] - ageInSeconds;
+            return plant.growthPhaseTimes[(int)PlantPhase.mature] - ageInSeconds;
         }
     }
 
@@ -63,7 +60,7 @@ public abstract class Plant
         else if (phase == PlantPhase.withered)
         {
             Debug.Log("Dead Plant Harvested!");
-            return new ItemGroup { { Item.DryLeaves, 4 } };
+            return new ItemGroup { { Items.Lookup("Dry Leaves"), 4 } };
         }
         else
         {
@@ -72,35 +69,22 @@ public abstract class Plant
         }
     }
 
-    protected abstract ItemGroup GetHarvestLoot(float harvestMultiplier);
-    protected abstract float[] GetGrowthPhaseTimes();
-}
-
-public class Lettuce : Plant
-{
-    new public string plantName = "Lettuce";
-    new public Item seedItemEnum = Item.LettuceSeeds;
-
-    override protected ItemGroup GetHarvestLoot(float harvestMultiplier)
+    public ItemGroup GetHarvestLoot(float harvestMultiplier)
     {
         Debug.Log("Lettuce Harvested!");
 
-        uint lettuceDrop = (uint)(Random.Range(6, 12) * harvestMultiplier);
-        uint seedDrop = (uint)(Random.Range(0, 3) * harvestMultiplier);
-
+        uint lettuceDrop = (uint)(harvestMultiplier * Random.Range(
+            (uint)plant.harvestDropRange[0],
+            (uint)plant.harvestDropRange[1] 
+            ));
+        uint seedDrop = (uint)Random.Range(
+            (uint)plant.seedDropRange[0],
+            (uint)plant.seedDropRange[1]
+            );
         return new ItemGroup
         {
-            {Item.Lettuce, lettuceDrop},
-            {Item.LettuceSeeds, seedDrop}
-        };
-    }
-
-    override protected float[] GetGrowthPhaseTimes()
-    {
-        return new float[3] {
-            5.0f,   // young at 5s
-            10.0f,  // mature at 10s
-            25.0f   // withered at 25s
+            { Items.Lookup(plant.harvestItem), lettuceDrop},
+            { Items.Lookup(plant.seedItem), seedDrop}
         };
     }
 }
