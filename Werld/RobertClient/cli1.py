@@ -2,6 +2,8 @@ from robapi import RobertController
 
 robert = RobertController()
 
-robert.printer_fill(items={"Lettuce Seeds": 5})
+beacons = robert.scan_beacons(relative=False)
+print(beacons)
 
-print(robert.get_printer_status())
+pos = beacons['3D Printer']
+robert.move(pos, relative=False)

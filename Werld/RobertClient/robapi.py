@@ -105,7 +105,8 @@ class RobertController:
         response = self.send_command('beacon_query', args = {
             'relative': relative
         })
-        return list(zip(response['beacons'], response['positions']))
+        beacons= list(zip(response['beacons'], response['positions']))
+        return {b[0]: b[1] for b in beacons}
 
     def get_item_count(self, item_name: str):
         response = self.send_command('item_query', args={
