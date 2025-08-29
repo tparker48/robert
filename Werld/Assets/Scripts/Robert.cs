@@ -19,6 +19,7 @@ public class Robert : MonoBehaviour
     RobertMotorics motorics;
     RobertBeaconScanner beaconScanner;
     RobertPrinterInterface printerInterface;
+    RobertStorageInterface storageInterface;
 
     Queue<string> commandQueue = new Queue<string>();
 
@@ -38,6 +39,7 @@ public class Robert : MonoBehaviour
         planter = GetComponent<RobertPlanter>();
         beaconScanner = GetComponentInChildren<RobertBeaconScanner>();
         printerInterface = GetComponent<RobertPrinterInterface>();
+        storageInterface = GetComponent<RobertStorageInterface>();
 
         inventory.AddItem(Items.Lookup("Lettuce Seeds"), 10);
     }
@@ -116,6 +118,14 @@ public class Robert : MonoBehaviour
             case PrinterStopCommand.id:
                 PrinterStopCommand stopCommand = JsonConvert.DeserializeObject<PrinterStopCommand>(recieved_data);
                 printerInterface.HandlePrinterStopCommand(stopCommand);
+                break;
+            case DepositToStorageCommand.id:
+                DepositToStorageCommand depositCommand = JsonConvert.DeserializeObject<DepositToStorageCommand>(recieved_data);
+                storageInterface.HandleDepositCommand(depositCommand);
+                break;
+            case WithdrawFromStorageCommand.id:
+                WithdrawFromStorageCommand withdrawCommand = JsonConvert.DeserializeObject<WithdrawFromStorageCommand>(recieved_data);
+                storageInterface.HandleWithdrawCommand(withdrawCommand);
                 break;
             default:
                 Debug.Log("Unrecognized cmd_id");

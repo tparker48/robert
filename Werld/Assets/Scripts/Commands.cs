@@ -94,6 +94,18 @@ public class HaltCommand : BotCommand
     public bool clear_command_buffer { get; set; }
 }
 
+public class DepositToStorageCommand : BotCommand
+{
+    new public const string id = "deposit_to_storage";
+    public Dictionary<string, uint> items_to_deposit { get; set; }
+}
+
+public class WithdrawFromStorageCommand : BotCommand
+{
+    new public const string id = "withdraw_from_storage";
+    public Dictionary<string, uint> items_to_withdraw { get; set; }
+}
+
 // Bot Queries
 public class BusyQuery : BotCommand
 {
