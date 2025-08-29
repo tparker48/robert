@@ -62,7 +62,7 @@ public class Robert : MonoBehaviour
 
     public Response OnCommandRecieved(string recieved_data)
     {
-        Command obj = JsonConvert.DeserializeObject<Command>(recieved_data);
+        BotCommand obj = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
 
         if (obj.cmd_id.Contains("_query"))
         {
@@ -82,7 +82,7 @@ public class Robert : MonoBehaviour
 
     void HandleCommand(string recieved_data)
     {
-        Command cmd = JsonConvert.DeserializeObject<Command>(recieved_data);
+        BotCommand cmd = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
         switch (cmd.cmd_id)
         {
             case MoveCommand.id:
@@ -125,7 +125,7 @@ public class Robert : MonoBehaviour
 
     Response HandleQuery(string recieved_data)
     {
-        Command query = JsonConvert.DeserializeObject<Command>(recieved_data);
+        BotCommand query = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
         switch (query.cmd_id)
         {
             case BusyQuery.id:

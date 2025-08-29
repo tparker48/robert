@@ -23,6 +23,7 @@ class RobertController:
         raw_cmd = json.dumps({
             "cmd_id":cmd_id,
             "bot_id": self.bot_id,
+            "ship_command": False,
             **args
         })
         self.socket.send(raw_cmd.encode('utf-8'))

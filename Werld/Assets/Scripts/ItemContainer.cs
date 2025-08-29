@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemContainer : MonoBehaviour
@@ -18,7 +17,7 @@ public class ItemContainer : MonoBehaviour
     {
         if (items.ContainsKey(item))
         {
-            if (items[item] + quantity <= maxItemStackSize)
+            if (HasRoomFor(item, quantity))
             {
                 items[item] += quantity;
                 return true;

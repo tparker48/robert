@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 
 public class TCPServer : MonoBehaviour
 {
+    public ShipTerminal shipTerminal;
     private Dictionary<int, Robert> bots;
 
     private int port = 3001;
@@ -84,15 +85,25 @@ public class TCPServer : MonoBehaviour
                 string recievedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Command obj = JsonConvert.DeserializeObject<Command>(recievedData);
 
-                if (bots.ContainsKey(obj.bot_id) && bots[obj.bot_id] != null)
+                if (obj.ship_command)
                 {
-                    response = bots[obj.bot_id].OnCommandRecieved(recievedData);
+                    // handle it
+                    ShipCommand shipCmd = JsonConvert.DeserializeObject<ShipCommand>(recievedData);
+                    response = shipTerminal.OnCommandRecieved(recievedData);
                 }
                 else
                 {
-                    response = Response.ErrorResponse($"ERROR: Could not find bot with bot_id: {obj.bot_id}");
-                }
+                    BotCommand botCmd = JsonConvert.DeserializeObject<BotCommand>(recievedData);
 
+                    if (bots.ContainsKey(botCmd.bot_id) && bots[botCmd.bot_id] != null)
+                    {
+                        response = bots[botCmd.bot_id].OnCommandRecieved(recievedData);
+                    }
+                    else
+                    {
+                        response = Response.ErrorResponse($"ERROR: Could not find bot with bot_id: {botCmd.bot_id}");
+                    }
+                }
                 string responseString = JsonConvert.SerializeObject(response);
                 byte[] responseBytes = Encoding.UTF8.GetBytes(responseString);
                 await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
