@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 {
     private float mineSpeed = 1.0f;
-    private int scanRadius = 2;
+    private int scanRadius = 8;
 
     private Vector3 mineTarget;
     private ItemContainer inventory;
@@ -45,7 +44,7 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
         }
     }
 
-    public int[,] HandleMineralQuery(MineralQuery _)
+    public int[,] HandleMineScanQuery(MineScanQuery _)
     {
         return Cave.Instance.Scan(transform.position, scanRadius); 
     }

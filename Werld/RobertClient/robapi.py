@@ -85,6 +85,16 @@ class RobertController:
         response = self.send_command('printer_status_query')
         return response
 
+    def deposit_to_storage(self, items: dict[str, int]):
+        return self.send_command('deposit_to_storage', args={
+            'items_to_deposit': items
+        })
+    
+    def withdraw_from_storage(self, items: dict[str, int]):
+        return self.send_command('withdraw_from_storage', args={
+            'items_to_withdraw': items
+        })
+
     def halt(self, clear_command_buffer=True):
         return self.send_command('halt', args={
             'clear_command_buffer': clear_command_buffer
@@ -125,7 +135,7 @@ class RobertController:
         
     def scan_mine(self):
         response = self.send_command(cmd_id='mine_scan_query')
-        return response['map']
+        return  response['map']
 
     def wait_until_free(self):
         while(self.is_busy()):

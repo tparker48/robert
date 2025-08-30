@@ -15,14 +15,16 @@ public class Cave : MonoBehaviour
     public float oreNoiseScale;
     public float oreNoiseThresh;
 
-    public bool regen;
+    public bool regen = true;
 
     public List<Robert> roberts;
 
 
     private CaveCell[,] cells;
     private Vector3 cellSize;
+    private Vector3 spawnPoint;
     public int caveSize = 120;
+
 
     public static Cave Instance { get; private set; }
 
@@ -42,10 +44,8 @@ public class Cave : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cells = new CaveCell[caveSize, caveSize];
         cellSize = new Vector3(1, 3, 1);
-        BuildCave();
-        PlaceOre();
+        roberts = new List<Robert>();
     }
 
     // Update is called once per frame
@@ -54,12 +54,43 @@ public class Cave : MonoBehaviour
         if (regen)
         {
             regen = false;
-            cells = new CaveCell[caveSize, caveSize];
-            BuildCave();
-            PlaceOre();
+            Regenerate();
         }
 
         RefreshColliders();
+    }
+
+    public void Regenerate()
+    {
+        cells = new CaveCell[caveSize, caveSize];
+        BuildCave();
+        PlaceOre();
+        SetSpawnPoint();
+        foreach (Robert bot in roberts)
+        {
+            bot.transform.position = spawnPoint;
+        }
+    }
+
+    public void AddBot(Robert bot)
+    {
+        roberts.Add(bot);
+        bot.transform.position = spawnPoint;
+    }
+
+    private void SetSpawnPoint()
+    {
+        for (int x = 0; x < caveSize; x++)
+        {
+            for (int y = 0; y < caveSize; y++)
+            {
+                if (cells[x, y].type == CaveCell.CaveCellType.Air)
+                {
+                    spawnPoint = new Vector3(x, transform.position.y+0.5f, y);
+                }
+            }
+        }
+        Debug.Log(spawnPoint);
     }
 
     private void BuildCave()
@@ -216,7 +247,7 @@ public class Cave : MonoBehaviour
             {
                 cells[x, y].collider = this.AddComponent<BoxCollider>();
                 cells[x, y].collider.enabled = true;
-                cells[x, y].collider.center = transform.position + new Vector3(x, cellSize.y / 2, y);
+                cells[x, y].collider.center = new Vector3(x, cellSize.y / 2, y);
                 cells[x, y].collider.size = cellSize;
             }
         }
@@ -300,10 +331,10 @@ public class Cave : MonoBehaviour
         {
             for (int yOffset = -scanRadius; yOffset <= scanRadius; yOffset++)
             {
-                int x = coords.x+xOffset;
-                int y = coords.y+yOffset;
+                int x = coords.x + xOffset;
+                int y = coords.y + yOffset;
                 int xIndex = x + scanRadius - coords.x;
-                int yIndex = scanSize-(y + scanRadius - coords.y) - 1;
+                int yIndex = scanSize - (y + scanRadius - coords.y) - 1;
                 if (CellInBounds(x, y))
                 {
                     scanResult[yIndex, xIndex] = (int)cells[x, y].type;
@@ -312,9 +343,13 @@ public class Cave : MonoBehaviour
                 {
                     scanResult[yIndex, xIndex] = (int)CaveCell.CaveCellType.Border;
                 }
+                if (xOffset == 0 && yOffset == 0)
+                {
+                    scanResult[yIndex, xIndex] = -1; // represents robert
+                }
             }
         }
-
+        
         return scanResult;
     }
 

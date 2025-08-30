@@ -25,5 +25,4 @@ public static class Items
     {
         return GetInstance().GetTable().ContainsKey(itemName);
     }
-
 }

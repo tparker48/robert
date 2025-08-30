@@ -8,11 +8,13 @@ public class Storage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        container = new ItemContainer();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(container.GetItemCount(Items.Lookup("Lettuce Seeds")));
     }
 
     public bool HandleDepositToStorageCommand(DepositToStorageCommand cmd, ref ItemContainer other)

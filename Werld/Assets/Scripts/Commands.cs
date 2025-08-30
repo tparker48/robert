@@ -106,6 +106,11 @@ public class WithdrawFromStorageCommand : BotCommand
     public Dictionary<string, uint> items_to_withdraw { get; set; }
 }
 
+public class TeleportToMine : BotCommand
+{
+    new public const string id = "teleport_to_mine";
+}
+
 // Bot Queries
 public class BusyQuery : BotCommand
 {
@@ -156,11 +161,11 @@ public class InventoryQueryResponse : Response
     public Dictionary<string, uint> inventory;
 }
 
-public class MineralQuery : BotCommand
+public class MineScanQuery : BotCommand
 {
-    new public const string id = "mineral_query";
+    new public const string id = "mine_scan_query";
 }
-public class MineralQueryResponse : Response
+public class MineScanQueryResponse : Response
 {
     public int[,] map;
 }

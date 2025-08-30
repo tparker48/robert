@@ -127,6 +127,14 @@ public class Robert : MonoBehaviour
                 WithdrawFromStorageCommand withdrawCommand = JsonConvert.DeserializeObject<WithdrawFromStorageCommand>(recieved_data);
                 storageInterface.HandleWithdrawCommand(withdrawCommand);
                 break;
+            case TeleportToMine.id:
+                TeleportToMine tpCommand = JsonConvert.DeserializeObject<TeleportToMine>(recieved_data);
+                Teleporter teleporter = null;
+                if (sensors.GetObjectOfType(ref teleporter))
+                {
+                    teleporter.TeleportRobertToMine(this);
+                }
+                break;
             default:
                 Debug.Log("Unrecognized cmd_id");
                 break;
@@ -172,18 +180,16 @@ public class Robert : MonoBehaviour
                 else {
                     return Response.ErrorResponse($"Item '{item_query.item_name}' does not exist!");
                 }
-
-                
             case InventoryQuery.id:
                 InventoryQueryResponse inv_response = new InventoryQueryResponse();
                 inv_response.inventory = inventory.GetInventory().ToStringKeys();
                 return inv_response;
-            case MineralQuery.id:
-                MineralQuery scanQuery = JsonConvert.DeserializeObject<MineralQuery>(recieved_data);
+            case MineScanQuery.id:
+                MineScanQuery scanQuery = JsonConvert.DeserializeObject<MineScanQuery>(recieved_data);
                 if (drill.InMine())
                 {
-                    MineralQueryResponse scanResponse = new MineralQueryResponse();
-                    scanResponse.map = drill.HandleMineralQuery(scanQuery);
+                    MineScanQueryResponse scanResponse = new MineScanQueryResponse();
+                    scanResponse.map = drill.HandleMineScanQuery(scanQuery);
                     return scanResponse;
                 }
                 else
