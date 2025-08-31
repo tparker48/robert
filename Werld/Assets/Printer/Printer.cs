@@ -12,9 +12,15 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
 {
     private uint printerLevel = 1;
     private float printSpeed = 1.0f;
-    private ItemContainer inputs = new ItemContainer();
-    private ItemContainer outputs = new ItemContainer();
+    private ItemContainer inputs;
+    private ItemContainer outputs;
     private Queue<PrintJob> printerQueue = new Queue<PrintJob>();
+
+    public void Start()
+    {
+        inputs = GetComponents<ItemContainer>()[0];
+        outputs = GetComponents<ItemContainer>()[1];
+    }
 
     public void Update()
     {

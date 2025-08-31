@@ -17,7 +17,7 @@ public class Cave : MonoBehaviour
 
     public bool regen = true;
 
-    public List<Robert> roberts;
+    public Dictionary<Robert, Vector3> roberts;
 
 
     private CaveCell[,] cells;
@@ -45,7 +45,7 @@ public class Cave : MonoBehaviour
     void Start()
     {
         cellSize = new Vector3(1, 3, 1);
-        roberts = new List<Robert>();
+        roberts = new Dictionary<Robert, Vector3>();
     }
 
     // Update is called once per frame
@@ -66,7 +66,7 @@ public class Cave : MonoBehaviour
         BuildCave();
         PlaceOre();
         SetSpawnPoint();
-        foreach (Robert bot in roberts)
+        foreach (Robert bot in roberts.Keys)
         {
             bot.transform.position = spawnPoint;
         }
@@ -74,8 +74,16 @@ public class Cave : MonoBehaviour
 
     public void AddBot(Robert bot)
     {
-        roberts.Add(bot);
+        roberts[bot] = bot.transform.position;
         bot.transform.position = spawnPoint;
+        bot.GetComponent<RobertDrill>().SetMineState(true);
+    }
+
+    public void ReturnBot(Robert bot)
+    {
+        bot.transform.position = roberts[bot];
+        roberts.Remove(bot);
+        bot.GetComponent<RobertDrill>().SetMineState(false);
     }
 
     private void SetSpawnPoint()
@@ -86,11 +94,12 @@ public class Cave : MonoBehaviour
             {
                 if (cells[x, y].type == CaveCell.CaveCellType.Air)
                 {
-                    spawnPoint = new Vector3(x, transform.position.y+0.5f, y);
+                    spawnPoint = new Vector3(x, transform.position.y + 0.5f, y);
+                    return;
                 }
             }
         }
-        Debug.Log(spawnPoint);
+        
     }
 
     private void BuildCave()
@@ -211,7 +220,7 @@ public class Cave : MonoBehaviour
     {
         HashSet<Vector2Int> addList = new HashSet<Vector2Int>();
 
-        foreach (Robert robert in roberts)
+        foreach (Robert robert in roberts.Keys)
         {
             int robX = Mathf.RoundToInt(robert.transform.position.x);
             int robY = Mathf.RoundToInt(robert.transform.position.z);
@@ -257,7 +266,7 @@ public class Cave : MonoBehaviour
     {
         float colliderRadius = 2.5f;
 
-        // Air cells
+        // Non-collision cells
         if (cells[x, y].type == CaveCell.CaveCellType.Air) return false;
 
         // Too far away

@@ -115,6 +115,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8470476755551720328}
   - component: {fileID: 5302886801493456293}
+  - component: {fileID: 3269780927888885107}
+  - component: {fileID: 682788716425767734}
   m_Layer: 0
   m_Name: 3D Printer
   m_TagString: Untagged
@@ -149,6 +151,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0d35e4b01e5fd142901968c3f8407ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3269780927888885107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169916616816775645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea71eab908a430c4286f20b35ed377ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &682788716425767734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169916616816775645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea71eab908a430c4286f20b35ed377ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1801479582449444718

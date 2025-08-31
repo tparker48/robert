@@ -106,10 +106,15 @@ public class WithdrawFromStorageCommand : BotCommand
     public Dictionary<string, uint> items_to_withdraw { get; set; }
 }
 
-public class TeleportToMine : BotCommand
+public class MineTeleportComamnd : BotCommand
 {
-    new public const string id = "teleport_to_mine";
+    new public const string id = "mine_teleport";
 }
+public class MineReturnCommand : BotCommand
+{
+    new public const string id = "mine_return";
+}
+
 
 // Bot Queries
 public class BusyQuery : BotCommand
@@ -177,8 +182,7 @@ public class BeaconQuery : BotCommand
 }
 public class BeaconQueryResponse : Response
 {
-    public string[] beacons;
-    public float[,] positions;
+    public Dictionary<string, float[]> beacons;
 }
 
 public class PrinterStatusQuery : BotCommand

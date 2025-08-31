@@ -1243,9 +1243,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 586017158952273651, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
+      propertyPath: beaconName
+      value: Elevator Room
+      objectReference: {fileID: 0}
     - target: {fileID: 1899957003603118773, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
       propertyPath: m_Name
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284239900511727226, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
+      propertyPath: beaconName
+      value: Control Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643918955193506889, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
+      propertyPath: m_Name
+      value: ElevatorRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332114099306443968, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
+      propertyPath: m_Name
+      value: ControlRoom
       objectReference: {fileID: 0}
     - target: {fileID: 6990708163202768228, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
       propertyPath: locked

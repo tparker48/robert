@@ -135,7 +135,7 @@ class RobertController:
         
     def scan_mine(self):
         response = self.send_command(cmd_id='mine_scan_query')
-        return  response['map']
+        return response['map'] if 'map' in response else None
 
     def wait_until_free(self):
         while(self.is_busy()):

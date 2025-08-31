@@ -20,7 +20,7 @@ public class Teleporter : MonoBehaviour
         if (Cave.Instance.roberts.Count == 0)
         {
             Cave.Instance.Regenerate();
-            Cave.Instance.AddBot(robert);
         }
+        Cave.Instance.AddBot(robert);
     }
 }

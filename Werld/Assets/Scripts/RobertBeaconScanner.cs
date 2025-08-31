@@ -79,15 +79,12 @@ public class RobertBeaconScanner : MonoBehaviour
     {
         List<Beacon> beacons = GetBeacons();
         BeaconQueryResponse beaconResponse = new BeaconQueryResponse();
-        beaconResponse.beacons = new string[beacons.Count];
-        beaconResponse.positions = new float[beacons.Count, 2];
+        beaconResponse.beacons = new Dictionary<string, float[]>();
 
         for (int i = 0; i < beacons.Count; i++)
         {
-            beaconResponse.beacons[i] = beacons[i].beaconName;
             Vector2 position = GetBeaconPosition(beacons[i], beaconQuery.relative);
-            beaconResponse.positions[i, 0] = position.x;
-            beaconResponse.positions[i, 1] = position.y;
+            beaconResponse.beacons[beacons[i].beaconName] = new float[2] { position.x, position.y };
         }
         Debug.Log("Beacon Query Complete");
         return beaconResponse;

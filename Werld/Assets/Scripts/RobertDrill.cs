@@ -4,6 +4,7 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 {
     private float mineSpeed = 1.0f;
     private int scanRadius = 8;
+    private bool isInMine = false;
 
     private Vector3 mineTarget;
     private ItemContainer inventory;
@@ -46,11 +47,16 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 
     public int[,] HandleMineScanQuery(MineScanQuery _)
     {
-        return Cave.Instance.Scan(transform.position, scanRadius); 
+        return Cave.Instance.Scan(transform.position, scanRadius);
     }
 
-    public bool InMine()
+    public bool IsInMine()
     {
-        return true;
+        return isInMine;
+    }
+
+    public void SetMineState(bool inMine)
+    {
+        isInMine = inMine;
     }
 }

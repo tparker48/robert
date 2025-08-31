@@ -127,12 +127,17 @@ public class Robert : MonoBehaviour
                 WithdrawFromStorageCommand withdrawCommand = JsonConvert.DeserializeObject<WithdrawFromStorageCommand>(recieved_data);
                 storageInterface.HandleWithdrawCommand(withdrawCommand);
                 break;
-            case TeleportToMine.id:
-                TeleportToMine tpCommand = JsonConvert.DeserializeObject<TeleportToMine>(recieved_data);
+            case MineTeleportComamnd.id:
                 Teleporter teleporter = null;
                 if (sensors.GetObjectOfType(ref teleporter))
                 {
                     teleporter.TeleportRobertToMine(this);
+                }
+                break;
+            case MineReturnCommand.id:
+                if (drill.IsInMine())
+                {
+                    Cave.Instance.ReturnBot(this);
                 }
                 break;
             default:
@@ -186,7 +191,7 @@ public class Robert : MonoBehaviour
                 return inv_response;
             case MineScanQuery.id:
                 MineScanQuery scanQuery = JsonConvert.DeserializeObject<MineScanQuery>(recieved_data);
-                if (drill.InMine())
+                if (drill.IsInMine())
                 {
                     MineScanQueryResponse scanResponse = new MineScanQueryResponse();
                     scanResponse.map = drill.HandleMineScanQuery(scanQuery);

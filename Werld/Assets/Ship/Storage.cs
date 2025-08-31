@@ -8,7 +8,7 @@ public class Storage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        container = new ItemContainer();
+        container = GetComponent<ItemContainer>();
     }
 
     // Update is called once per frame
