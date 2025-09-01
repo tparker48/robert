@@ -43,7 +43,6 @@ public class RobertBeaconScanner : MonoBehaviour
     {
         if (other.CompareTag("Beacon"))
         {
-            Debug.Log("BEACON GAINED");
             beaconsInRange.Add(other.GetComponent<Beacon>());
         }
     }

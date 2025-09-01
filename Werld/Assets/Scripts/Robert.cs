@@ -41,13 +41,14 @@ public class Robert : MonoBehaviour
         printerInterface = GetComponent<RobertPrinterInterface>();
         storageInterface = GetComponent<RobertStorageInterface>();
 
-        inventory.AddItem(Items.Lookup("Lettuce Seeds"), 10);
+
+        GetComponentInChildren<Beacon>().beaconName = "robert " + id;
+        GetComponentInChildren<Label>().text = "Robert " + id; 
+        GetComponentInChildren<Label>().textColor = Color.white;
     }
 
     void Update()
     {
-        HoverText.Instance.OverlayText("0", "robert_0", transform.position, 1.5f);
-
         //ticker += Time.deltaTime;
         //if (ticker < command_delay) return;
         command_running = IsCommandRunning();

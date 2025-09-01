@@ -1,9 +1,15 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Beacon : MonoBehaviour
 {
     public string beaconName;
+
+    public void Start()
+    {
+        Label beaconLabel = GetComponent<Label>();
+        beaconLabel.text = "["+ beaconName + "]";
+        beaconLabel.textColor = Color.cyan;
+    }
 
     public Vector2 GetRelativePosition(Transform source)
     {
@@ -15,6 +21,6 @@ public class Beacon : MonoBehaviour
         float c = fy / ry;
         float af = (dx - dy * c) / (fx - fy * c);
         float ar = (dy - af * fy) / ry;
-        return new Vector2(af,ar);
+        return new Vector2(af, ar);
     }
 }

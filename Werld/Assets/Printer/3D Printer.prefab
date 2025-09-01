@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 5302886801493456293}
   - component: {fileID: 3269780927888885107}
   - component: {fileID: 682788716425767734}
+  - component: {fileID: 7629433751681368335}
   m_Layer: 0
   m_Name: 3D Printer
   m_TagString: Untagged
@@ -177,6 +178,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea71eab908a430c4286f20b35ed377ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7629433751681368335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3169916616816775645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f656d407ac2f98479744462e5adb19c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 3d_printer
+  textColor: {r: 1, g: 0.54973924, b: 0.25943398, a: 1}
+  offset: 1.84
 --- !u!1001 &1801479582449444718
 PrefabInstance:
   m_ObjectHideFlags: 0

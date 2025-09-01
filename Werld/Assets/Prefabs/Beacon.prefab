@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8751127312493441582}
   - component: {fileID: 6416325148651061168}
   - component: {fileID: 2892899874965409971}
+  - component: {fileID: 5757302371965565806}
   m_Layer: 0
   m_Name: Beacon
   m_TagString: Beacon
@@ -67,3 +68,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconName: Test Beacon
+--- !u!114 &5757302371965565806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9092583344072063952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f656d407ac2f98479744462e5adb19c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  offset: 3
