@@ -207,6 +207,10 @@ public class Robert : MonoBehaviour
             case PrinterStatusQuery.id:
                 PrinterStatusQuery printerQuery = JsonConvert.DeserializeObject<PrinterStatusQuery>(recieved_data);
                 return printerInterface.HandlePrinterStatusQuery(printerQuery);
+            case ShipFloorQuery.id:
+                ShipFloorQueryResponse shipFloorResponse = new ShipFloorQueryResponse();
+                shipFloorResponse.floor = Ship.GetFloor(transform.position);
+                return shipFloorResponse;
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }

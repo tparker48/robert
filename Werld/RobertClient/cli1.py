@@ -3,13 +3,16 @@ import time
 
 robert = RobertController()
 #
-#robert.send_command(cmd_id='mine_teleport')
-#time.sleep(3)
-beacons = robert.send_command(cmd_id='beacon_query', args={'relative':False})['beacons']
-for name in beacons:
-    print(name, beacons[name])
 
-robert.halt()
+print(robert.get_floor())
+
+#robert.send_command(cmd_id='mine_return')
+#time.sleep(3)
+#beacons = robert.send_command(cmd_id='beacon_query', args={'relative':False})['beacons']
+#for name in beacons:
+#    print(name, beacons[name])
+
+#robert.halt()
 #robert.move(beacons['Room 1'])
 #scan = robert.scan_mine()
 #for line in scan:

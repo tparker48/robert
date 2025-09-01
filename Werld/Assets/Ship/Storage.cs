@@ -14,7 +14,6 @@ public class Storage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(container.GetItemCount(Items.Lookup("Lettuce Seeds")));
     }
 
     public bool HandleDepositToStorageCommand(DepositToStorageCommand cmd, ref ItemContainer other)

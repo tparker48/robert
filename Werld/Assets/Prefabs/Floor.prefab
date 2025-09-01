@@ -661,6 +661,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
+      propertyPath: beaconName
+      value: Control Room
+      objectReference: {fileID: 0}
     - target: {fileID: 5088168383083084061, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: open
       value: 0
@@ -675,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: Elevator
+      value: ControlRoom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -735,6 +739,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
+      propertyPath: beaconName
+      value: Elevator
+      objectReference: {fileID: 0}
     - target: {fileID: 5088168383083084061, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: open
       value: 1
@@ -749,7 +757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: ControlRoom
+      value: ElevatorRoom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

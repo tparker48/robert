@@ -51,6 +51,12 @@ class RobertController:
             "direction": direction
         })
     
+    def teleport_to_mine(self):
+        return self.send_command('mine_teleport')
+    
+    def return_from_mine(self):
+        return self.send_command('mine_return')
+    
     def plant(self, seed_item: str):
         return self.send_command('plant', args={
             "seed_item": seed_item
@@ -107,6 +113,10 @@ class RobertController:
     def get_rotation(self):
         response = self.send_command('position_query')
         return response['rotation']
+
+    def get_floor(self):
+        response = self.send_command('ship_floor_query')
+        return response['floor']
 
     def check_sensors(self):
         response = self.send_command('sensor_query')

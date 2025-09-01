@@ -196,6 +196,15 @@ public class PrinterStatusQueryResponse : Response
     public bool busy;
 }
 
+public class ShipFloorQuery : BotCommand
+{
+    new public const string id = "ship_floor_query";
+}
+public class ShipFloorQueryResponse : Response
+{
+    public int floor { get; set; }
+}
+
 // SHIP COMMANDS
 public class ShipCommand : Command
 {
