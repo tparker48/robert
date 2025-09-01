@@ -46,6 +46,8 @@ public class Robert : MonoBehaviour
 
     void Update()
     {
+        HoverText.Instance.OverlayText("0", "robert_0", transform.position, 1.5f);
+
         //ticker += Time.deltaTime;
         //if (ticker < command_delay) return;
         command_running = IsCommandRunning();

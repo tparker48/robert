@@ -1,16 +1,29 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-    public static float floorHeight = 20;
-    private uint bits;
+    public uint bits;
 
     public List<Floor> floors;
-
     public Floor floorPrefab;
+    public static float floorHeight = 20;
+
+    public static Ship Instance = null;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("HI");
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

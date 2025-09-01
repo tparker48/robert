@@ -6,6 +6,8 @@ robert = RobertController()
 
 print(robert.get_floor())
 
+robert.move([-1,0], relative=True)
+
 #robert.send_command(cmd_id='mine_return')
 #time.sleep(3)
 #beacons = robert.send_command(cmd_id='beacon_query', args={'relative':False})['beacons']

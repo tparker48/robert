@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public int floor = 1;
 
     public float moveSpeed = 17.0f;
     public float lookSpeed = 1.0f;
@@ -12,7 +13,21 @@ public class CameraController : MonoBehaviour
 
     public Vector3 positionBounds = new Vector3(50, 0, 50);
 
-    private float yTarget = 20.0f;
+    public static CameraController Instance = null;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,8 +48,9 @@ public class CameraController : MonoBehaviour
             startingY,
             Mathf.Clamp(transform.position.z, -positionBounds.z, positionBounds.z)
         );
-        transform.Translate(0, (yTarget - transform.position.y) * 0.07f, 0, Space.World);
 
+        float yTarget = 20 + (Ship.floorHeight * (floor-1));
+        transform.Translate(0, (yTarget - transform.position.y) * 0.07f, 0, Space.World);
 
         // Rotate cam
         if (Input.GetMouseButtonDown(1))
@@ -57,13 +73,13 @@ public class CameraController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1+i))
             {
-                SetCameraFloor((uint)i);
+                SetCameraFloor(i);
             }
         }
     }
 
-    public void SetCameraFloor(uint floor)
+    public void SetCameraFloor(int floor)
     {
-        yTarget = 20 + (Ship.floorHeight * floor);
+        this.floor = floor+1;
     }
 }
