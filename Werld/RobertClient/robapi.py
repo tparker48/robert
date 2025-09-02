@@ -126,8 +126,7 @@ class RobertController:
         response = self.send_command('beacon_query', args = {
             'relative': relative
         })
-        beacons= list(zip(response['beacons'], response['positions']))
-        return {b[0]: b[1] for b in beacons}
+        return response['beacons']
 
     def get_item_count(self, item_name: str):
         response = self.send_command('item_query', args={
@@ -143,10 +142,29 @@ class RobertController:
         response = self.send_command(cmd_id='busy_query')
         return response['busy']
         
-    def scan_mine(self):
+    def scan_mine(self, pretty_print : bool = False):
         response = self.send_command(cmd_id='mine_scan_query')
-        return response['map'] if 'map' in response else None
-
+        filepath = response['scan_output_path']
+        pretty_charmap = {
+            -1: '🆁 ', 
+            0:'  ', # AIR
+            1:'██',  # WALL
+            2:'░░',  # BORDER
+            3:'△c', # COPPER
+            4:'▲i', # IRON
+            5:'◆g', # GOLD
+            6:'✪d', # DIAMOND
+        }
+        with open(filepath, 'r') as file:
+            lines = file.readlines()
+        lines = [line.strip() for line in lines]
+        for i in range(len(lines)):
+            chars = lines[i].split(' ')
+            lines[i] = [int(c) for c in chars]
+            if (pretty_print):
+                lines[i] = ''.join([pretty_charmap[c] for c in lines[i]])
+        return lines
+    
     def wait_until_free(self):
         while(self.is_busy()):
             time.sleep(0.04)

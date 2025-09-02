@@ -197,7 +197,7 @@ public class Robert : MonoBehaviour
                 if (drill.IsInMine())
                 {
                     MineScanQueryResponse scanResponse = new MineScanQueryResponse();
-                    scanResponse.map = drill.HandleMineScanQuery(scanQuery);
+                    scanResponse.scan_output_path = drill.HandleMineScanQuery(scanQuery);
                     return scanResponse;
                 }
                 else

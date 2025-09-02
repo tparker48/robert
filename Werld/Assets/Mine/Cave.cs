@@ -12,8 +12,16 @@ public class Cave : MonoBehaviour
     public int caSustainThreshold;
     public int caSpawnThreshold;
     public float initialWallOdds;
-    public float oreNoiseScale;
-    public float oreNoiseThresh;
+
+    public float copperNoiseScale;
+    public float copperNoiseThresh;
+    public float ironNoiseScale;
+    public float ironNoiseThresh;
+    public float goldNoiseScale;
+    public float goldNoiseThresh;
+    public float diamondNoiseScale;
+    public float diamondNoiseThresh;
+    private int noiseOffset = 1704;
 
     public bool regen = true;
 
@@ -207,9 +215,21 @@ public class Cave : MonoBehaviour
                 // todo swap with perlin noise
                 if (cells[x, y].type == CaveCell.CaveCellType.Wall)
                 {
-                    if (Noise.CalcPixel2D(x, y, oreNoiseScale) >= oreNoiseThresh)
+                    if (Noise.CalcPixel2D(x, y, copperNoiseScale) >= copperNoiseThresh)
                     {
-                        cells[x, y].type = CaveCell.CaveCellType.Ore;
+                        cells[x, y].type = CaveCell.CaveCellType.Copper;
+                    }
+                    if (Noise.CalcPixel2D(x +noiseOffset, y+ noiseOffset, ironNoiseScale) >= ironNoiseThresh)
+                    {
+                        cells[x, y].type = CaveCell.CaveCellType.Iron;
+                    }
+                    if (Noise.CalcPixel2D(x + noiseOffset*2, y + noiseOffset*2, goldNoiseScale) >= goldNoiseThresh)
+                    {
+                        cells[x, y].type = CaveCell.CaveCellType.Gold;
+                    }
+                    if (Noise.CalcPixel2D(x + noiseOffset*3, y + noiseOffset*3, diamondNoiseScale) >= diamondNoiseThresh)
+                    {
+                        cells[x, y].type = CaveCell.CaveCellType.Diamond;
                     }
                 }
             }
@@ -329,34 +349,34 @@ public class Cave : MonoBehaviour
         return CellInBounds(coords.x, coords.y) && cells[coords.x, coords.y].CanMine();
     }
 
-    public int[,] Scan(Vector3 worldCoords, int scanRadius)
+    public string Scan(Vector3 worldCoords, int scanRadius)
     {
         Vector2Int coords = GetCellCoords(worldCoords);
+        string scanResult = "";
 
-        int scanSize = scanRadius + scanRadius + 1;
-        int[,] scanResult = new int[scanSize, scanSize];
-
-        for (int xOffset = -scanRadius; xOffset <= scanRadius; xOffset++)
+        for (int yOffset = -scanRadius; yOffset <= scanRadius; yOffset++)
         {
-            for (int yOffset = -scanRadius; yOffset <= scanRadius; yOffset++)
+            for (int xOffset = -scanRadius; xOffset <= scanRadius; xOffset++)
             {
                 int x = coords.x + xOffset;
-                int y = coords.y + yOffset;
-                int xIndex = x + scanRadius - coords.x;
-                int yIndex = scanSize - (y + scanRadius - coords.y) - 1;
-                if (CellInBounds(x, y))
+                int y = coords.y - yOffset;
+
+                if (xOffset == 0 && yOffset == 0)
                 {
-                    scanResult[yIndex, xIndex] = (int)cells[x, y].type;
+                    scanResult += -1; // represents robert
+                }
+                else if (CellInBounds(x, y))
+                {
+                    scanResult += (int)cells[x, y].type;
                 }
                 else
                 {
-                    scanResult[yIndex, xIndex] = (int)CaveCell.CaveCellType.Border;
+                    scanResult += (int)CaveCell.CaveCellType.Air;
                 }
-                if (xOffset == 0 && yOffset == 0)
-                {
-                    scanResult[yIndex, xIndex] = -1; // represents robert
-                }
+                
+                scanResult += ' ';
             }
+            scanResult += '\n';
         }
         
         return scanResult;
@@ -380,10 +400,23 @@ public class Cave : MonoBehaviour
                         {
                             Gizmos.color = Color.grey;
                         }
-                        else if (cells[x, y].type == CaveCell.CaveCellType.Ore)
+                        else if (cells[x, y].type == CaveCell.CaveCellType.Copper)
                         {
                             Gizmos.color = Color.red;
                         }
+                        else if (cells[x, y].type == CaveCell.CaveCellType.Iron)
+                        {
+                            Gizmos.color = Color.white;
+                        }
+                        else if (cells[x, y].type == CaveCell.CaveCellType.Gold)
+                        {
+                            Gizmos.color = Color.yellow;
+                        }
+                        else if (cells[x, y].type == CaveCell.CaveCellType.Diamond)
+                        {
+                            Gizmos.color = Color.cyan;
+                        }
+                        
 
                         Gizmos.DrawCube(transform.position + new Vector3(x, cellSize.y / 2, y), cellSize);
                     }

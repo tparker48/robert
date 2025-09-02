@@ -78,24 +78,28 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         Item printItem = printJob.printItem;
         Recipe recipe = Recipes.Lookup(printItem.name);
-        ItemGroup recipeInputs = new ItemGroup(recipe.inputs);
-        // check we have enough of the required inputs
-        foreach (Item item in recipeInputs.Keys)
-        {
-            if (inputs.GetItemCount(item) < recipeInputs[item])
+        foreach (Dictionary<string, uint> inputsDict in recipe.inputs) {
+            ItemGroup recipeInputs = new ItemGroup(inputsDict);
+            
+            // check we have enough of the required inputs
+            foreach (Item item in recipeInputs.Keys)
             {
-                return;
+                if (inputs.GetItemCount(item) < recipeInputs[item])
+                {
+                    return;
+                }
             }
-        }
 
-        // remove required inputs
-        foreach (Item item in recipeInputs.Keys)
-        {
-            inputs.RemoveItem(item, recipeInputs[item]);
-        }
+            // remove required inputs
+            foreach (Item item in recipeInputs.Keys)
+            {
+                inputs.RemoveItem(item, recipeInputs[item]);
+            }
 
-        // add output
-        outputs.AddItem(printItem, 1);
+            // add output
+            outputs.AddItem(printItem, 1);
+            return;
+        }
     }
 
     protected override void ExecuteOnTaskEnd(PrintJob task)

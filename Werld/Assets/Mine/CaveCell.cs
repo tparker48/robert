@@ -7,8 +7,11 @@ public struct CaveCell
     {
         Air,
         Wall,
-        Ore,
-        Border
+        Border,
+        Copper,
+        Iron,
+        Gold,
+        Diamond
     }
 
     public CaveCellType type;
@@ -29,8 +32,17 @@ public struct CaveCell
             case CaveCellType.Wall:
                 loot.Add(Items.Lookup("Stone"), (uint)Random.Range(1, 3));
                 break;
-            case CaveCellType.Ore:
-                loot.Add(Items.Lookup("Stone"), 1);
+            case CaveCellType.Copper:
+                loot.Add(Items.Lookup("Copper Ore"), 1);
+                break;
+            case CaveCellType.Iron:
+                loot.Add(Items.Lookup("Iron Ore"), 1);
+                break;
+            case CaveCellType.Gold:
+                loot.Add(Items.Lookup("Gold Ore"), 1);
+                break;
+            case CaveCellType.Diamond:
+                loot.Add(Items.Lookup("Diamond"), 1);
                 break;
         }
 
@@ -49,8 +61,14 @@ public struct CaveCell
         {
             case CaveCellType.Wall:
                 return 2.0f;
-            case CaveCellType.Ore:
+            case CaveCellType.Copper:
                 return 2.5f;
+            case CaveCellType.Iron:
+                return 5.0f;
+            case CaveCellType.Gold:
+                return 2.0f;
+            case CaveCellType.Diamond:
+                return 10.0f;
             default:
                 return -1.0f;
         }

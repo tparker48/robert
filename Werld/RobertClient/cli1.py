@@ -2,11 +2,31 @@ from robapi import RobertController
 import time
 
 robert = RobertController()
-#
 
-print(robert.get_floor())
+def scan():
+    scan_map = robert.scan_mine(pretty_print=True)
+    print('\n'*10)
+    for line in scan_map:
+        print(line)
 
-robert.move([-1,0], relative=True)
+robert.teleport_to_mine()
+
+for i in range(10):
+    scan()
+    robert.mine(direction="left")
+    robert.wait_until_free()
+
+    scan()
+    robert.mine(direction="right")
+    robert.wait_until_free()
+
+    scan()
+    robert.mine(direction="center")
+    robert.wait_until_free()
+    
+    robert.move([1,0])
+    robert.wait_until_free()
+
 
 #robert.send_command(cmd_id='mine_return')
 #time.sleep(3)

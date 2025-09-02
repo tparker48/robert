@@ -172,7 +172,7 @@ public class MineScanQuery : BotCommand
 }
 public class MineScanQueryResponse : Response
 {
-    public int[,] map;
+    public string scan_output_path { get; set; }
 }
 
 public class BeaconQuery : BotCommand

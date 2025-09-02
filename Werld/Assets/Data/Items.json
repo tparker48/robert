@@ -1,22 +1,56 @@
 {
     "dataObjects": [
         {
-            "name": "Bits"
+            "name": "Bits",
+            "value": 1
         },
         {
-            "name": "Stone"
+            "name": "Stone",
+            "value": 1
         },
         {
-            "name": "Raw Ore"
+            "name": "Carbon Chunk",
+            "value": 3
         },
         {
-            "name": "Lettuce"
+            "name": "Lettuce Seeds",
+            "value": 1
         },
         {
-            "name": "Lettuce Seeds"
+            "name": "Lettuce",
+            "value": 15
         },
         {
-            "name": "Dry Leaves"
+            "name": "Dry Leaves",
+            "value": 3
+        },
+        {
+            "name": "Copper Ore",
+            "value": 5
+        },
+        {
+            "name": "Iron Ore",
+            "value": 7
+        },
+        {
+            "name": "Gold Ore",
+            "value": 15
+        },
+        {
+            "name": "Diamond",
+            "value": 75
+        },    
+        {
+            "name": "Copper Ingot",
+            "value": 10
+        },
+        {
+            "name": "Iron Ingot",
+            "value": 12
+        },
+        {
+            "name": "Gold Ingot",
+            "value": 20
         }
     ]
 }

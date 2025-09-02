@@ -5,7 +5,7 @@ public class Recipe : JsonDataObject
 {
     public uint level { get; set; }
     public float printTime { get; set; }
-    public Dictionary<string, uint> inputs { get; set; }
+    public List<Dictionary<string, uint>> inputs { get; set; }
 }
 
 public static class Recipes

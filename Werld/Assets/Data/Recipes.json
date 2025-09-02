@@ -1,12 +1,45 @@
 {
     "dataObjects": [
         {
-            "name": "Bits",
+            "name": "Carbon Chunk",
             "level": 1,
-            "printTime": 1.0,
-            "inputs": {
-                "Bits": 1
-            }
+            "printTime": 0.5,
+            "inputs": [
+                { "Stone": 5 },
+                { "Dried Leaves": 15 }
+            ]
+        },
+        {
+            "name": "Lettuce Seeds",
+            "level": 1,
+            "printTime": 2.5,
+            "inputs": [
+                { "Carbon Chunk": 1 }
+            ]
+        },
+        {
+            "name": "Copper Ingot",
+            "level": 1,
+            "printTime": 2.5,
+            "inputs": [
+                { "Copper Ore": 3 }
+            ]
+        },
+        {
+            "name": "Iron Ingot",
+            "level": 2,
+            "printTime": 2.5,
+            "inputs": [
+                { "Iron Ore": 3 }
+            ]
+        },
+        {
+            "name": "Gold Ingot",
+            "level": 3,
+            "printTime": 2.5,
+            "inputs": [
+                { "Gold Ore": 3 }
+            ]
         }
     ]
 }
