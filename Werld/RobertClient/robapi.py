@@ -76,7 +76,7 @@ class RobertController:
     def printer_stop(self):
         return self.send_command('printer_stop')
 
-    def printer_retrieve(self, from_input: bool, collect_all: bool, items_to_collect: dict = {}):
+    def printer_retrieve(self, items_to_collect: dict, from_input: bool = False, collect_all: bool = False):
         return self.send_command('printer_retrieve', args={
             'from_input': from_input,
             'collect_all': collect_all,

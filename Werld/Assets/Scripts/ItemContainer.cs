@@ -103,11 +103,11 @@ public class ItemContainer : MonoBehaviour
     {
         if (items.ContainsKey(item))
         {
-            return items[item] + 1 <= maxItemStackSize;
+            return items[item] + quantity <= maxItemStackSize;
         }
         else
         {
-            return items.Count + quantity <= capacity;
+            return items.Count + 1 <= capacity;
         }
     }
 

@@ -29,7 +29,10 @@ public class JsonDataLookup<D> where D : JsonDataObject
 
     private D GetDataObject(string objName)
     {
-        return _table[objName];
+        if (_table.ContainsKey(objName)) {
+            return _table[objName];
+        }
+        else return null;
     }
     public D this[string objName]
     {

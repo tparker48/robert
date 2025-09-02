@@ -9,23 +9,36 @@ def scan():
     for line in scan_map:
         print(line)
 
+robert.printer_queue_job('Carbon Chunk', 10)
+while(robert.get_printer_status()['busy']):
+    time.sleep(0.1)
+robert.printer_retrieve({}, False, True)
+
+time.sleep(1)
+print(robert.get_printer_status())
+print(robert.get_inventory())
+
+exit(0)
 robert.teleport_to_mine()
 
-for i in range(10):
-    scan()
+robert.halt()
+robert.wait_until_free()
+
+for i in range(5):
     robert.mine(direction="left")
     robert.wait_until_free()
 
-    scan()
     robert.mine(direction="right")
     robert.wait_until_free()
-
-    scan()
+    
     robert.mine(direction="center")
     robert.wait_until_free()
     
     robert.move([1,0])
     robert.wait_until_free()
+
+    scan()
+    print(robert.get_inventory())
 
 
 #robert.send_command(cmd_id='mine_return')

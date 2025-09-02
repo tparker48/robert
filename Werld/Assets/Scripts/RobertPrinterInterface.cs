@@ -47,7 +47,11 @@ public class RobertPrinterInterface : MonoBehaviour
         if (Items.ItemExists(executeCommand.item_to_print))
         {
             Item itemToPrint = Items.Lookup(executeCommand.item_to_print);
-            printer.QueuePrintJob(itemToPrint);
+            if (itemToPrint != null)
+            {
+                printer.QueuePrintJob(itemToPrint, executeCommand.quantity);
+            }
+            
         }
         else
         {

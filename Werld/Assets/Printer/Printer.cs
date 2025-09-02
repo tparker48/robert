@@ -20,6 +20,10 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         inputs = GetComponents<ItemContainer>()[0];
         outputs = GetComponents<ItemContainer>()[1];
+
+        // for debug
+        inputs.AddItem(Items.Lookup("Stone"), 64);
+        outputs.AddItem(Items.Lookup("Copper Ingot"), 2);
     }
 
     public void Update()
@@ -28,7 +32,10 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
         if (!IsBusy() && printerQueue.Count != 0)
         {
             PrintJob nextJob = printerQueue.Dequeue();
-            StartTimedTask(nextJob, nextJob.printTime);
+            if (CanPrint(nextJob))
+            {
+                StartTimedTask(nextJob, nextJob.printTime);
+            }
         }
     }
 
@@ -41,7 +48,7 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         if (collectAll)
         {
-            itemsToRemove = new ItemGroup(other.GetInventory());
+            itemsToRemove = new ItemGroup(inputs.GetInventory());
         }
         return other.TakeItemsFrom(ref inputs, itemsToRemove);
     }
@@ -50,14 +57,14 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         if (collectAll)
         {
-            itemsToRemove = new ItemGroup(other.GetInventory());
+            itemsToRemove = new ItemGroup(outputs.GetInventory());
         }
         return other.TakeItemsFrom(ref outputs, itemsToRemove);
     }
 
-    public bool QueuePrintJob(Item printItem)
+    public bool QueuePrintJob(Item printItem, int quantity)
     {
-        if (!outputs.HasRoomFor(printItem, 1))
+        if (!outputs.HasRoomFor(printItem, (uint)quantity))
         {
             return false;
         }
@@ -65,10 +72,13 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
         if (Recipes.RecipeExists(printItem.name))
         {
             Recipe recipe = Recipes.Lookup(printItem.name);
-            PrintJob printJob = new PrintJob();
-            printJob.printItem = printItem;
-            printJob.printTime = recipe.printTime * printSpeed;
-            printerQueue.Enqueue(printJob);
+            for (int i = 0; i < quantity; i++)
+            {
+                PrintJob printJob = new PrintJob();
+                printJob.printItem = printItem;
+                printJob.printTime = recipe.printTime * printSpeed;
+                printerQueue.Enqueue(printJob);
+            }
             return true;
         }
         return false;
@@ -78,9 +88,10 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         Item printItem = printJob.printItem;
         Recipe recipe = Recipes.Lookup(printItem.name);
-        foreach (Dictionary<string, uint> inputsDict in recipe.inputs) {
+        foreach (Dictionary<string, uint> inputsDict in recipe.inputs)
+        {
             ItemGroup recipeInputs = new ItemGroup(inputsDict);
-            
+
             // check we have enough of the required inputs
             foreach (Item item in recipeInputs.Keys)
             {
@@ -128,5 +139,28 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
     {
         Halt();
         printerQueue.Clear();
+    }
+
+    private bool CanPrint(PrintJob printJob)
+    {
+        Item printItem = printJob.printItem;
+        Recipe recipe = Recipes.Lookup(printItem.name);
+        if (recipe == null) return false;
+
+        foreach (Dictionary<string, uint> inputsDict in recipe.inputs)
+        {
+            ItemGroup recipeInputs = new ItemGroup(inputsDict);
+
+            // check we have enough of the required inputs
+            foreach (Item item in recipeInputs.Keys)
+            {
+                if (inputs.GetItemCount(item) < recipeInputs[item])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }
