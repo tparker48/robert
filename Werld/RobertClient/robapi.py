@@ -20,10 +20,13 @@ class RobertController:
         self.socket.close()
     
     def send_command(self, cmd_id: str, args: dict = {}, log_errors: bool = True):
+        is_query = args["is_query"] if "is_query" in args else False
+
         raw_cmd = json.dumps({
             "cmd_id":cmd_id,
             "bot_id": self.bot_id,
             "ship_command": False,
+            "is_query": is_query,
             **args
         })
         self.socket.send(raw_cmd.encode('utf-8'))
@@ -33,7 +36,12 @@ class RobertController:
             print(response_data['message'])
 
         return response_data
+    
+    def send_query(self, cmd_id: str, args: dict = {}, log_errors: bool = True):
+        args.update({'is_query': True})
+        return self.send_command(cmd_id, args, log_errors)
 
+    # Commands
     def move(self, position: List[float], relative: bool = True):
         return self.send_command(cmd_id='move', args={
             "position": position,
@@ -57,93 +65,42 @@ class RobertController:
     def return_from_mine(self):
         return self.send_command('mine_return')
     
-    def plant(self, seed_item: str):
+    def plant_seed(self, seed_item: str):
         return self.send_command('plant', args={
             "seed_item": seed_item
+        })
+
+    def harvest_plant(self):
+        return self.send_command('harvest')
+
+    def printer_queue_job(self, item_to_print: str, quantity: int):
+        return self.send_command('printer_queue_job', args={
+            'item_to_print': item_to_print,
+            'quantity': quantity
         })
     
     def printer_fill(self, items: dict):
         return self.send_command('printer_fill', args={
             'items_to_add': items
         })
-    
-    def printer_queue_job(self, item_to_print: str, quantity: int):
-        return self.send_command('printer_queue_job', args={
-            'item_to_print': item_to_print,
-            'quantity': quantity
-        })
 
     def printer_stop(self):
         return self.send_command('printer_stop')
-
+    
     def printer_retrieve(self, items_to_collect: dict, from_input: bool = False, collect_all: bool = False):
         return self.send_command('printer_retrieve', args={
             'from_input': from_input,
             'collect_all': collect_all,
             'items_to_collect': items_to_collect
         })
-
-    def is_printer_in_range(self):
-        response = self.send_command('printer_status_query')
-        return not response['error']
     
-    def get_printer_status(self):
-        response = self.send_command('printer_status_query')
-        return response
-
-    def deposit_to_storage(self, items: dict[str, int]):
-        return self.send_command('deposit_to_storage', args={
-            'items_to_deposit': items
-        })
-    
-    def withdraw_from_storage(self, items: dict[str, int]):
-        return self.send_command('withdraw_from_storage', args={
-            'items_to_withdraw': items
-        })
-
     def halt(self, clear_command_buffer=True):
         return self.send_command('halt', args={
             'clear_command_buffer': clear_command_buffer
         })
-
-    def get_position(self):
-        response = self.send_command('position_query')
-        return response['position']
-
-    def get_rotation(self):
-        response = self.send_command('position_query')
-        return response['rotation']
-
-    def get_floor(self):
-        response = self.send_command('ship_floor_query')
-        return response['floor']
-
-    def check_sensors(self):
-        response = self.send_command('sensor_query')
-        return response['readings']
-
-    def scan_beacons(self, relative: bool = True):
-        response = self.send_command('beacon_query', args = {
-            'relative': relative
-        })
-        return response['beacons']
-
-    def get_item_count(self, item_name: str):
-        response = self.send_command('item_query', args={
-            "item_name": item_name
-        })
-        return response['message'] if response['error'] else response['amount']
-
-    def get_inventory(self):
-        response = self.send_command('inventory_query')
-        return response['message'] if response['error'] else response['inventory']
-
-    def is_busy(self):
-        response = self.send_command(cmd_id='busy_query')
-        return response['busy']
-        
+    
     def scan_mine(self, pretty_print : bool = False):
-        response = self.send_command(cmd_id='mine_scan_query')
+        response = self.send_command(cmd_id='scan_mine')
         filepath = response['scan_output_path']
         pretty_charmap = {
             -1: '🆁 ', 
@@ -168,4 +125,58 @@ class RobertController:
     def wait_until_free(self):
         while(self.is_busy()):
             time.sleep(0.04)
+
+    # Queries
+    def get_position(self):
+        response = self.send_query('get_position')
+        return response['position']
+
+    def get_rotation(self):
+        response = self.send_query('get_position')
+        return response['rotation']
+
+    def get_floor(self):
+        response = self.send_query('get_floor')
+        return response['floor']
+    
+    def check_sensors(self):
+        response = self.send_query('check_sensors')
+        return response['readings']
+
+    def scan_beacons(self, relative: bool = True):
+        response = self.send_query('scan_beacons', args = {
+            'relative': relative
+        })
+        return response['beacons']
+
+    def get_item_count(self, item_name: str):
+        response = self.send_query('get_item_count', args={
+            "item_name": item_name
+        })
+        return response['message'] if response['error'] else response['amount']
+
+    def get_full_inventory(self):
+        response = self.send_query('get_full_inventory')
+        return response['message'] if response['error'] else response['inventory']
+
+    def is_busy(self):
+        response = self.send_query(cmd_id='check_busy')
+        return response['busy']
+
+    def check_growbox_status(self):
+        return self.send_query('check_growbox_status')
+
+    def check_printer_status(self):
+        response = self.send_query('check_printer_status')
+        return response
+
+    def deposit_to_storage(self, items: dict[str, int]):
+        return self.send_query('deposit_to_storage', args={
+            'items_to_deposit': items
+        })
+    
+    def withdraw_from_storage(self, items: dict[str, int]):
+        return self.send_query('withdraw_from_storage', args={
+            'items_to_withdraw': items
+        })
 

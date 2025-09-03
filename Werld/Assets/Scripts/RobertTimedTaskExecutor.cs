@@ -45,7 +45,7 @@ public abstract class RobertTimedTaskExecutor<T> : RobertTaskExecutor
         }
         else
         {
-            return taskTimer / taskTimerFull;
+            return (taskTimerFull-taskTimer) / taskTimerFull;
         }
     }
 }

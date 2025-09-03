@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
 
     void Start()
     {
-
+        GetComponentInChildren<Beacon>().beaconName = this.name;
     }
 
     void Update()

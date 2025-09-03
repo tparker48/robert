@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,7 +18,7 @@ public class HoverText : MonoBehaviour
     public static HoverText Instance;
 
     public bool modKeyDown = false;
-    public bool toggleKey = false;
+    public bool toggleKey = true;
 
     void Awake()
     {
@@ -49,10 +50,11 @@ public class HoverText : MonoBehaviour
         }
     }
 
-    public void OverlayText(string textKey, string txt, Vector3 worldPosition, float offset = 0.0f)
+    public void OverlayText(string textKey, string txt, Vector3 worldPosition, float offset = 0.0f, float fontSizeMult = 1.0f)
     {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, offset, 0));
         float dist = (worldPosition - Camera.main.transform.position).magnitude;
+        dist -= 12 * CameraController.Instance.zoomAmount;
 
         if (!hoverTexts.ContainsKey(textKey))
         {
@@ -60,7 +62,7 @@ public class HoverText : MonoBehaviour
         }
         hoverTexts[textKey].transform.position = screenPosition;
         hoverTexts[textKey].text = txt;
-        hoverTexts[textKey].fontSize = baseFontSize * (10f / dist);
+        hoverTexts[textKey].fontSize = baseFontSize * fontSizeMult * (10f / dist);
         hoverTexts[textKey].enabled = Ship.GetFloor(worldPosition) == CameraController.Instance.floor;
         hoverTexts[textKey].enabled = hoverTexts[textKey].enabled && (modKeyDown || toggleKey);
 

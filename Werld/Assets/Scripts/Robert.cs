@@ -41,10 +41,11 @@ public class Robert : MonoBehaviour
         printerInterface = GetComponent<RobertPrinterInterface>();
         storageInterface = GetComponent<RobertStorageInterface>();
 
-
         GetComponentInChildren<Beacon>().beaconName = "robert " + id;
-        GetComponentInChildren<Label>().text = "Robert " + id; 
+        GetComponentInChildren<Label>().text = "rob_" + id;
         GetComponentInChildren<Label>().textColor = Color.white;
+
+        inventory.AddItem(Items.Lookup("Lettuce Seeds"), 10);
     }
 
     void Update()
@@ -62,14 +63,35 @@ public class Robert : MonoBehaviour
             }
         }
 
+        string taskPercentOverlayKey = $"robert_{id}:task_progress";
+        if (command_running)
+        {
+            float percentComplete = 0.0f;
+            foreach (RobertTaskExecutor ex in GetComponents<RobertTaskExecutor>())
+            {
+                if (ex.IsBusy())
+                {
+                    percentComplete = Mathf.Round(100.0f * ex.PercentComplete());
+                    HoverText.Instance.OverlayText(taskPercentOverlayKey, $"[{ex.GetBusyText()}: {percentComplete}%]", transform.position, .75f, .75f);
+                    HoverText.Instance.SetOverlayTextColor(taskPercentOverlayKey, Color.green);
+                }
+            }
+            
+        }
+        else
+        {
+            HoverText.Instance.RemoveOverlay(taskPercentOverlayKey);
+        }
+
         ticker = 0.0f;
+
     }
 
     public Response OnCommandRecieved(string recieved_data)
     {
         BotCommand obj = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
 
-        if (obj.cmd_id.Contains("_query"))
+        if (obj.is_query)
         {
             return HandleQuery(recieved_data);
         }
@@ -88,6 +110,7 @@ public class Robert : MonoBehaviour
     void HandleCommand(string recieved_data)
     {
         BotCommand cmd = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
+        Debug.Log("Recieved Command: " + cmd.cmd_id);
         switch (cmd.cmd_id)
         {
             case MoveCommand.id:
@@ -105,6 +128,10 @@ public class Robert : MonoBehaviour
             case PlantCommand.id:
                 PlantCommand plantCommand = JsonConvert.DeserializeObject<PlantCommand>(recieved_data);
                 planter.HandlePlantCommand(plantCommand);
+                break;
+            case HarvestCommand.id:
+                HarvestCommand harvestCommand = JsonConvert.DeserializeObject<HarvestCommand>(recieved_data);
+                planter.HandleHarvestCommand(harvestCommand);
                 break;
             case PrinterFillCommand.id:
                 PrinterFillCommand fillCommand = JsonConvert.DeserializeObject<PrinterFillCommand>(recieved_data);
@@ -152,14 +179,15 @@ public class Robert : MonoBehaviour
     Response HandleQuery(string recieved_data)
     {
         BotCommand query = JsonConvert.DeserializeObject<BotCommand>(recieved_data);
+        Debug.Log("Recieved Query: " + query.cmd_id);
         switch (query.cmd_id)
         {
-            case BusyQuery.id:
-                BusyQueryResponse busy_response = new BusyQueryResponse();
+            case CheckBusy.id:
+                CheckBusyResponse busy_response = new CheckBusyResponse();
                 busy_response.busy = commandQueue.Count != 0 || command_running;
                 return busy_response;
-            case PositionQuery.id:
-                PositionQueryResponse position_response = new PositionQueryResponse();
+            case GetPosition.id:
+                GetPositionResponse position_response = new GetPositionResponse();
                 position_response.position = new float[3] {
                     transform.position.x,
                     transform.position.y,
@@ -171,49 +199,53 @@ public class Robert : MonoBehaviour
                     transform.rotation.eulerAngles.z
                 };
                 return position_response;
-            case SensorQuery.id:
-                SensorQueryResponse sensor_response = new SensorQueryResponse();
+            case CheckSensors.id:
+                CheckSensorsResponse sensor_response = new CheckSensorsResponse();
                 sensor_response.readings = sensors.CheckSensors();
                 return sensor_response;
-            case ItemQuery.id:
-                ItemQuery item_query = JsonConvert.DeserializeObject<ItemQuery>(recieved_data);
+            case GetItemCount.id:
+                GetItemCount item_query = JsonConvert.DeserializeObject<GetItemCount>(recieved_data);
 
                 if (Items.ItemExists(item_query.item_name))
                 {
                     Item item = Items.Lookup(item_query.item_name);
-                    ItemQueryResponse item_response = new ItemQueryResponse();
+                    GetItemCountResponse item_response = new GetItemCountResponse();
                     item_response.amount = inventory.GetItemCount(item);
                     return item_response;
                 }
-                else {
+                else
+                {
                     return Response.ErrorResponse($"Item '{item_query.item_name}' does not exist!");
                 }
-            case InventoryQuery.id:
-                InventoryQueryResponse inv_response = new InventoryQueryResponse();
+            case GetFullInventory.id:
+                GetFullInventoryResponse inv_response = new GetFullInventoryResponse();
                 inv_response.inventory = inventory.GetInventory().ToStringKeys();
                 return inv_response;
-            case MineScanQuery.id:
-                MineScanQuery scanQuery = JsonConvert.DeserializeObject<MineScanQuery>(recieved_data);
+            case ScanMine.id:
+                ScanMine scanQuery = JsonConvert.DeserializeObject<ScanMine>(recieved_data);
                 if (drill.IsInMine())
                 {
-                    MineScanQueryResponse scanResponse = new MineScanQueryResponse();
-                    scanResponse.scan_output_path = drill.HandleMineScanQuery(scanQuery);
+                    ScanMineResponse scanResponse = new ScanMineResponse();
+                    scanResponse.scan_output_path = drill.HandleScanMine(scanQuery);
                     return scanResponse;
                 }
                 else
                 {
                     return Response.ErrorResponse("Not in mine!");
                 }
-            case BeaconQuery.id:
-                BeaconQuery beaconQuery = JsonConvert.DeserializeObject<BeaconQuery>(recieved_data);
-                return beaconScanner.HandleBeaconQuery(beaconQuery);
-            case PrinterStatusQuery.id:
-                PrinterStatusQuery printerQuery = JsonConvert.DeserializeObject<PrinterStatusQuery>(recieved_data);
-                return printerInterface.HandlePrinterStatusQuery(printerQuery);
-            case ShipFloorQuery.id:
-                ShipFloorQueryResponse shipFloorResponse = new ShipFloorQueryResponse();
+            case ScanBeacons.id:
+                ScanBeacons scanBeacons = JsonConvert.DeserializeObject<ScanBeacons>(recieved_data);
+                return beaconScanner.HandleScanBeacons(scanBeacons);
+            case CheckPrinterStatus.id:
+                CheckPrinterStatus printerQuery = JsonConvert.DeserializeObject<CheckPrinterStatus>(recieved_data);
+                return printerInterface.HandleCheckPrinterStatus(printerQuery);
+            case GetFloor.id:
+                GetFloorResponse shipFloorResponse = new GetFloorResponse();
                 shipFloorResponse.floor = Ship.GetFloor(transform.position);
                 return shipFloorResponse;
+            case CheckGrowBoxStatus.id:
+                CheckGrowBoxStatus plantQuery = JsonConvert.DeserializeObject<CheckGrowBoxStatus>(recieved_data);
+                return planter.HandleCheckGrowBoxStatus(plantQuery);
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }

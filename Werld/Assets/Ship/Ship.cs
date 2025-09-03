@@ -49,7 +49,7 @@ public class Ship : MonoBehaviour
 
     public static int GetFloor(Vector3 position)
     {
-        int floor = 1+(int)(position.y / 20.0f);
+        int floor = 1 + (int)(position.y / 20.0f);
         if (floor <= 0)
         {
             floor = -1;
@@ -65,4 +65,5 @@ public class Ship : MonoBehaviour
         response.bits = bits;
         return response;
     }
+    
 }

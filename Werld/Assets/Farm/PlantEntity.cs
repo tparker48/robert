@@ -12,7 +12,7 @@ public enum PlantPhase
 public class PlantEntity
 {
     public Plant plant;
-    private float ageInSeconds;
+    public float ageInSeconds;
     public PlantPhase phase;
 
     public PlantEntity(Plant plant)

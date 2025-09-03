@@ -4,6 +4,8 @@ using UnityEngine;
 // Report "busy" status while a task is running.
 public abstract class RobertTaskExecutor : MonoBehaviour
 {
+    public string busyText = "";
+
     protected bool busy = false;
 
     public void Halt()
@@ -14,6 +16,11 @@ public abstract class RobertTaskExecutor : MonoBehaviour
     public bool IsBusy()
     {
         return busy;
+    }
+
+    public string GetBusyText()
+    {
+        return busyText;
     }
 
     public abstract float PercentComplete();

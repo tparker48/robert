@@ -44,6 +44,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         moveTask.moveCmd = cmd;
         moveTask.targetPosition = newTarget;
         moveTask.initialDiff = GetPositionDiff(transform.position, newTarget).magnitude;
+        busyText = "Moving";
         StartProgressiveTask(moveTask);
     }
 
@@ -62,6 +63,7 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         rotateTask.targetRotation = newTarget;
         rotateTask.rotationDir = cmd.angle > 0.0 ? 1.0f : -1.0f;
         rotateTask.initialDiff = GetRotationDiff(transform.localEulerAngles.y, newTarget);
+        busyText = "Rotating";
         StartProgressiveTask(rotateTask);
     }
 

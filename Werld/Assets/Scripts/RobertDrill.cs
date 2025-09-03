@@ -4,7 +4,7 @@ using UnityEngine;
 public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
 {
     private float mineSpeed = 1.0f;
-    public int scanRadius = 10;
+    public int scanRadius = 35;
     private bool isInMine = false;
 
     private Vector3 mineTarget;
@@ -46,9 +46,9 @@ public class RobertDrill : RobertTimedTaskExecutor<MineCommand>
         }
     }
 
-    public string HandleMineScanQuery(MineScanQuery _)
+    public string HandleScanMine(ScanMine _)
     {
-        string filepath = "tempdata/mine_scan.txt";
+        string filepath = Application.dataPath + "/tempdata/mine_scan.txt";
         string map = Cave.Instance.Scan(transform.position, scanRadius);
         File.WriteAllText(filepath, map);
         return filepath;
