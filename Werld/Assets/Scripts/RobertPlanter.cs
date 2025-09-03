@@ -1,7 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
+public class PlanterJob
+{
+    public PlantCommand plantCommand = null;
+    public HarvestCommand harvestCommand = null;
+}
+
+public class RobertPlanter : RobertTimedTaskExecutor<PlanterJob>
 {
     private ItemContainer inventory;
     private RobertSensors sensors;
@@ -19,7 +24,18 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
 
     public void HandlePlantCommand(PlantCommand plantCommand)
     {
-        StartTimedTask(plantCommand, 5.0f);
+        PlanterJob job = new PlanterJob();
+        job.plantCommand = plantCommand;
+        busyText = "Planting";
+        StartTimedTask(job, 5.0f);
+    }
+
+    public void HandleHarvestCommand(HarvestCommand harvestCommand)
+    {
+        PlanterJob job = new PlanterJob();
+        job.harvestCommand = harvestCommand;
+        busyText = "Harvesting";
+        StartTimedTask(job, 1.0f);
     }
 
     public void ProcessPlantCommand(PlantCommand plantCommand)
@@ -28,21 +44,60 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlantCommand>
         GrowBox box = null;
         if (sensors.GetObjectOfType(ref box))
         {
-            Debug.Log("Found Grow Box for PlantCommand!");
             if (box.Empty() && inventory.GetItemCount(seedItem) > 0)
             {
-                Debug.Log("GrowBox is empty and we have at least 1 seed!");
                 if (box.PlantSeeds(seedItem))
                 {
-                    Debug.Log("Planted!");
                     inventory.RemoveItem(seedItem, 1);
                 }
             }
         }
     }
 
-    protected override void ExecuteOnTaskEnd(PlantCommand plantCommand)
+    public void ProcessHarvestCommand(HarvestCommand _)
     {
-        ProcessPlantCommand(plantCommand);
+        GrowBox box = null;
+        if (sensors.GetObjectOfType(ref box))
+        {
+            if (box.CanHarvest())
+            {
+                box.Harvest(ref inventory);
+            }
+        }
+    }
+
+    protected override void ExecuteOnTaskEnd(PlanterJob job)
+    {
+        if (job.plantCommand != null)
+        {
+            ProcessPlantCommand(job.plantCommand);
+        }
+        else if (job.harvestCommand != null)
+        {
+            ProcessHarvestCommand(job.harvestCommand);
+        }
+
+    }
+
+    public Response HandleCheckGrowBoxStatus(CheckGrowBoxStatus _)
+    {
+        CheckGrowBoxStatusResponse response = new CheckGrowBoxStatusResponse();
+        response.grow_box_in_range = false;
+
+        GrowBox box = null;
+        if (sensors.GetObjectOfType(ref box))
+        {
+            response.grow_box_in_range = true;
+            PlantEntity plantEntity = box.GetPlant();
+            if (plantEntity != null)
+            {
+                response.has_plant = true;
+                response.plant_name = plantEntity.plant.name;
+                response.ready_to_harvest = box.CanHarvest();
+                response.plant_age_seconds = plantEntity.ageInSeconds;
+                response.plant_phase_times = plantEntity.plant.growthPhaseTimes;
+            }
+        }
+        return response;
     }
 }

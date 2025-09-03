@@ -407,6 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6190bdb3da8e584aa88eb686c753b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyText: 
 --- !u!114 &698061480928350047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d302b585e1b90324faf2d0b53112697d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyText: 
+  scanRadius: 10
 --- !u!114 &3810486735161197643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a4a7cb9d4a237409164b3264b98d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyText: 
 --- !u!114 &2999076556842526217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,19 +571,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5757302371965565806, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: offset
-      value: 1.25
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5757302371965565806, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: textColor.b
-      value: 0.63529414
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5757302371965565806, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: textColor.g
-      value: 0.63529414
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5757302371965565806, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: textColor.r
-      value: 0.63529414
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: m_LocalPosition.x

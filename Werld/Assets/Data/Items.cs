@@ -1,6 +1,7 @@
-public class Item: JsonDataObject
+public class Item : JsonDataObject
 {
     public int id { get; set; }
+    public uint value { get; set; }
 }
 
 public static class Items

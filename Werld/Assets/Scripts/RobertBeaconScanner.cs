@@ -74,15 +74,15 @@ public class RobertBeaconScanner : MonoBehaviour
         //beaconsInRange.RemoveWhere(beacon => beacon==null || beacon.IsDestroyed());
     }
 
-    public Response HandleBeaconQuery(BeaconQuery beaconQuery)
+    public Response HandleScanBeacons(ScanBeacons ScanBeacons)
     {
         List<Beacon> beacons = GetBeacons();
-        BeaconQueryResponse beaconResponse = new BeaconQueryResponse();
+        ScanBeaconsResponse beaconResponse = new ScanBeaconsResponse();
         beaconResponse.beacons = new Dictionary<string, float[]>();
 
         for (int i = 0; i < beacons.Count; i++)
         {
-            Vector2 position = GetBeaconPosition(beacons[i], beaconQuery.relative);
+            Vector2 position = GetBeaconPosition(beacons[i], ScanBeacons.relative);
             beaconResponse.beacons[beacons[i].beaconName] = new float[2] { position.x, position.y };
         }
         Debug.Log("Beacon Query Complete");

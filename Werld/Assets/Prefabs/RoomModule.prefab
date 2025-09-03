@@ -1279,7 +1279,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2892899874965409971, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: beaconName
-      value: Room 1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
       propertyPath: m_LocalPosition.x

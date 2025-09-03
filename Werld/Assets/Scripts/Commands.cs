@@ -6,6 +6,7 @@ public class Command
     public const string id = "";
     public string cmd_id { get; set; }
     public bool ship_command { get; set; }
+    public bool is_query { get; set; }
 }
 
 public class Response
@@ -62,6 +63,11 @@ public class PlantCommand : BotCommand
     public string seed_item { get; set; }
 }
 
+public class HarvestCommand : BotCommand
+{
+    new public const string id = "harvest";
+}
+
 public class PrinterFillCommand : BotCommand
 {
     new public const string id = "printer_fill";
@@ -86,6 +92,13 @@ public class PrinterRetrieveCommand : BotCommand
     public bool from_input { get; set; }
     public bool collect_all { get; set; }
     public Dictionary<string, uint> items_to_collect { get; set; }
+}
+
+public class SellCommand : BotCommand
+{
+    new public const string id = "sell";
+    public string item_name { get; set; }
+    public uint quantity { get; set; }
 }
 
 public class HaltCommand : BotCommand
@@ -117,92 +130,109 @@ public class MineReturnCommand : BotCommand
 
 
 // Bot Queries
-public class BusyQuery : BotCommand
+public class CheckBusy : BotCommand
 {
-    new public const string id = "busy_query";
-    public float[] rotation { get; set; }
-    public bool relative { get; set; }
+    new public const string id = "check_busy";
 }
-public class BusyQueryResponse : Response
+public class CheckBusyResponse : Response
 {
     public bool busy { get; set; }
 }
 
-public class PositionQuery: BotCommand
+public class GetPosition: BotCommand
 {
-    new public const string id = "position_query";
+    new public const string id = "get_position";
 }
-public class PositionQueryResponse : Response
+public class GetPositionResponse : Response
 {
     public float[] position { get; set; }
     public float[] rotation { get; set; }
 }
 
-public class SensorQuery: BotCommand 
+public class CheckSensors: BotCommand 
 {
-    new public const string id = "sensor_query";
+    new public const string id = "check_sensors";
 }
-public class SensorQueryResponse : Response
+public class CheckSensorsResponse : Response
 {
     public bool[] readings { get; set; }
 }
 
-public class ItemQuery : BotCommand
+public class GetItemCount : BotCommand
 {
-    new public const string id = "item_query";
+    new public const string id = "get_item_count";
     public string item_name { get; set; }
 }
-public class ItemQueryResponse : Response
+public class GetItemCountResponse : Response
 {
     public uint amount { get; set; }
 }
 
-public class InventoryQuery : BotCommand
+public class GetFullInventory : BotCommand
 {
-    new public const string id = "inventory_query";
+    new public const string id = "get_full_inventory";
 }
-public class InventoryQueryResponse : Response
+public class GetFullInventoryResponse : Response
 {
     public Dictionary<string, uint> inventory;
 }
 
-public class MineScanQuery : BotCommand
+public class ScanMine : BotCommand
 {
-    new public const string id = "mine_scan_query";
+    new public const string id = "scan_mine";
 }
-public class MineScanQueryResponse : Response
+public class ScanMineResponse : Response
 {
     public string scan_output_path { get; set; }
 }
 
-public class BeaconQuery : BotCommand
+public class ScanBeacons : BotCommand
 {
-    new public const string id = "beacon_query";
+    new public const string id = "scan_beacons";
     public bool relative { get; set; }
 }
-public class BeaconQueryResponse : Response
+public class ScanBeaconsResponse : Response
 {
     public Dictionary<string, float[]> beacons;
 }
 
-public class PrinterStatusQuery : BotCommand
+public class CheckPrinterStatus : BotCommand
 {
-    new public const string id = "printer_status_query";
+    new public const string id = "check_printer_status";
 }
-public class PrinterStatusQueryResponse : Response
+public class CheckPrinterStatusResponse : Response
 {
     public Dictionary<string, uint> inputs { get; set; }
     public Dictionary<string, uint> outputs { get; set; }
     public bool busy;
 }
 
-public class ShipFloorQuery : BotCommand
+public class GetFloor : BotCommand
 {
-    new public const string id = "ship_floor_query";
+    new public const string id = "get_floor";
 }
-public class ShipFloorQueryResponse : Response
+public class GetFloorResponse : Response
 {
     public int floor { get; set; }
+}
+
+public class CheckGrowBoxStatus : BotCommand
+{
+    new public const string id = "check_growbox_status";
+}
+public class CheckGrowBoxStatusResponse : Response
+{
+    public bool grow_box_in_range { get; set; }
+    public bool has_plant { get; set; }
+    public string plant_name { get; set; }
+    public bool ready_to_harvest { get; set; }
+    public float plant_age_seconds { get; set; }
+    public float[] plant_phase_times { get; set; }
+}
+
+public class CheckSellValue : BotCommand
+{
+    new public const string id = "check_sell_value";
 }
 
 // SHIP COMMANDS

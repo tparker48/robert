@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -7,13 +6,18 @@ public class CameraController : MonoBehaviour
 
     public float moveSpeed = 17.0f;
     public float lookSpeed = 1.0f;
+    public float scrollSpeed = 0.02f;
 
     private Vector3 lastMousePosition;
     private Vector3 mouseDrag;
 
     public Vector3 positionBounds = new Vector3(50, 0, 50);
+    public float fovMin = 20.0f;
+    public float fovMax = 50.0f;
 
     public static CameraController Instance = null;
+
+    public float zoomAmount = 0.0f;
 
     void Awake()
     {
@@ -68,10 +72,13 @@ public class CameraController : MonoBehaviour
             lastMousePosition = Input.mousePosition;
         }
 
+        zoomAmount = Mathf.Clamp(zoomAmount + Input.mouseScrollDelta.y * scrollSpeed, 0.0f, 1.0f);
+        GetComponent<Camera>().fieldOfView = Mathf.Lerp(fovMin,fovMax, 1.0f-zoomAmount);
+
 
         for (int i = 0; i < 8; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1+i))
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 SetCameraFloor(i);
             }

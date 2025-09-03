@@ -18,6 +18,8 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
 
     public void Start()
     {
+        busyText = "Printing";
+        
         inputs = GetComponents<ItemContainer>()[0];
         outputs = GetComponents<ItemContainer>()[1];
 
@@ -118,9 +120,9 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
         ExecutePrintJob(task);
     }
 
-    public PrinterStatusQueryResponse HandlePrinterStatusQuery(PrinterStatusQuery _)
+    public CheckPrinterStatusResponse HandleCheckPrinterStatus(CheckPrinterStatus _)
     {
-        PrinterStatusQueryResponse resp = new PrinterStatusQueryResponse();
+        CheckPrinterStatusResponse resp = new CheckPrinterStatusResponse();
         resp.busy = IsBusy();
         resp.inputs = new Dictionary<string, uint>();
         resp.outputs = new Dictionary<string, uint>();

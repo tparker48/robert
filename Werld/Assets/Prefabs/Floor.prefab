@@ -31,10 +31,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5282378714377013495}
-  - {fileID: 3781284069129151968}
-  - {fileID: 5549877046411356218}
-  - {fileID: 4090915794829396418}
   - {fileID: 7633751387175226030}
+  - {fileID: 4090915794829396418}
+  - {fileID: 5549877046411356218}
+  - {fileID: 3781284069129151968}
   - {fileID: 5080801955851136348}
   - {fileID: 7924737636357000813}
   - {fileID: 5963278169097746061}
@@ -505,11 +505,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 7
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: R3
+      value: L2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -582,11 +582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 5
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: R1
+      value: L4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -663,7 +663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Control Room
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5088168383083084061, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: open
@@ -679,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: ControlRoom
+      value: Control Room
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -741,7 +741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Elevator
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5088168383083084061, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: open
@@ -757,7 +757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: ElevatorRoom
+      value: Elevator Room
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -819,11 +819,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 8
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: R4
+      value: L1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -896,11 +896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 3
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: L3
+      value: R2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -973,7 +973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: L1
+      value: R4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1046,11 +1046,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 6
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: R2
+      value: L3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1123,11 +1123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 4
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: L4
+      value: R1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1200,11 +1200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047735719086770691, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: beaconName
-      value: Room 2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
       propertyPath: m_Name
-      value: L2
+      value: R3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

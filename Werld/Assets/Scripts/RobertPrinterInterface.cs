@@ -66,11 +66,11 @@ public class RobertPrinterInterface : MonoBehaviour
         printer.Stop();
     }
 
-    public Response HandlePrinterStatusQuery(PrinterStatusQuery printerQuery)
+    public Response HandleCheckPrinterStatus(CheckPrinterStatus printerQuery)
     {
         Printer printer = GetPrinterInRange();
         if (printer == null) return Response.ErrorResponse("No printer near bot!");
-        return printer.HandlePrinterStatusQuery(printerQuery);
+        return printer.HandleCheckPrinterStatus(printerQuery);
     }
 
     private Printer GetPrinterInRange()
