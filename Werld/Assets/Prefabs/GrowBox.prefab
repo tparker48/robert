@@ -420,6 +420,89 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0000005, y: 1, z: 1.0000005}
   m_Center: {x: 0.0000009536747, y: 0, z: -0.0000019073495}
+--- !u!1 &5090549777052920875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4753588445857801685}
+  - component: {fileID: 7025969285858256971}
+  - component: {fileID: 1202383545020401480}
+  - component: {fileID: 8605271051140066453}
+  m_Layer: 0
+  m_Name: Beacon
+  m_TagString: Beacon
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4753588445857801685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090549777052920875}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.84, y: 0, z: 0}
+  m_LocalScale: {x: 0.54, y: 0.73, z: 0.31}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 9215913754607169222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7025969285858256971
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090549777052920875}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1202383545020401480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090549777052920875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc1dd806ecb33e44a69f733732bc8ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beaconName: Grow Box
+--- !u!114 &8605271051140066453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090549777052920875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f656d407ac2f98479744462e5adb19c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  offset: 3
 --- !u!1 &5409332453255561081
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,8 +741,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6922904548373691834}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -671,7 +754,7 @@ Transform:
   - {fileID: 1039014004645224251}
   - {fileID: 1599079913297587717}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &3448893277263266885
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -755,85 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b364ef8a26f528847a963e306fcdd1f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seedlingModel: {fileID: 3798685533647563613}
-  youngModel: {fileID: 366622149285512776}
-  matureModel: {fileID: 6698843240213346611}
-  witheredModel: {fileID: 5409332453255561081}
---- !u!1001 &4074100068974761979
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 9215913754607169222}
-    m_Modifications:
-    - target: {fileID: 2892899874965409971, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: beaconName
-      value: Hydroponics Station
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9092583344072063952, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-      propertyPath: m_Name
-      value: Beacon
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
---- !u!4 &4753588445857801685 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8751127312493441582, guid: 2b90c83cf5248654e9836d6978cce466, type: 3}
-  m_PrefabInstance: {fileID: 4074100068974761979}
-  m_PrefabAsset: {fileID: 0}
+  seedlingModel: {fileID: 278959509055262185}
+  youngModel: {fileID: 2167188318382014782}
+  matureModel: {fileID: 1608756013703563236}
+  witheredModel: {fileID: 2968979961175710766}
