@@ -1,10 +1,6 @@
 {
     "dataObjects": [
         {
-            "name": "Bits",
-            "value": 1
-        },
-        {
             "name": "Stone",
             "value": 1
         },

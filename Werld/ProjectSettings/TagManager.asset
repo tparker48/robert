@@ -8,6 +8,7 @@ TagManager:
   - Box
   - Beacon
   - Robert
+  - Build Selector
   layers:
   - Default
   - TransparentFX

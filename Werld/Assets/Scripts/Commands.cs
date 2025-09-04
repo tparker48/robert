@@ -94,10 +94,10 @@ public class PrinterRetrieveCommand : BotCommand
     public Dictionary<string, uint> items_to_collect { get; set; }
 }
 
-public class SellCommand : BotCommand
+public class SellItemCommand : BotCommand
 {
     new public const string id = "sell";
-    public string item_name { get; set; }
+    public string item { get; set; }
     public uint quantity { get; set; }
 }
 
@@ -233,6 +233,12 @@ public class CheckGrowBoxStatusResponse : Response
 public class CheckSellValue : BotCommand
 {
     new public const string id = "check_sell_value";
+    public string item { get; set; }
+}
+public class CheckSellValueResponse : Response
+{
+    public bool valid_item { get; set; }
+    public int sell_value{ get; set; }
 }
 
 // SHIP COMMANDS

@@ -170,6 +170,14 @@ public class Robert : MonoBehaviour
                     Cave.Instance.ReturnBot(this);
                 }
                 break;
+            case SellItemCommand.id:
+                SellItemCommand sellCmd = new SellItemCommand();
+                Tradepost tradepost = null;
+                if (sensors.GetObjectOfType(ref tradepost))
+                {
+                    tradepost.HandleSellCommand(ref inventory, sellCmd);
+                }
+                break;
             default:
                 Debug.Log("Unrecognized cmd_id");
                 break;
@@ -246,6 +254,17 @@ public class Robert : MonoBehaviour
             case CheckGrowBoxStatus.id:
                 CheckGrowBoxStatus plantQuery = JsonConvert.DeserializeObject<CheckGrowBoxStatus>(recieved_data);
                 return planter.HandleCheckGrowBoxStatus(plantQuery);
+            case CheckSellValue.id:
+                CheckSellValue sellValueQuery = new CheckSellValue();
+                Tradepost tradepost = null;
+                if (sensors.GetObjectOfType(ref tradepost))
+                {
+                    return tradepost.HandleCheckSellValue(sellValueQuery);
+                }
+                else
+                {
+                    return Response.ErrorResponse("Not at a tradepost!");
+                }
             default:
                 return Response.ErrorResponse("Unrecognized cmd_id");
         }
