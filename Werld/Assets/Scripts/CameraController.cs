@@ -72,9 +72,11 @@ public class CameraController : MonoBehaviour
             lastMousePosition = Input.mousePosition;
         }
 
-        zoomAmount = Mathf.Clamp(zoomAmount + Input.mouseScrollDelta.y * scrollSpeed, 0.0f, 1.0f);
-        GetComponent<Camera>().fieldOfView = Mathf.Lerp(fovMin,fovMax, 1.0f-zoomAmount);
-
+        if (!ShipBuilder.Instance.buildModeActive)
+        {
+            zoomAmount = Mathf.Clamp(zoomAmount + Input.mouseScrollDelta.y * scrollSpeed, 0.0f, 1.0f);
+            GetComponent<Camera>().fieldOfView = Mathf.Lerp(fovMin, fovMax, 1.0f - zoomAmount);
+        }
 
         for (int i = 0; i < 8; i++)
         {

@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,9 +9,14 @@ public class ShipBuilder : MonoBehaviour
     public Button buildButton;
     public bool buildModeActive = false;
 
+    public TextMeshProUGUI equipmentToBuild;
+
     public static ShipBuilder Instance = null;
 
     public Room selectedRoom = null;
+
+    public List<GameObject> equipmentPrefabs;
+    private int equipmentSelectedIndex = 0;
 
     void Awake()
     {
@@ -29,7 +34,7 @@ public class ShipBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        equipmentToBuild.enabled = false;
     }
 
     // Update is called once per frame
@@ -37,7 +42,33 @@ public class ShipBuilder : MonoBehaviour
     {
         if (buildModeActive)
         {
-            CheckMouseOverRoom();            
+            CheckMouseOverRoom();
+
+
+            if (Input.mouseScrollDelta.y > 0)
+            {
+                equipmentSelectedIndex++;
+            }
+            else if (Input.mouseScrollDelta.y < 0)
+            {
+                equipmentSelectedIndex--;
+            }
+            equipmentSelectedIndex = Math.Clamp(equipmentSelectedIndex, 0, equipmentPrefabs.Count - 1);
+
+            equipmentToBuild.text = equipmentPrefabs[equipmentSelectedIndex].name;
+        }
+
+        if (Input.GetMouseButtonDown(0) && selectedRoom != null)
+        {
+            if (selectedRoom.CanBuild())
+            {
+                Debug.Log("Hi I can build now!");
+                selectedRoom.AddEquipment(equipmentPrefabs[equipmentSelectedIndex]);
+            }
+            else
+            {
+                Debug.Log("I CANNOT BUILD NOW");
+            }
         }
 
     }
@@ -63,6 +94,7 @@ public class ShipBuilder : MonoBehaviour
         if (buildModeActive)
         {
             buildButton.GetComponentInChildren<TextMeshProUGUI>().text = "CANCEL";
+            equipmentToBuild.enabled = true;
 
             foreach (Floor floor in Ship.Instance.floors)
             {
@@ -77,6 +109,7 @@ public class ShipBuilder : MonoBehaviour
         else
         {
             buildButton.GetComponentInChildren<TextMeshProUGUI>().text = "BUILD";
+            equipmentToBuild.enabled = false;
 
             foreach (Floor floor in Ship.Instance.floors)
             {

@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HoverText : MonoBehaviour
 {
@@ -16,6 +12,7 @@ public class HoverText : MonoBehaviour
     public float baseFontSize = 24.0f;
 
     public static HoverText Instance;
+    public Transform overlayObject;
 
     public bool modKeyDown = false;
     public bool toggleKey = true;
@@ -58,7 +55,7 @@ public class HoverText : MonoBehaviour
 
         if (!hoverTexts.ContainsKey(textKey))
         {
-            hoverTexts[textKey] = Instantiate(textPrefab, transform);
+            hoverTexts[textKey] = Instantiate(textPrefab, overlayObject);
         }
         hoverTexts[textKey].transform.position = screenPosition;
         hoverTexts[textKey].text = txt;

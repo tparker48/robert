@@ -62,4 +62,9 @@ public class Room : MonoBehaviour
         equipment = Instantiate(prefab, transform);
         //equipment.transform.position = new Vector3(0, 0, 0);
     }
+
+    public bool CanBuild()
+    {
+        return equipment == null;
+    }
 }
