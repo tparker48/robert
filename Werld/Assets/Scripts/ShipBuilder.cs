@@ -8,8 +8,15 @@ public class ShipBuilder : MonoBehaviour
 {
     public Button buildButton;
     public bool buildModeActive = false;
+    public TextMeshProUGUI equipmentSelectionText;
 
-    public TextMeshProUGUI equipmentToBuild;
+    public Button demolishButton;
+    public bool demoModeActive = false;
+    public TextMeshProUGUI demoBitsText;
+
+    public Button NewFloorButton;
+    public TextMeshProUGUI floorCostText;
+
 
     public static ShipBuilder Instance = null;
 
@@ -34,7 +41,7 @@ public class ShipBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        equipmentToBuild.enabled = false;
+        equipmentSelectionText.enabled = false;
     }
 
     // Update is called once per frame
@@ -43,7 +50,6 @@ public class ShipBuilder : MonoBehaviour
         if (buildModeActive)
         {
             CheckMouseOverRoom();
-
 
             if (Input.mouseScrollDelta.y > 0)
             {
@@ -54,23 +60,35 @@ public class ShipBuilder : MonoBehaviour
                 equipmentSelectedIndex--;
             }
             equipmentSelectedIndex = Math.Clamp(equipmentSelectedIndex, 0, equipmentPrefabs.Count - 1);
+            
+            equipmentSelectionText.text = equipmentPrefabs[equipmentSelectedIndex].name;
 
-            equipmentToBuild.text = equipmentPrefabs[equipmentSelectedIndex].name;
+            if (Input.GetMouseButtonDown(0) && selectedRoom != null)
+            {
+                if (selectedRoom.CanBuild())
+                {
+                    selectedRoom.AddEquipment(equipmentPrefabs[equipmentSelectedIndex]);
+                }
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && selectedRoom != null)
+        if (demoModeActive)
         {
-            if (selectedRoom.CanBuild())
+            CheckMouseOverRoom();
+            if (selectedRoom != null)
             {
-                Debug.Log("Hi I can build now!");
-                selectedRoom.AddEquipment(equipmentPrefabs[equipmentSelectedIndex]);
+                demoBitsText.text = $"+{selectedRoom.GetDemolishValue()} bits";
             }
             else
             {
-                Debug.Log("I CANNOT BUILD NOW");
+                demoBitsText.text = "";
+            }
+
+            if (Input.GetMouseButtonDown(0) && selectedRoom != null)
+            {
+                selectedRoom.Demolish();
             }
         }
-
     }
 
     private void CheckMouseOverRoom()
@@ -88,35 +106,53 @@ public class ShipBuilder : MonoBehaviour
         }
     }
 
+    public void ToggleDemoMode()
+    {
+        if (buildModeActive) { return; }
+
+        demoModeActive = !demoModeActive;
+        if (demoModeActive)
+        {
+            demolishButton.GetComponentInChildren<TextMeshProUGUI>().text = "CANCEL";
+            demoBitsText.text = "";
+            demoBitsText.enabled = true;
+        }
+        else
+        {
+            demolishButton.GetComponentInChildren<TextMeshProUGUI>().text = "DEMOLISH";
+            demoBitsText.enabled = false;
+        }
+        foreach (Floor floor in Ship.Instance.floors)
+        {
+            foreach (Room room in floor.rooms)
+            {
+                room.SetBuildSelectorActive(demoModeActive);
+            }
+        }
+    }
+
     public void ToggleBuildMode()
     {
+        if (demoModeActive) { return; }
+
         buildModeActive = !buildModeActive;
+        
         if (buildModeActive)
         {
             buildButton.GetComponentInChildren<TextMeshProUGUI>().text = "CANCEL";
-            equipmentToBuild.enabled = true;
-
-            foreach (Floor floor in Ship.Instance.floors)
-            {
-                foreach (Room room in floor.rooms)
-                {
-                    Debug.Log("Room");
-                    room.SetBuildSelectorActive(true);
-                }
-            }
-
+            equipmentSelectionText.enabled = true;
         }
         else
         {
             buildButton.GetComponentInChildren<TextMeshProUGUI>().text = "BUILD";
-            equipmentToBuild.enabled = false;
+            equipmentSelectionText.enabled = false;
+        }
 
-            foreach (Floor floor in Ship.Instance.floors)
+        foreach (Floor floor in Ship.Instance.floors)
+        {
+            foreach (Room room in floor.rooms)
             {
-                foreach (Room room in floor.rooms)
-                {
-                    room.SetBuildSelectorActive(false);
-                }
+                room.SetBuildSelectorActive(buildModeActive);
             }
         }
     }

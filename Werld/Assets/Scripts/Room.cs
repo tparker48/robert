@@ -44,17 +44,44 @@ public class Room : MonoBehaviour
         highlighted = true;
     }
 
+    public int GetDemolishValue()
+    {
+        return 1;//equipment.demoValue;
+    }
+
     public void CheckSelected()
     {
-        if (ShipBuilder.Instance.selectedRoom == this)
+        if (ShipBuilder.Instance.buildModeActive)
         {
-            highlighter.GetComponent<Renderer>().material = (equipment == null) ? selectedGood : selectedBad;
+            if (ShipBuilder.Instance.selectedRoom == this)
+            {
+                highlighter.GetComponent<Renderer>().material = (equipment == null) ? selectedGood : selectedBad;
+            }
+            else
+            {
+                highlighter.GetComponent<Renderer>().material = notSelected;
+            }
         }
-        else
+        else if (ShipBuilder.Instance.demoModeActive)
         {
-            highlighter.GetComponent<Renderer>().material = notSelected;
+            if (ShipBuilder.Instance.selectedRoom == this)
+            {
+                highlighter.GetComponent<Renderer>().material = (equipment == null) ? notSelected : selectedBad;
+            }
+            else
+            {
+                highlighter.GetComponent<Renderer>().material = notSelected;
+            }
         }
+        
 
+    }
+
+    public void Demolish()
+    {
+        Ship.Instance.bits += (uint)GetDemolishValue();
+        Destroy(equipment);
+        equipment = null;
     }
 
     public void AddEquipment(GameObject prefab)

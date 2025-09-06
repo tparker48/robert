@@ -7,7 +7,7 @@ public class Beacon : MonoBehaviour
     public void Start()
     {
         Label beaconLabel = GetComponent<Label>();
-        beaconLabel.text = "["+ beaconName + "]";
+        beaconLabel.text = "[" + beaconName + "]";
         beaconLabel.textColor = Color.cyan;
     }
 

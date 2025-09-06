@@ -13,7 +13,7 @@ public class Label : MonoBehaviour
     {
         key = HoverText.Instance.GetUniqueTextKey();
         HoverText.Instance.OverlayText(key, text, transform.position, offset);
-        
+
     }
 
     // Update is called once per frame
@@ -21,5 +21,10 @@ public class Label : MonoBehaviour
     {
         HoverText.Instance.OverlayText(key, text, transform.position, offset);
         HoverText.Instance.SetOverlayTextColor(key, textColor);
+    }
+
+    public void OnDestroy()
+    {
+        HoverText.Instance.RemoveOverlay(key);
     }
 }

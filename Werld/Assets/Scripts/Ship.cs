@@ -44,6 +44,7 @@ public class Ship : MonoBehaviour
     {
         Floor newFloor = Instantiate(floorPrefab, transform);
         newFloor.transform.position = new Vector3(transform.position.x, transform.position.y + floorHeight * floors.Count, transform.position.z);
+        newFloor.SetFloorLevel(floors.Count); // 0 1 2 3 ...
         floors.Add(newFloor);
     }
 
