@@ -40,6 +40,7 @@ public class Room : MonoBehaviour
 
     public void SetBuildSelectorActive(bool active)
     {
+        Debug.Log("sdfasdfasdf");
         highlighter.GetComponent<MeshRenderer>().enabled = active;
         highlighted = true;
     }

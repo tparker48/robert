@@ -42,6 +42,8 @@ public class ShipBuilder : MonoBehaviour
     void Start()
     {
         equipmentSelectionText.enabled = false;
+        demoBitsText.enabled = false;
+        floorCostText.enabled = false;
     }
 
     // Update is called once per frame
@@ -61,7 +63,7 @@ public class ShipBuilder : MonoBehaviour
             }
             equipmentSelectedIndex = Math.Clamp(equipmentSelectedIndex, 0, equipmentPrefabs.Count - 1);
             
-            equipmentSelectionText.text = equipmentPrefabs[equipmentSelectedIndex].name;
+            equipmentSelectionText.text = "<- " + equipmentPrefabs[equipmentSelectedIndex].name + " ->";
 
             if (Input.GetMouseButtonDown(0) && selectedRoom != null)
             {

@@ -67,9 +67,13 @@ public class HoverText : MonoBehaviour
 
     public void RemoveOverlay(string textKey)
     {
-        if (hoverTexts.ContainsKey(textKey))
+        if (textKey == null)
         {
-            DestroyImmediate(hoverTexts[textKey]);
+            return;
+        }
+        if (hoverTexts.ContainsKey(textKey) && hoverTexts[textKey] != null)
+        {
+            Destroy(hoverTexts[textKey]);
             hoverTexts.Remove(textKey);
         }
     }
