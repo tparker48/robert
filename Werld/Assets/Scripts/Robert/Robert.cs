@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 public class Robert : MonoBehaviour
 {
     public int id;
-
     Queue<string> commandQueue = new Queue<string>();
     bool command_running = false;
 
@@ -121,5 +120,4 @@ public class Robert : MonoBehaviour
         }
         return false;
     }
-
 }

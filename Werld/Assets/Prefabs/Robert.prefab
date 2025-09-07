@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 2999076556842526217}
   - component: {fileID: 2950753549976859777}
   - component: {fileID: 1558089695063636812}
+  - component: {fileID: 9066718920733932142}
   - component: {fileID: 2326469250203753391}
   m_Layer: 0
   m_Name: Robert
@@ -485,6 +486,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d18ea2bbcfeccc49a9a3ac1f69723c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9066718920733932142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431116723007412075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c9d84299e9a7f4f991626fb6948bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2326469250203753391

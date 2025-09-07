@@ -40,6 +40,15 @@
             "inputs": [
                 { "Gold Ore": 3 }
             ]
+        },
+        {
+            "name": "Carbon Fiber",
+            "level": 1,
+            "printTime": 0.5,
+            "inputs": [
+                { "Carbon Chunk": 15 },
+                { "Iron Ingot": 10 }
+            ]
         }
     ]
 }

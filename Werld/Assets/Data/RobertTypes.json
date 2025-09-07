@@ -1,0 +1,99 @@
+{
+    "dataObjects": [
+        {
+            "name": "Generic",
+            "initialCost": 250,
+            "moveSpeed": 1.0,
+            "capacity": 5,
+            "mineSpeed": 1.0,
+            "harvestMultiplier": 1.0,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "None",
+            "traitValues": [],
+            "upgradeMats": {}
+        },
+        {
+            "name": "Miner",
+            "initialCost": 500,
+            "moveSpeed": 0.75,
+            "capacity": 3,
+            "mineSpeed": 1.0,
+            "harvestMultiplier": 0.25,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "mineSpeed",
+            "traitValues": [1.5, 2.0, 2.5, 3.0, 5.0],
+            "upgradeMats": [
+                { "Carbon Chunk": 10, "Copper Ingot": 35 },
+                { "Carbon Chunk": 10, "Iron Ingot": 35 },
+                { "Carbon Chunk": 10, "Gold Ingot": 25 },
+                { "Carbon Chunk": 10, "Diamond": 5 }
+            ]
+        },
+        {
+            "name": "Planter",
+            "initialCost": 500,
+            "moveSpeed": 1.0,
+            "capacity": 5,
+            "mineSpeed": 0.25,
+            "harvestMultiplier": 1.0,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "harvestMultiplier",
+            "traitValues": [1.5, 2, 2.5, 3, 5],
+            "upgradeMats": [
+                { "Dried Leaves": 35, "Copper Ingot": 35 },
+                { "Dried Leaves": 35, "Iron Ingot": 35 },
+                { "Dried Leaves": 35, "Gold Ingot": 25 },
+                { "Dried Leaves": 35, "Diamond": 5 }
+            ]
+        },
+        {
+            "name": "Hauler",
+            "initialCost": 2000,
+            "moveSpeed": 0.5,
+            "capacity": 7,
+            "mineSpeed": 0.5,
+            "harvestMultiplier": 0.5,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "capacity",
+            "traitValues": [7, 14],
+            "upgradeMats": [
+                { "Stone": 1500, "Iron Ingot": 5 }
+            ]
+        },
+        {
+            "name": "Sprinter",
+            "initialCost": 2000,
+            "moveSpeed": 1.0,
+            "capacity": 1,
+            "mineSpeed": 0.01,
+            "harvestMultiplier": 0.5,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "moveSpeed",
+            "traitValues": [1.25, 1.5, 2.0, 2.5],
+            "upgradeMats": [
+                { "Carbon Fiber": 25 },
+                { "Carbon Fiber": 25, "Diamond": 1 },
+                { "Carbon Fiber": 25, "Diamond": 5 }
+            ]
+        },
+        {
+            "name": "Trader",
+            "initialCost": 250000,
+            "moveSpeed": 1.0,
+            "capacity": 5,
+            "mineSpeed": 1.0,
+            "harvestMultiplier": 1.0,
+            "sellValueMultiplier": 1.0,
+            "upgradeTrait": "sellValueMultiplier",
+            "traitValues": [1.15, 1.30, 1.45, 1.60, 1.75, 1.90, 2.0],
+            "upgradeMats": [
+                { "Diamond": 10 },
+                { "Diamond": 25 },
+                { "Diamond": 50 },
+                { "Diamond": 100 },
+                { "Diamond": 150 },
+                { "Diamond": 200 }
+            ]
+        }
+    ]
+}
