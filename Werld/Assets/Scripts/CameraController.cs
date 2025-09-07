@@ -33,12 +33,6 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -72,12 +66,9 @@ public class CameraController : MonoBehaviour
             lastMousePosition = Input.mousePosition;
         }
 
-        if (!ShipBuilder.Instance.buildModeActive)
-        {
-            zoomAmount = Mathf.Clamp(zoomAmount + Input.mouseScrollDelta.y * scrollSpeed, 0.0f, 1.0f);
-            GetComponent<Camera>().fieldOfView = Mathf.Lerp(fovMin, fovMax, 1.0f - zoomAmount);
-        }
-
+        zoomAmount = Mathf.Clamp(zoomAmount + Input.mouseScrollDelta.y * scrollSpeed, 0.0f, 1.0f);
+        GetComponent<Camera>().fieldOfView = Mathf.Lerp(fovMin, fovMax, 1.0f - zoomAmount);
+      
         for (int i = 0; i < 8; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class RobertBeaconScanner : MonoBehaviour
+public class RobertBeaconInterface : MonoBehaviour
 {
     public bool debugListBeacons = false;
 
@@ -74,15 +74,16 @@ public class RobertBeaconScanner : MonoBehaviour
         //beaconsInRange.RemoveWhere(beacon => beacon==null || beacon.IsDestroyed());
     }
 
-    public Response HandleScanBeacons(ScanBeacons ScanBeacons)
+    public Response HandleScanBeacons(string rawCmd)
     {
+        ScanBeacons scanBeacons = CommandParser.Parse<ScanBeacons>(rawCmd);
         List<Beacon> beacons = GetBeacons();
         ScanBeaconsResponse beaconResponse = new ScanBeaconsResponse();
         beaconResponse.beacons = new Dictionary<string, float[]>();
 
         for (int i = 0; i < beacons.Count; i++)
         {
-            Vector2 position = GetBeaconPosition(beacons[i], ScanBeacons.relative);
+            Vector2 position = GetBeaconPosition(beacons[i], scanBeacons.relative);
             beaconResponse.beacons[beacons[i].beaconName] = new float[2] { position.x, position.y };
         }
         Debug.Log("Beacon Query Complete");

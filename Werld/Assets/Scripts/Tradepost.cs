@@ -30,7 +30,7 @@ public class Tradepost : MonoBehaviour
         }
     }
 
-    public void HandleSellCommand(ref ItemContainer other, SellItemCommand cmd)
+    public void HandleSellItem(ref ItemContainer other, SellItem cmd)
     {
         Sell(ref other, Items.Lookup(cmd.item), cmd.quantity);
     }

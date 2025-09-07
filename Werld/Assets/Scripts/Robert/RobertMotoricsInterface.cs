@@ -1,18 +1,19 @@
+using Unity.VisualScripting.AssemblyQualifiedNameParser;
 using UnityEngine;
 
 public class MoveTask
 {
-    public MoveCommand moveCmd = null;
+    public Move moveCmd = null;
     public Vector3 targetPosition;
 
-    public RotateCommand rotateCommand = null;
+    public Rotate rotateCommand = null;
     public float targetRotation;
     public float rotationDir;
 
     public float initialDiff = 0.0f;
 }
 
-public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
+public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
 {
     float speed = 3.5f;
     float posDeadzoneMult = 0.4f;
@@ -31,8 +32,9 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         UpdateTask();
     }
 
-    public void HandleMoveCommand(MoveCommand cmd)
+    public void HandleMove(string rawCmd)
     {
+        Move cmd = CommandParser.Parse<Move>(rawCmd);
         Vector3 newTarget = new Vector3(cmd.position[0], 0.0f, cmd.position[1]);
         if (cmd.relative)
         {
@@ -48,8 +50,10 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         StartProgressiveTask(moveTask);
     }
 
-    public void HandleRotateCommand(RotateCommand cmd)
+    public void HandleRotate(string rawCmd)
     {
+        Rotate cmd = CommandParser.Parse<Rotate>(rawCmd);
+
         float newTarget = cmd.angle;
         if (cmd.relative)
         {
@@ -166,5 +170,34 @@ public class RobertMotorics : RobertProgressiveTaskExecutor<MoveTask>
         }
 
         return 0.0f;
+    }
+
+    public Response HandleGetPosition(string _)
+    {
+        GetPositionResponse position_response = new GetPositionResponse();
+        position_response.position = new float[3] {
+                    transform.position.x,
+                    transform.position.y,
+                    transform.position.z
+                };
+        position_response.rotation = new float[3] {
+                    transform.rotation.eulerAngles.x,
+                    transform.rotation.eulerAngles.y,
+                    transform.rotation.eulerAngles.z
+                };
+        return position_response;
+    }
+
+    public Response HandleGetShipFloor(string _) {
+        GetFloorResponse shipFloorResponse = new GetFloorResponse();
+        shipFloorResponse.floor = Ship.GetFloor(transform.position);
+        if (shipFloorResponse.floor == -1)
+        {
+            return Response.ErrorResponse("Not on ship!");
+        }
+        else
+        {  
+            return shipFloorResponse;
+        }
     }
 }

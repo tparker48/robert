@@ -16,13 +16,13 @@ public class Storage : MonoBehaviour
     {
     }
 
-    public bool HandleDepositToStorageCommand(DepositToStorageCommand cmd, ref ItemContainer other)
+    public bool HandleDepositToStorage(DepositToStorage cmd, ref ItemContainer other)
     {
         return container.TakeItemsFrom(ref other, new ItemGroup(cmd.items_to_deposit));
         
     }
 
-    public bool HandleWithdrawFromStorageCommand(WithdrawFromStorageCommand cmd, ref ItemContainer other)
+    public bool HandleWithdrawFromStorage(WithdrawFromStorage cmd, ref ItemContainer other)
     {
         return other.TakeItemsFrom(ref container, new ItemGroup(cmd.items_to_withdraw));
     }

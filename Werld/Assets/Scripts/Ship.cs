@@ -60,9 +60,9 @@ public class Ship : MonoBehaviour
 
     // public BuildBotResponse HandleBuildBotCommand(BuildBotCommand cmd) 
 
-    public ShipBitsQueryResponse HandleGetBitsQuery(ShipBitsQuery query)
+    public GetBitsResponse HandleGetBitsQuery(GetBits query)
     {
-        ShipBitsQueryResponse response = new ShipBitsQueryResponse();
+        GetBitsResponse response = new GetBitsResponse();
         response.bits = bits;
         return response;
     }

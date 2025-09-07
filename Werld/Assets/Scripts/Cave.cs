@@ -84,14 +84,14 @@ public class Cave : MonoBehaviour
     {
         roberts[bot] = bot.transform.position;
         bot.transform.position = spawnPoint;
-        bot.GetComponent<RobertDrill>().SetMineState(true);
+        bot.GetComponent<RobertMineInterface>().SetMineState(true);
     }
 
     public void ReturnBot(Robert bot)
     {
         bot.transform.position = roberts[bot];
         roberts.Remove(bot);
-        bot.GetComponent<RobertDrill>().SetMineState(false);
+        bot.GetComponent<RobertMineInterface>().SetMineState(false);
     }
 
     private void SetSpawnPoint()

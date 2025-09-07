@@ -3,18 +3,19 @@ using UnityEngine;
 public class RobertPrinterInterface : MonoBehaviour
 {
     private ItemContainer inventory;
-    private RobertSensors sensors;
+    private RobertSensorInterface sensors;
 
     private static Response noPrinterError = Response.ErrorResponse("No Printer in Range!");
 
     public void Start()
     {
         inventory = GetComponentInParent<ItemContainer>();
-        sensors = GetComponentInParent<RobertSensors>();
+        sensors = GetComponentInParent<RobertSensorInterface>();
     }
 
-    public void HandlePrinterFillCommand(PrinterFillCommand fillCommand)
+    public void HandlePrinterFill(string rawCmd)
     {
+        PrinterFill fillCommand = CommandParser.Parse<PrinterFill>(rawCmd);
         Printer printer = GetPrinterInRange();
         if (printer == null) return;
 
@@ -22,8 +23,9 @@ public class RobertPrinterInterface : MonoBehaviour
         printer.AddInputsFrom(ref inventory, itemsToAdd);
     }
 
-    public void HandlePrinterRetrieveCommand(PrinterRetrieveCommand retrieveCommand)
+    public void HandlePrinterRetrieve(string rawCmd)
     {
+        PrinterRetrieve retrieveCommand = CommandParser.Parse<PrinterRetrieve>(rawCmd);
         Printer printer = GetPrinterInRange();
         if (printer == null) return;
 
@@ -39,8 +41,9 @@ public class RobertPrinterInterface : MonoBehaviour
         }        
     }
 
-    public void HandlePrinterQueueJobCommand(PrinterQueueJob executeCommand)
+    public void HandlePrinterQueueJob(string rawCmd)
     {
+        PrinterQueueJob executeCommand= CommandParser.Parse<PrinterQueueJob>(rawCmd);
         Printer printer = GetPrinterInRange();
         if (printer == null) return;
 
@@ -59,18 +62,18 @@ public class RobertPrinterInterface : MonoBehaviour
         }
     }
 
-    public void HandlePrinterStopCommand(PrinterStopCommand _)
+    public void HandlePrinterStop(string _)
     {
         Printer printer = GetPrinterInRange();
         if (printer == null) return;
         printer.Stop();
     }
 
-    public Response HandleCheckPrinterStatus(CheckPrinterStatus printerQuery)
+    public Response HandleCheckPrinterStatus(string _)
     {
         Printer printer = GetPrinterInRange();
         if (printer == null) return Response.ErrorResponse("No printer near bot!");
-        return printer.HandleCheckPrinterStatus(printerQuery);
+        return printer.HandleCheckPrinterStatus();
     }
 
     private Printer GetPrinterInRange()

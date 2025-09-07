@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class PlanterJob
 {
-    public PlantCommand plantCommand = null;
-    public HarvestCommand harvestCommand = null;
+    public PlantSeed plantCommand = null;
+    public Harvest harvestCommand = null;
 }
 
-public class RobertPlanter : RobertTimedTaskExecutor<PlanterJob>
+public class RobertGrowboxInterface : RobertTimedTaskExecutor<PlanterJob>
 {
     private ItemContainer inventory;
-    private RobertSensors sensors;
+    private RobertSensorInterface sensors;
 
     public void Start()
     {
         inventory = GetComponentInParent<ItemContainer>();
-        sensors = GetComponentInParent<RobertSensors>();
+        sensors = GetComponentInParent<RobertSensorInterface>();
     }
 
     public void Update()
@@ -22,23 +22,25 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlanterJob>
         UpdateTask(Time.deltaTime);
     }
 
-    public void HandlePlantCommand(PlantCommand plantCommand)
+    public void HandlePlantSeed(string rawCmd)
     {
+        PlantSeed plantCommand = CommandParser.Parse<PlantSeed>(rawCmd);
         PlanterJob job = new PlanterJob();
         job.plantCommand = plantCommand;
         busyText = "Planting";
         StartTimedTask(job, 5.0f);
     }
 
-    public void HandleHarvestCommand(HarvestCommand harvestCommand)
+    public void HandleHarvest(string rawCmd)
     {
+        Harvest harvestCommand = CommandParser.Parse<Harvest>(rawCmd);
         PlanterJob job = new PlanterJob();
         job.harvestCommand = harvestCommand;
         busyText = "Harvesting";
         StartTimedTask(job, 1.0f);
     }
 
-    public void ProcessPlantCommand(PlantCommand plantCommand)
+    public void ProcessPlantSeed(PlantSeed plantCommand)
     {
         Item seedItem = Items.Lookup(plantCommand.seed_item);
         GrowBox box = null;
@@ -54,7 +56,7 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlanterJob>
         }
     }
 
-    public void ProcessHarvestCommand(HarvestCommand _)
+    public void ProcessHarvest(Harvest _)
     {
         GrowBox box = null;
         if (sensors.GetObjectOfType(ref box))
@@ -70,16 +72,16 @@ public class RobertPlanter : RobertTimedTaskExecutor<PlanterJob>
     {
         if (job.plantCommand != null)
         {
-            ProcessPlantCommand(job.plantCommand);
+            ProcessPlantSeed(job.plantCommand);
         }
         else if (job.harvestCommand != null)
         {
-            ProcessHarvestCommand(job.harvestCommand);
+            ProcessHarvest(job.harvestCommand);
         }
 
     }
 
-    public Response HandleCheckGrowBoxStatus(CheckGrowBoxStatus _)
+    public Response HandleCheckGrowBoxStatus(string _)
     {
         CheckGrowBoxStatusResponse response = new CheckGrowBoxStatusResponse();
         response.grow_box_in_range = false;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RobertSensors : MonoBehaviour
+public class RobertSensorInterface : MonoBehaviour
 {
     public Sensor left, middle, right;
 
@@ -8,7 +8,7 @@ public class RobertSensors : MonoBehaviour
     {
         if (left == null || middle == null || right == null)
         {
-            Debug.Log("ERROR: 'Left', 'Middle' and 'Right' sensors must be linked to RobertSensors objects.");
+            Debug.Log("ERROR: 'Left', 'Middle' and 'Right' sensors must be linked to RobertSensorInterface objects.");
         }
     }
     void Update()
@@ -20,7 +20,8 @@ public class RobertSensors : MonoBehaviour
         return new bool[3] { left.isTriggered(), middle.isTriggered(), right.isTriggered() };
     }
 
-    public bool GetObjectOfType<T>(ref T result) {
+    public bool GetObjectOfType<T>(ref T result)
+    {
         foreach (GameObject obj in middle.GetSensedObjects())
         {
             T comp = obj.GetComponent<T>();
@@ -45,5 +46,11 @@ public class RobertSensors : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public Response HandleCheckSensors(string _) {
+        CheckSensorsResponse sensor_response = new CheckSensorsResponse();
+        sensor_response.readings = CheckSensors();
+        return sensor_response;
     }
 }

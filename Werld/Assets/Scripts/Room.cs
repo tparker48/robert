@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 
@@ -12,11 +10,6 @@ public class Room : MonoBehaviour
     public bool open = false;
     public bool lightsOn = false;
     public bool locked = true;
-    public bool highlighted = false;
-
-    public Material notSelected, selectedGood, selectedBad;
-
-    public GameObject highlighter;
 
     public GameObject equipment = null;
 
@@ -31,51 +24,11 @@ public class Room : MonoBehaviour
         open = open && !locked;
         doorObject.SetActive(!open);
         lightObject.enabled = lightsOn;
-
-        if (highlighted)
-        {
-            CheckSelected();
-        }
-    }
-
-    public void SetBuildSelectorActive(bool active)
-    {
-        Debug.Log("sdfasdfasdf");
-        highlighter.GetComponent<MeshRenderer>().enabled = active;
-        highlighted = true;
     }
 
     public int GetDemolishValue()
     {
         return 1;//equipment.demoValue;
-    }
-
-    public void CheckSelected()
-    {
-        if (ShipBuilder.Instance.buildModeActive)
-        {
-            if (ShipBuilder.Instance.selectedRoom == this)
-            {
-                highlighter.GetComponent<Renderer>().material = (equipment == null) ? selectedGood : selectedBad;
-            }
-            else
-            {
-                highlighter.GetComponent<Renderer>().material = notSelected;
-            }
-        }
-        else if (ShipBuilder.Instance.demoModeActive)
-        {
-            if (ShipBuilder.Instance.selectedRoom == this)
-            {
-                highlighter.GetComponent<Renderer>().material = (equipment == null) ? notSelected : selectedBad;
-            }
-            else
-            {
-                highlighter.GetComponent<Renderer>().material = notSelected;
-            }
-        }
-        
-
     }
 
     public void Demolish()
@@ -88,7 +41,6 @@ public class Room : MonoBehaviour
     public void AddEquipment(GameObject prefab)
     {
         equipment = Instantiate(prefab, transform);
-        //equipment.transform.position = new Vector3(0, 0, 0);
     }
 
     public bool CanBuild()

@@ -120,7 +120,7 @@ public class Printer : RobertTimedTaskExecutor<PrintJob>
         ExecutePrintJob(task);
     }
 
-    public CheckPrinterStatusResponse HandleCheckPrinterStatus(CheckPrinterStatus _)
+    public CheckPrinterStatusResponse HandleCheckPrinterStatus()
     {
         CheckPrinterStatusResponse resp = new CheckPrinterStatusResponse();
         resp.busy = IsBusy();
