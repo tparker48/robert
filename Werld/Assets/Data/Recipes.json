@@ -46,8 +46,7 @@
             "level": 1,
             "printTime": 0.5,
             "inputs": [
-                { "Carbon Chunk": 15 },
-                { "Iron Ingot": 10 }
+                { "Carbon Chunk": 15, "Iron Ingot": 10 },
             ]
         }
     ]
