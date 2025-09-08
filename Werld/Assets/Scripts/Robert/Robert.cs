@@ -10,12 +10,15 @@ public class Robert : MonoBehaviour
     Queue<string> commandQueue = new Queue<string>();
     bool command_running = false;
 
+    public ItemContainer inventory;
+
     RobertCommandHandler commandHandler;
 
 
     void Start()
     {
         commandHandler = GetComponent<RobertCommandHandler>();
+        inventory = GetComponent<ItemContainer>();
 
         TCPServer server = FindObjectOfType<TCPServer>();
         if (server == null)

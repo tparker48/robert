@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RobertInventoryInterface : MonoBehaviour
@@ -28,14 +29,71 @@ public class RobertInventoryInterface : MonoBehaviour
         storage.HandleWithdrawFromStorage(cmd, ref inventory);
     }
 
+    public void HandleDepositRobertCommand(string rawCmd)
+    {
+        DepositToRobert cmd = CommandParser.Parse<DepositToRobert>(rawCmd);
+        Robert other = null;
+        if (RobertInRange(cmd.bot_id, ref other))
+        {
+            ItemGroup itemsToDeposit = new ItemGroup(cmd.items_to_deposit);
+            if (inventory.RemoveItems(itemsToDeposit))
+            {
+                if (other.inventory.AddItems(itemsToDeposit))
+                {
+                    return;
+                }
+                else
+                {
+                    inventory.AddItems(itemsToDeposit);
+                }
+            }
+        }
+    }
+
+    public void HandleWithdrawRobertCommand(string rawCmd)
+    {
+        DepositToRobert cmd = CommandParser.Parse<DepositToRobert>(rawCmd);
+        Robert other = null;
+        if (RobertInRange(cmd.bot_id, ref other))
+        {
+            ItemGroup itemsToDeposit = new ItemGroup(cmd.items_to_deposit);
+            if (other.inventory.RemoveItems(itemsToDeposit))
+            {
+                if (inventory.AddItems(itemsToDeposit))
+                {
+                    return;
+                }
+                else
+                {
+                    other.inventory.AddItems(itemsToDeposit);
+                }
+            }
+        }
+    }
+
     private Storage GetStorageInRange()
     {
-        Storage printer = null;
-        if (!sensors.GetObjectOfType(ref printer))
+        Storage storage = null;
+        if (!sensors.GetObjectOfType(ref storage))
         {
             Debug.Log("No Storage Container In Range!");
         }
-        return printer;
+        return storage;
+    }
+
+    private bool RobertInRange(int bot_id, ref Robert found)
+    {
+        foreach (GameObject obj in sensors.GetSensedObjects())
+        {
+            Robert other = obj.GetComponent<Robert>();
+            if (other != null && other.id == bot_id)
+            {
+                found = other;
+                return true;
+            }
+        }
+        found = null;
+        return false;
     }
 
     public Response HandleGetItemCount(string rawCmd)

@@ -11,6 +11,19 @@ public class Beacon : MonoBehaviour
         beaconLabel.textColor = Color.cyan;
     }
 
+    public void SetName(string name)
+    {
+        Label beaconLabel = GetComponent<Label>();
+        beaconLabel.text = "[" + name + "]";
+        beaconName = name;
+    }
+
+    public void SetColor(Color color)
+    {
+        Label beaconLabel = GetComponent<Label>();
+        beaconLabel.textColor = color;
+    }
+
     public Vector2 GetRelativePosition(Transform source)
     {
         float dx = transform.position.x - source.position.x;

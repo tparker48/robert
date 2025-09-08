@@ -188,7 +188,8 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
         return position_response;
     }
 
-    public Response HandleGetShipFloor(string _) {
+    public Response HandleGetShipFloor(string _)
+    {
         GetFloorResponse shipFloorResponse = new GetFloorResponse();
         shipFloorResponse.floor = Ship.GetFloor(transform.position);
         if (shipFloorResponse.floor == -1)
@@ -196,8 +197,33 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
             return Response.ErrorResponse("Not on ship!");
         }
         else
-        {  
+        {
             return shipFloorResponse;
+        }
+    }
+
+    public void HandleUseElevator(string rawCmd)
+    {
+        UseElevator cmd = CommandParser.Parse<UseElevator>(rawCmd);
+        int floor = cmd.floor;
+        if (floor < 0 || floor >= Ship.Instance.floors.Count)
+        {
+            return;
+        }
+        if (floor == Ship.GetFloor(transform.position))
+        {
+            return;
+        }
+
+        RobertSensorInterface sensors = GetComponentInParent<RobertSensorInterface>();
+        Room room = null;
+        if (sensors.GetObjectOfType(ref room))
+        {
+            if (room.name == "Elevator")
+            {
+                float newY = Ship.floorHeight * (cmd.floor - 1);
+                transform.position = new Vector3(transform.position.x, newY, transform.position.y);
+            }
         }
     }
 }

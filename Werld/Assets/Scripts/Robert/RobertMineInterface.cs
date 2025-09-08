@@ -97,4 +97,13 @@ public class RobertMineInterface : RobertTimedTaskExecutor<Mine>
             Cave.Instance.ReturnBot(GetComponentInParent<Robert>());
         }
     }
+
+    public void HandleRefreshTeleporter(string _)
+    {
+        Teleporter teleporter = null;
+        if (sensors.GetObjectOfType(ref teleporter))
+        {
+            teleporter.Refresh();
+        }
+    }
 }

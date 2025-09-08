@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RobertSensorInterface : MonoBehaviour
@@ -48,7 +50,16 @@ public class RobertSensorInterface : MonoBehaviour
         return false;
     }
 
-    public Response HandleCheckSensors(string _) {
+    public List<GameObject> GetSensedObjects()
+    {
+        List<GameObject> allSensedObjects = left.GetSensedObjects();
+        allSensedObjects.AddRange(middle.GetSensedObjects());
+        allSensedObjects.AddRange(right.GetSensedObjects());
+        return allSensedObjects;
+    }
+
+    public Response HandleCheckSensors(string _)
+    {
         CheckSensorsResponse sensor_response = new CheckSensorsResponse();
         sensor_response.readings = CheckSensors();
         return sensor_response;

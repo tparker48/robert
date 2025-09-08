@@ -22,6 +22,7 @@ public class RobertCommandHandler : MonoBehaviour
     RobertBeaconInterface beaconInterface;
     RobertPrinterInterface printerInterface;
     RobertInventoryInterface inventoryInterface;
+    RobertUpgradeInterface upgradeInterface;
 
     public Dictionary<string, CommandDelegate> commandMap;
     public Dictionary<string, QueryDelegate> queryMap;
@@ -36,6 +37,7 @@ public class RobertCommandHandler : MonoBehaviour
         beaconInterface = GetComponentInChildren<RobertBeaconInterface>();
         printerInterface = GetComponent<RobertPrinterInterface>();
         inventoryInterface = GetComponent<RobertInventoryInterface>();
+        upgradeInterface = GetComponent<RobertUpgradeInterface>();
 
         commandMap = new Dictionary<string, CommandDelegate>
         {
@@ -49,18 +51,18 @@ public class RobertCommandHandler : MonoBehaviour
             { PrinterStop.id,  new CommandDelegate(printerInterface.HandlePrinterStop) },
             { DepositToStorage.id,  new CommandDelegate(inventoryInterface.HandleDepositCommand) },
             { WithdrawFromStorage.id,  new CommandDelegate(inventoryInterface.HandleWithdrawCommand) },
-            { DepositToRobert.id,  new CommandDelegate(NotImplemented) },
-            { WithdrawFromRobert.id,  new CommandDelegate(NotImplemented) },
+            { DepositToRobert.id,  new CommandDelegate(inventoryInterface.HandleDepositRobertCommand) },
+            { WithdrawFromRobert.id,  new CommandDelegate(inventoryInterface.HandleWithdrawRobertCommand) },
             { SellItem.id,  new CommandDelegate(inventoryInterface.HandleSellItem) },
             { Teleport.id,  new CommandDelegate(mineInterface.HandleTeleport) },
             { TeleportReturn.id,  new CommandDelegate(mineInterface.HandleTeleportReturn) },
-            { RefreshTeleporter.id,  new CommandDelegate(NotImplemented) },
+            { RefreshTeleporter.id,  new CommandDelegate(mineInterface.HandleRefreshTeleporter) },
             { Mine.id,  new CommandDelegate(mineInterface.HandleMine) },
             { BuildRoomEquipment.id,  new CommandDelegate(NotImplemented) },
-            { CreateBeacon.id,  new CommandDelegate(NotImplemented) },
-            { DeleteBeacon.id,  new CommandDelegate(NotImplemented) },
-            { UseElevator.id,  new CommandDelegate(NotImplemented) },
-            { Upgrade.id,  new CommandDelegate(NotImplemented) },
+            { CreateBeacon.id,  new CommandDelegate(beaconInterface.HandleCreateBeacon) },
+            { DeleteBeacon.id,  new CommandDelegate(beaconInterface.HandleDeleteBeacon) },
+            { UseElevator.id,  new CommandDelegate(motoricsInterface.HandleUseElevator) },
+            { Upgrade.id,  new CommandDelegate(upgradeInterface.HandleUpgrade) },
         };
 
         queryMap = new Dictionary<string, QueryDelegate>

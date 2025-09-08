@@ -1,26 +1,29 @@
 using UnityEngine;
 
-public class Teleporter : MonoBehaviour
+public class Teleporter : RobertTimedTaskExecutor<bool>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void TeleportRobertToMine(Robert robert)
     {
-        // regen the cave, if no roberts are in there already
+        if (!IsBusy())
+        {
+            Cave.Instance.AddBot(robert);
+        }   
+    }
+
+    public void Refresh()
+    {
+        if (!IsBusy() && Cave.Instance.roberts.Count == 0)
+        {
+            StartTimedTask(true, 25.0f);
+        }
+    }
+
+    protected override void ExecuteOnTaskEnd(bool _)
+    {
         if (Cave.Instance.roberts.Count == 0)
         {
-            Cave.Instance.Regenerate();
+            StartTimedTask(true, 25.0f);
         }
-        Cave.Instance.AddBot(robert);
     }
+
 }

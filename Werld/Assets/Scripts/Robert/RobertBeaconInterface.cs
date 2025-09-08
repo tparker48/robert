@@ -11,6 +11,8 @@ public class RobertBeaconInterface : MonoBehaviour
 
     HashSet<Beacon> beaconsInRange;
 
+    public Beacon beaconPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -99,6 +101,46 @@ public class RobertBeaconInterface : MonoBehaviour
         else
         {
             return new Vector2(beacon.transform.position.x, beacon.transform.position.z);
+        }
+    }
+
+    private bool BeaconInRange(string name, ref Beacon match)
+    {
+        foreach (Beacon beacon in beaconsInRange)
+        {
+            if (beacon != null && !beacon.IsDestroyed() && beacon.beaconName == name)
+            {
+                match = beacon;
+                return true;
+            }
+        }
+        match = null;
+        return false;
+    }
+
+    public void HandleCreateBeacon(string rawCmd)
+    {
+        CreateBeacon cmd = CommandParser.Parse<CreateBeacon>(rawCmd);
+        string name = cmd.beacon_name;
+
+        Beacon match = null;
+        if (!BeaconInRange(name, ref match))
+        {
+            Beacon beacon = Instantiate(beaconPrefab);
+            beacon.SetName(name);
+            beacon.SetColor(Color.magenta);
+        }
+    }
+
+    public void HandleDeleteBeacon(string rawCmd)
+    {
+        CreateBeacon cmd = CommandParser.Parse<CreateBeacon>(rawCmd);
+        string name = cmd.beacon_name;
+
+        Beacon match = null;
+        if (BeaconInRange(name, ref match))
+        {
+            Destroy(match);
         }
     }
 }
