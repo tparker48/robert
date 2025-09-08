@@ -77,6 +77,8 @@ public class RobertCommandHandler : MonoBehaviour
             { GetFloor.id,  new QueryDelegate(motoricsInterface.HandleGetShipFloor) },
             { CheckGrowBoxStatus.id,  new QueryDelegate(growboxInterface.HandleCheckGrowBoxStatus) },
             { CheckSellValue.id,  new QueryDelegate(inventoryInterface.HandleCheckSellValue) },
+            { GetUpgradeCost.id, new QueryDelegate(upgradeInterface.HandleGetUpgradeRequirements) },
+            { GetBotType.id, new QueryDelegate(upgradeInterface.HandleGetBotType) }
         };
     }
 

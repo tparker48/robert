@@ -189,7 +189,7 @@ public class CheckBusyResponse : Response
 
 public class GetPosition: BotCommand
 {
-    new public const string id = "get;position";
+    new public const string id = "get_position";
 }
 public class GetPositionResponse : Response
 {
@@ -208,7 +208,7 @@ public class CheckSensorsResponse : Response
 
 public class GetItemCount : BotCommand
 {
-    new public const string id = "get;item_count";
+    new public const string id = "get_item_count";
     public string item_name { get; set; }
 }
 public class GetItemCountResponse : Response
@@ -218,7 +218,7 @@ public class GetItemCountResponse : Response
 
 public class GetFullInventory : BotCommand
 {
-    new public const string id = "get;full_inventory";
+    new public const string id = "get_full_inventory";
 }
 public class GetFullInventoryResponse : Response
 {
@@ -257,7 +257,7 @@ public class CheckPrinterStatusResponse : Response
 
 public class GetFloor : BotCommand
 {
-    new public const string id = "get;floor";
+    new public const string id = "get_floor";
 }
 public class GetFloorResponse : Response
 {
@@ -291,19 +291,19 @@ public class CheckSellValueResponse : Response
 
 public class GetUpgradeCost : BotCommand
 {
-    new public const string id = "get;upgrade_cost";
+    new public const string id = "get_upgrade_cost";
 }
 public class GetUpgradeCostResponse : Response
 {
     public Dictionary<string, uint> items { get; set;}
 }
 
-public class GetType : BotCommand
+public class GetBotType : BotCommand
 {
-    new public const string id = "get;type";
+    new public const string id = "get_type";
 }
 
-public class GetTypeResponse : Response
+public class GetBotTypeResponse : Response
 {
     public string type { get; set; }
 }
@@ -313,10 +313,20 @@ public class ShipCommand : Command
 {
 }
 
-public class ConstructRobert : ShipCommand
+public class BuyRobert : ShipCommand
 {
-    new public const string id = "ship_construct_robert";
+    new public const string id = "ship_buy_robert";
     public string type { get; set; }
+}
+
+public class GetRobertCost : ShipCommand
+{
+    new public const string id = "ship_get_robert_cost";
+    public string type { get; set; }
+}
+public class GetRobertCostResponse : Response
+{
+    public int cost { get; set; }
 }
 
 public class AddFloor : ShipCommand
@@ -326,7 +336,7 @@ public class AddFloor : ShipCommand
 
 public class GetBits : ShipCommand
 {
-    new public const string id = "ship_get;bits";
+    new public const string id = "ship_get_bits";
 }
 public class GetBitsResponse : Response
 {
@@ -335,7 +345,7 @@ public class GetBitsResponse : Response
 
 public class GetNewFloorCost : ShipCommand
 {
-    new public const string id = "ship_get;new_floor_cost";
+    new public const string id = "ship_get_new_floor_cost";
 }
 public class GetNewFloorCostResponse : Response
 {
@@ -344,13 +354,17 @@ public class GetNewFloorCostResponse : Response
 
 public class GetEquipmentCost : ShipCommand
 {
-    new public const string id = "get;equipment_cost";
+    new public const string id = "get_equipment_cost";
     public string equipment { get; set; }
+}
+public class GetEquipmentCostResponse : Response
+{
+    public Dictionary<string, uint> itemsNeeded { get; set; }
 }
 
 public class GetNumFloors : ShipCommand
 {
-    new public const string id = "get;num_floors";
+    new public const string id = "get_num_floors";
 }
 public class GetNumFloorsResponse : Response
 {

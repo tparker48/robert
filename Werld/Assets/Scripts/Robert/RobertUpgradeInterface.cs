@@ -9,13 +9,22 @@ public class RobertUpgradeInterface : MonoBehaviour
         traits = GetComponent<RobertTraits>();
     }
 
-    public void HandleUpgrade(string rawCmd)
+    public void HandleUpgrade(string _)
     {
         traits.Upgrade();
     }
 
-    public void HandleGetUpgradeRequirements()
+    public Response HandleGetUpgradeRequirements(string _)
     {
-        
+        GetUpgradeCostResponse response = new GetUpgradeCostResponse();
+        response.items = traits.GetUpgradeRequirements().ToStringKeys();
+        return response;
+    }
+
+    public Response HandleGetBotType(string _)
+    {
+        GetBotTypeResponse response = new GetBotTypeResponse();
+        response.type = traits.GetRobertType();
+        return response;
     }
 }

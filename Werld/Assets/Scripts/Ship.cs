@@ -7,7 +7,10 @@ public class Ship : MonoBehaviour
 
     public List<Floor> floors;
     public Floor floorPrefab;
+    public Robert robertPrefab;
     public static float floorHeight = 20;
+    public static int maxFloors = 9;
+    public static List<uint> floorCosts;
 
     public static Ship Instance = null;
 
@@ -34,18 +37,55 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (floors.Count < 3)
+        if (floors.Count < 1)
         {
             AddFloor();
         }
     }
 
-    public void AddFloor()
+    public bool BuyRobert(RobertType typeToBuy)
     {
-        Floor newFloor = Instantiate(floorPrefab, transform);
-        newFloor.transform.position = new Vector3(transform.position.x, transform.position.y + floorHeight * floors.Count, transform.position.z);
-        newFloor.SetFloorLevel(floors.Count); // 0 1 2 3 ...
-        floors.Add(newFloor);
+        if (typeToBuy.initialCost <= bits)
+        {
+            Robert newRob = Instantiate(robertPrefab);
+            newRob.InitType(typeToBuy);
+            newRob.transform.position = new Vector3(0, 0.5f, 0);
+            bits -= typeToBuy.initialCost;
+            return true;
+        }
+        return false;
+    }
+
+    public bool AddFloor()
+    {
+        int cost = GetNewFloorCost();
+        if (cost < 0)
+        {
+            return false;
+        }
+        else
+        {
+            bits -= (uint)cost;
+            Floor newFloor = Instantiate(floorPrefab, transform);
+            newFloor.transform.position = new Vector3(transform.position.x, transform.position.y + floorHeight * floors.Count, transform.position.z);
+            newFloor.SetFloorLevel(floors.Count);
+            floors.Add(newFloor);
+            return true;
+        }
+    }
+
+    public int GetNewFloorCost()
+    {
+        int nextFloorIdx = floors.Count - 1;
+        if (nextFloorIdx < maxFloors)
+        {
+            return (int)floorCosts[nextFloorIdx];
+        }
+        else
+        {
+            return -1;
+        }
+        
     }
 
     public static int GetFloor(Vector3 position)
@@ -57,14 +97,4 @@ public class Ship : MonoBehaviour
         }
         return floor;
     }
-
-    // public BuildBotResponse HandleBuildBotCommand(BuildBotCommand cmd) 
-
-    public GetBitsResponse HandleGetBitsQuery(GetBits query)
-    {
-        GetBitsResponse response = new GetBitsResponse();
-        response.bits = bits;
-        return response;
-    }
-    
 }

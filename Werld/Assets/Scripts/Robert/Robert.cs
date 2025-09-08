@@ -11,6 +11,7 @@ public class Robert : MonoBehaviour
     bool command_running = false;
 
     public ItemContainer inventory;
+    public RobertTraits traits;
 
     RobertCommandHandler commandHandler;
 
@@ -19,6 +20,7 @@ public class Robert : MonoBehaviour
     {
         commandHandler = GetComponent<RobertCommandHandler>();
         inventory = GetComponent<ItemContainer>();
+        traits = GetComponent<RobertTraits>();
 
         TCPServer server = FindObjectOfType<TCPServer>();
         if (server == null)
@@ -63,6 +65,12 @@ public class Robert : MonoBehaviour
         {
             HoverText.Instance.RemoveOverlay(taskPercentOverlayKey);
         }
+    }
+
+    public void InitType(RobertType robType, int level=0)
+    {
+        traits.SetRobertType(robType);
+        traits.SetLevel(level);
     }
 
     public Response OnCommandRecieved(string cmdData)

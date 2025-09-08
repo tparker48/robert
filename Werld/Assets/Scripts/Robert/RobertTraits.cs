@@ -21,6 +21,11 @@ public class RobertTraits : MonoBehaviour
         RefreshTraits();
     }
 
+    public string GetRobertType()
+    {
+        return botType.name;
+    }
+
     public void SetLevel(int level)
     {
         this.level = level;
