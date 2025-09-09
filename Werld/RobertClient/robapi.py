@@ -5,7 +5,7 @@ from typing import List
 
 
 ROBERT_TCP_SERVER_IP = "127.0.0.1"
-ROBERT_TCP_SERVER_PORT = 3001
+ROBERT_TCP_SERVER_PORT = 3000
 
 
 class RobertController:

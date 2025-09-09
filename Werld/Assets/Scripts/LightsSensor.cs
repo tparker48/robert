@@ -22,7 +22,7 @@ public class LightsSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (doorSensor.isTriggered())
+        if (doorSensor.IsTriggered())
         {
             lightTimer = shutoffTime;
             lightState = true;

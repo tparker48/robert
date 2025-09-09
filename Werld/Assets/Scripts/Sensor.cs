@@ -1,60 +1,56 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Sensor : MonoBehaviour
 {
-    public int sensorId;
     public List<string> tagWhitelist;
-    HashSet<GameObject> sensedObjects;
+    public GameObject ignoreObject;
+    public Vector2 boxOffset;
+    public Vector3 boxScale;
+
+    public bool ignoreTriggers = true;
+
+    private float secondsPerScan = 0.1f;
+    private float timer;
+
+    List<GameObject> sensedObjects;
 
     void Start()
     {
-        sensedObjects = new HashSet<GameObject>();
+        timer = Random.Range(0.0f, secondsPerScan);
+        sensedObjects = new List<GameObject>();
     }
 
-    void Update() { }
-
-    void OnTriggerEnter(Collider collider)
+    void FixedUpdate()
     {
-        // ignore the ground 
-        if (ShouldIgnoreTag(collider))
+        if (timer <= 0.0f)
         {
-            return;
+            timer = secondsPerScan;
+            MyCollisions();
         }
-        sensedObjects.Add(collider.gameObject);
-    }
-    void OnTriggerExit(Collider collider)
-    {
-        if (ShouldIgnoreTag(collider))
-        {
-            return;
-        }
-        sensedObjects.Remove(collider.gameObject);
+        timer -= Time.deltaTime;
     }
 
-    public List<GameObject> GetSensedObjects()
+    void MyCollisions()
     {
-        return sensedObjects.ToList();
-    }
-
-    public bool isTriggered()
-    {
-        foreach (GameObject obj in sensedObjects)
+        sensedObjects.Clear();
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position + boxOffset.y*transform.right + boxOffset.x*transform.forward, boxScale/2, transform.rotation);
+        foreach (Collider collider in hitColliders)
         {
-            if (obj != null)
+            if (!Ignore(collider))
             {
-                return true;
+                //Debug.Log(collider.name);
+                sensedObjects.Add(collider.gameObject);
             }
         }
-        return false;
     }
 
-    private bool ShouldIgnoreTag(Collider other)
+    private bool Ignore(Collider other)
     {
+        if (other.isTrigger && ignoreTriggers) return true;
         if (tagWhitelist == null || tagWhitelist.Count == 0)
         {
-            return other.CompareTag("Ground") || other.CompareTag("Beacon");
+            return other.CompareTag("Ground") || other.CompareTag("Beacon") || other.CompareTag("SensorIgnore");
         }
         else
         {
@@ -67,5 +63,22 @@ public class Sensor : MonoBehaviour
             }
             return true;
         }
+    }
+
+    public List<GameObject> GetSensedObjects()
+    {
+        return sensedObjects;
+    }
+
+    public bool IsTriggered()
+    {
+        return sensedObjects.Count != 0;
+    }
+
+    // Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this.
+    void OnDrawGizmos()
+    {
+        Gizmos.color = (Application.isPlaying && IsTriggered()) ? Color.red: Color.blue;
+        Gizmos.DrawWireCube(gameObject.transform.position + boxOffset.x * transform.forward + boxOffset.y * transform.right, boxScale);
     }
 }

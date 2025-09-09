@@ -22,7 +22,7 @@ public class DoorSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (doorSensor.isTriggered())
+        if (doorSensor.IsTriggered())
         {
             openTimer = openTime;
             openState = true;

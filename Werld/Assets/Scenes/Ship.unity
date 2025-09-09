@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61548666561038386, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
+      propertyPath: boxOffset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 781885128963360142, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.5
@@ -170,6 +174,14 @@ PrefabInstance:
     - target: {fileID: 781885128963360142, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283605845059831961, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
+      propertyPath: boxOffset.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681914772454859661, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
+      propertyPath: boxOffset.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5431116723007412075, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
       propertyPath: m_Name
@@ -554,7 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202bfce5a3f75664282538f2433fa6d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bits: 0
+  bits: 100000
   floors: []
   floorPrefab: {fileID: 6742837484582237352, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
   robertPrefab: {fileID: 552456909}

@@ -23,6 +23,7 @@ public class RobertCommandHandler : MonoBehaviour
     RobertPrinterInterface printerInterface;
     RobertInventoryInterface inventoryInterface;
     RobertUpgradeInterface upgradeInterface;
+    RobertBuildInterface buildInterface;
 
     public Dictionary<string, CommandDelegate> commandMap;
     public Dictionary<string, QueryDelegate> queryMap;
@@ -38,6 +39,7 @@ public class RobertCommandHandler : MonoBehaviour
         printerInterface = GetComponent<RobertPrinterInterface>();
         inventoryInterface = GetComponent<RobertInventoryInterface>();
         upgradeInterface = GetComponent<RobertUpgradeInterface>();
+        buildInterface = GetComponent<RobertBuildInterface>();
 
         commandMap = new Dictionary<string, CommandDelegate>
         {
@@ -58,7 +60,7 @@ public class RobertCommandHandler : MonoBehaviour
             { TeleportReturn.id,  new CommandDelegate(mineInterface.HandleTeleportReturn) },
             { RefreshTeleporter.id,  new CommandDelegate(mineInterface.HandleRefreshTeleporter) },
             { Mine.id,  new CommandDelegate(mineInterface.HandleMine) },
-            { BuildRoomEquipment.id,  new CommandDelegate(NotImplemented) },
+            { BuildRoomEquipment.id,  new CommandDelegate(buildInterface.HandleBuildRoomEquipment) },
             { CreateBeacon.id,  new CommandDelegate(beaconInterface.HandleCreateBeacon) },
             { DeleteBeacon.id,  new CommandDelegate(beaconInterface.HandleDeleteBeacon) },
             { UseElevator.id,  new CommandDelegate(motoricsInterface.HandleUseElevator) },

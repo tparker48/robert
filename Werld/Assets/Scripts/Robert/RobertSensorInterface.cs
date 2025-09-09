@@ -15,16 +15,18 @@ public class RobertSensorInterface : MonoBehaviour
     }
     void Update()
     {
+        //var test = CheckSensors();
+        //Debug.Log(test[0]+ " "+ test[1] +" "+ test[2]);
     }
 
     public bool[] CheckSensors()
     {
-        return new bool[3] { left.isTriggered(), middle.isTriggered(), right.isTriggered() };
+        return new bool[3] { left.IsTriggered(), middle.IsTriggered(), right.IsTriggered() };
     }
 
     public bool GetObjectOfType<T>(ref T result)
-    {
-        foreach (GameObject obj in middle.GetSensedObjects())
+    {    
+        foreach (GameObject obj in GetSensedObjects())
         {
             T comp = obj.GetComponent<T>();
             if (comp != null)

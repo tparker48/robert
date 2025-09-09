@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4675736364360667466}
   - component: {fileID: 3981607320007650658}
   - component: {fileID: 4968089417289164949}
+  - component: {fileID: 2320310031237318096}
   m_Layer: 0
   m_Name: Teleporter
   m_TagString: Untagged
@@ -119,6 +120,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72bb7a78edce8104ab88a53d96da7963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busyText: 
+--- !u!114 &2320310031237318096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694065561137951126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963af66d05b415b4a9b7e8fac2526b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 5
 --- !u!1001 &3862537129768062819
 PrefabInstance:
   m_ObjectHideFlags: 0

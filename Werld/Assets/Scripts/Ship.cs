@@ -20,7 +20,6 @@ public class Ship : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Debug.Log("HI");
         }
         else
         {
@@ -85,7 +84,7 @@ public class Ship : MonoBehaviour
         {
             return -1;
         }
-        
+
     }
 
     public static int GetFloor(Vector3 position)
@@ -96,5 +95,17 @@ public class Ship : MonoBehaviour
             floor = -1;
         }
         return floor;
+    }
+
+    public bool BuildEquipment(GameObject prefab, ref Room room)
+    {
+        if (room.CanBuild() && prefab.GetComponent<EquipmentDetails>().cost <= bits)
+        {
+            room.AddEquipment(prefab);
+            bits -= (uint)prefab.GetComponent<EquipmentDetails>().cost;
+            return true;
+        }
+        Debug.Log("Not enough money or room is full!");
+        return false;
     }
 }

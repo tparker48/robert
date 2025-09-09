@@ -6,17 +6,19 @@ public class Room : MonoBehaviour
     public GameObject doorObject;
     public Light lightObject;
     public GameObject structure;
+    public Sensor roomSensor;
+    public Sensor doorSensor;
 
     public bool open = false;
     public bool lightsOn = false;
     public bool locked = true;
 
-    public GameObject equipment = null;
+    private GameObject equipment = null;
 
 
     void Start()
     {
-        GetComponentInChildren<Beacon>().beaconName = this.name;
+        GetComponentInChildren<Beacon>().beaconName = name;
     }
 
     void Update()
@@ -43,8 +45,28 @@ public class Room : MonoBehaviour
         equipment = Instantiate(prefab, transform);
     }
 
+    public bool HasObject(GameObject match)
+    {
+        foreach (GameObject obj in roomSensor.GetSensedObjects())
+        {
+            if (obj == match)
+            {
+                return true;
+            }
+        }
+        foreach (GameObject obj in doorSensor.GetSensedObjects())
+        {
+            if (obj == match)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool CanBuild()
     {
+        Debug.Log($"Checking if can build in room: {name}");
         return equipment == null;
     }
 }

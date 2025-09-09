@@ -219,9 +219,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6818758981503749721}
-  - component: {fileID: 1238038762448417275}
   - component: {fileID: 4099477984847408865}
-  - component: {fileID: 1701175400828849522}
+  - component: {fileID: 5932847612035612844}
   m_Layer: 0
   m_Name: DoorSensor
   m_TagString: Untagged
@@ -238,33 +237,12 @@ Transform:
   m_GameObject: {fileID: 1469645009963751835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 1, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3070542195774407189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1238038762448417275
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469645009963751835}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 1.68, z: 2.15}
-  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &4099477984847408865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openTime: 0.5
---- !u!114 &1701175400828849522
+--- !u!114 &5932847612035612844
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,12 +265,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469645009963751835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b74453e965bc7a40832b301d5398e35, type: 3}
+  m_Script: {fileID: 11500000, guid: 274f4b8638f9ff64e9dca41bb6ad28f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorId: 0
   tagWhitelist:
   - Robert
+  ignoreObject: {fileID: 0}
+  boxOffset: {x: 0, y: 0}
+  boxScale: {x: 3, y: 1.68, z: 2.15}
+  ignoreTriggers: 1
 --- !u!1 &1925515183034730595
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,9 +482,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7019162822278056055}
-  - component: {fileID: 7530208281259917060}
   - component: {fileID: 4324192164882063331}
-  - component: {fileID: 8641009787209007864}
+  - component: {fileID: 6617449622894601354}
   m_Layer: 0
   m_Name: RoomSensor
   m_TagString: Untagged
@@ -520,33 +500,12 @@ Transform:
   m_GameObject: {fileID: 4323674617035303984}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3070542195774407189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7530208281259917060
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4323674617035303984}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8.69, y: 2, z: 7.78}
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &4324192164882063331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shutoffTime: 1.5
---- !u!114 &8641009787209007864
+--- !u!114 &6617449622894601354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,12 +528,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4323674617035303984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b74453e965bc7a40832b301d5398e35, type: 3}
+  m_Script: {fileID: 11500000, guid: 274f4b8638f9ff64e9dca41bb6ad28f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorId: 0
   tagWhitelist:
   - Robert
+  ignoreObject: {fileID: 0}
+  boxOffset: {x: -0.03, y: 0}
+  boxScale: {x: 8.69, y: 2, z: 7.94}
+  ignoreTriggers: 1
 --- !u!1 &5142915561441492599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,14 +1229,11 @@ MonoBehaviour:
   doorObject: {fileID: 7657477675043153706}
   lightObject: {fileID: 3551354642495487730}
   structure: {fileID: 0}
+  roomSensor: {fileID: 6617449622894601354}
+  doorSensor: {fileID: 5932847612035612844}
   open: 0
   lightsOn: 0
   locked: 0
-  highlighted: 0
-  notSelected: {fileID: 2100000, guid: fc9258c60d014a04f821d7839013eec9, type: 2}
-  selectedGood: {fileID: 2100000, guid: 2983655ba7d14714d8112ab248d75e5a, type: 2}
-  selectedBad: {fileID: 2100000, guid: 7af8b69ea515e794abd08333b49ad80b, type: 2}
-  highlighter: {fileID: 5224634115588309424}
 --- !u!1 &8315492559439732111
 GameObject:
   m_ObjectHideFlags: 0

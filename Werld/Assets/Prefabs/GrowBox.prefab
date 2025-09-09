@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 8084287707273404680}
   - component: {fileID: 1653842808616038258}
   - component: {fileID: 6407025779722399988}
+  - component: {fileID: 7667200599627760450}
   m_Layer: 0
   m_Name: GrowBox
   m_TagString: Untagged
@@ -842,3 +843,16 @@ MonoBehaviour:
   youngModel: {fileID: 2167188318382014782}
   matureModel: {fileID: 1608756013703563236}
   witheredModel: {fileID: 2968979961175710766}
+--- !u!114 &7667200599627760450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6922904548373691834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963af66d05b415b4a9b7e8fac2526b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 5000

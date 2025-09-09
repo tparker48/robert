@@ -14,7 +14,7 @@ public class TCPServer : MonoBehaviour
     public ShipTerminal shipTerminal;
     private Dictionary<int, Robert> bots;
 
-    private int port = 3001;
+    private int port = 3000;
     private CancellationTokenSource _cancellationTokenSource;
 
     async void Start()

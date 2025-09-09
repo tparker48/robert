@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5561138920412200299}
   - component: {fileID: 668969525218903189}
   - component: {fileID: 46738327715829464}
+  - component: {fileID: 5500932907574190374}
   m_Layer: 0
   m_Name: Tradepost
   m_TagString: Untagged
@@ -119,6 +120,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec45f5022f15cd4299f4552153627de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5500932907574190374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812628560782403594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963af66d05b415b4a9b7e8fac2526b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 5
 --- !u!1001 &6303125555524943541
 PrefabInstance:
   m_ObjectHideFlags: 0
