@@ -10,7 +10,7 @@ public class Ship : MonoBehaviour
     public Robert robertPrefab;
     public static float floorHeight = 20;
     public static int maxFloors = 9;
-    public static List<uint> floorCosts;
+    public List<int> floorCosts;
 
     public static Ship Instance = null;
 
@@ -76,7 +76,7 @@ public class Ship : MonoBehaviour
 
     public int GetNewFloorCost()
     {
-        int nextFloorIdx = floors.Count - 1;
+        int nextFloorIdx = floors.Count;
         if (nextFloorIdx < maxFloors)
         {
             return (int)floorCosts[nextFloorIdx];

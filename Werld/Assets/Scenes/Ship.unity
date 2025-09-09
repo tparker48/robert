@@ -419,6 +419,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d092786cae1b1be4591a23ba7649ec4e, type: 3}
+--- !u!114 &552456909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4086909033395774867, guid: 10f92a8f53df4624488ffdfa10eade0e, type: 3}
+  m_PrefabInstance: {fileID: 75721666}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1d1c5e7c81a7d43b7ce47a9e57232c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &564686314
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +557,8 @@ MonoBehaviour:
   bits: 0
   floors: []
   floorPrefab: {fileID: 6742837484582237352, guid: bda53baad40081548bf5b4d5bc2b0f55, type: 3}
+  robertPrefab: {fileID: 552456909}
+  floorCosts: 000000008813000088130000881300008813000088130000881300008813000088130000
 --- !u!4 &754160424
 Transform:
   m_ObjectHideFlags: 0

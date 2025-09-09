@@ -80,6 +80,11 @@ public class CameraController : MonoBehaviour
 
     public void SetCameraFloor(int floor)
     {
-        this.floor = floor+1;
+        floor = floor + 1;
+        if (floor <= Ship.Instance.floors.Count)
+        {
+            this.floor = floor;
+        }
+        
     }
 }
