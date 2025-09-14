@@ -10,7 +10,7 @@
             "sellValueMultiplier": 1.0,
             "upgradeTrait": "None",
             "traitValues": [],
-            "upgradeMats": {}
+            "upgradeMats": []
         },
         {
             "name": "Miner",

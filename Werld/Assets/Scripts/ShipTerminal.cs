@@ -1,8 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipTerminal : MonoBehaviour
 {
     private Ship ship;
+
+    public static ShipTerminal Instance = null;
+
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void Start()
     {

@@ -6,7 +6,6 @@ public class Command
     public const string id = "";
     public string cmd_id { get; set; }
     public bool ship_command { get; set; }
-    public bool is_query { get; set; }
 }
 
 public class Response

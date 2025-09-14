@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class RobertBuildInterface : MonoBehaviour
 {
-
-    public List<GameObject> equipmentPrefabs;
-
     public void HandleBuildRoomEquipment(string rawCmd)
     {
         Room roomToBuild = null;
@@ -13,7 +10,7 @@ public class RobertBuildInterface : MonoBehaviour
         {
             BuildRoomEquipment cmd = CommandParser.Parse<BuildRoomEquipment>(rawCmd);
             string equipmentName = cmd.equipment;
-            foreach (GameObject prefab in equipmentPrefabs)
+            foreach (GameObject prefab in Ship.Instance.equipmentPrefabs)
             {
                 if (prefab.name == equipmentName)
                 {

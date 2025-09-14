@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -15,23 +14,24 @@ public class Robert : MonoBehaviour
 
     RobertCommandHandler commandHandler;
 
-
     void Start()
     {
         commandHandler = GetComponent<RobertCommandHandler>();
         inventory = GetComponent<ItemContainer>();
         traits = GetComponent<RobertTraits>();
 
-        TCPServer server = FindObjectOfType<TCPServer>();
-        if (server == null)
-        {
-            throw new Exception("No TCPServer object found!");
-        }
-        server.RegisterNewBot(this);
+        id = RobertIdDispatcher.Instance.GetNewRobertId();
+        TCPServer.Instance.RegisterNewBot(this);
 
         GetComponentInChildren<Beacon>().beaconName = "robert " + id;
         GetComponentInChildren<Label>().text = "rob_" + id;
         GetComponentInChildren<Label>().textColor = Color.white;
+    }
+
+    void OnDestroy()
+    {
+        RobertIdDispatcher.Instance.FreeRobertId(id);
+        TCPServer.Instance.RemoveBot(this);
     }
 
     void Update()
@@ -69,6 +69,7 @@ public class Robert : MonoBehaviour
 
     public void InitType(RobertType robType, int level=0)
     {
+        Debug.Log("CALLED InitType");
         traits.SetRobertType(robType);
         traits.SetLevel(level);
     }
@@ -77,7 +78,7 @@ public class Robert : MonoBehaviour
     {
         BotCommand obj = JsonConvert.DeserializeObject<BotCommand>(cmdData);
 
-        if (obj.is_query)
+        if (commandHandler.IsQuery(cmdData))
         {
             return RunQuery(cmdData);
         }

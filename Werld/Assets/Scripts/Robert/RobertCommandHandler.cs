@@ -84,11 +84,6 @@ public class RobertCommandHandler : MonoBehaviour
         };
     }
 
-    private void NotImplemented(string _)
-    {
-        throw new NotImplementedException();
-    }
-
     public void RunCommand(string rawCmd)
     {
         BotCommand cmd = CommandParser.Parse<BotCommand>(rawCmd);
@@ -113,6 +108,11 @@ public class RobertCommandHandler : MonoBehaviour
         {
             return Response.ErrorResponse("Unrecognized cmd_id");
         }
+    }
+
+    public bool IsQuery(string rawCmd)
+    {
+        return queryMap.ContainsKey(CommandParser.Parse<Command>(rawCmd).cmd_id);
     }
 }
 

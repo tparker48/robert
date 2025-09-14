@@ -15,7 +15,7 @@ public class MoveTask
 
 public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
 {
-    float speed = 3.5f;
+    float baseSpeed = 3.5f;
     float posDeadzoneMult = 0.4f;
     float positionDeadzone = 0.3f;
     float positionTolerance = 0.01f;
@@ -25,11 +25,17 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
     float rotDeadZone = 1.25f;
     float rotationTolerance = 0.30f;
 
+    private RobertTraits traits;
+
+    void Start() {
+        traits = GetComponent<RobertTraits>();
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         UpdateTask();
+        KeepFlat();
     }
 
     public void HandleMove(string rawCmd)
@@ -93,13 +99,13 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
         }
         else
         {
-            float speedMult = 1.0f;
+            float speedMult = traits.GetTrait("moveSpeed");
             if (posDiff.magnitude <= positionDeadzone)
             {
                 speedMult = posDeadzoneMult;
             }
 
-            transform.position += posDiff.normalized * speed * speedMult * Time.deltaTime;
+            transform.position += posDiff.normalized * baseSpeed * speedMult * Time.deltaTime;
         }
     }
 
@@ -113,7 +119,7 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
         }
         else
         {
-            float speedMult = 1.0f;
+            float speedMult = traits.GetTrait("moveSpeed");
             if (rotDiff <= rotDeadZone)
             {
                 // ramp speed down as we get closer
@@ -170,6 +176,11 @@ public class RobertMotoricsInterface : RobertProgressiveTaskExecutor<MoveTask>
         }
 
         return 0.0f;
+    }
+
+    private void KeepFlat()
+    {
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
 
     public Response HandleGetPosition(string _)

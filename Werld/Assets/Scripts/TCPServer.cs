@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -8,14 +7,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 
 public class TCPServer : MonoBehaviour
 {
-    public ShipTerminal shipTerminal;
     private Dictionary<int, Robert> bots;
 
     private int port = 3000;
     private CancellationTokenSource _cancellationTokenSource;
+
+    public static TCPServer Instance = null;
+
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     async void Start()
     {
@@ -89,7 +103,7 @@ public class TCPServer : MonoBehaviour
                 {
                     // handle it
                     ShipCommand shipCmd = JsonConvert.DeserializeObject<ShipCommand>(recievedData);
-                    response = shipTerminal.OnCommandRecieved(recievedData);
+                    response = ShipTerminal.Instance.OnCommandRecieved(recievedData);
                 }
                 else
                 {
@@ -111,7 +125,7 @@ public class TCPServer : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log($"Error handling client: {e.Message}");
+            Debug.Log(e.ToString());
         }
         finally
         {
@@ -128,5 +142,13 @@ public class TCPServer : MonoBehaviour
         }
 
         bots.Add(bot.id, bot);
+    }
+
+    public void RemoveBot(Robert bot)
+    {
+        if (bots != null)
+        {
+            bots.Remove(bot.id);
+        }
     }
 }

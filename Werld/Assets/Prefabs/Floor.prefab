@@ -175,6 +175,8 @@ MonoBehaviour:
   - {fileID: 2162496934090733844}
   ControlRoomWall: {fileID: 308978855652211243}
   ControlRoom: {fileID: 6332114099306443968}
+  ElevatorRoom: {fileID: 4643918955193506889}
+  ShipTerminalPrefab: {fileID: 3894421706428791901, guid: 73137090919f1994ea6f5eae0af8dfaa, type: 3}
 --- !u!1 &3324114250437199135
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +894,11 @@ PrefabInstance:
 --- !u!4 &1914382146282901221 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3070542195774407189, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
+  m_PrefabInstance: {fileID: 3462566284107025648}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4643918955193506889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8106200190575349945, guid: 6fb1e3bbae253e941889691aa9819edf, type: 3}
   m_PrefabInstance: {fileID: 3462566284107025648}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4858339097732892859

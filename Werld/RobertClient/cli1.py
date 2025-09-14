@@ -1,8 +1,4 @@
-from robapi import RobertController
-import time
-import os
+from robapi import RobertController, ShipContoller
 
-robert = RobertController()
-
-#robert.send_command('build_room_equipment', {'equipment': '3D Printer'}, True)
-print(robert.check_printer_status())
+robert = RobertController(0)
+print(robert.get_item_count(item_name='Lettuce'))

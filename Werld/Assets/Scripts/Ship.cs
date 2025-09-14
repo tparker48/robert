@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
+    public List<GameObject> equipmentPrefabs;
+    
     public uint bits;
 
     public List<Floor> floors;

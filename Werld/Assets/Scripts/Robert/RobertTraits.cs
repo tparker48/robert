@@ -9,10 +9,20 @@ public class RobertTraits : MonoBehaviour
 
     private ItemContainer inventory;
 
-    void Start()
+    void Awake()
     {
-        traits = new Dictionary<string, float>();
+        traits = new Dictionary<string, float>
+            {
+                {"moveSpeed", 0.0f},
+                {"capacity", 0.0f},
+                {"mineSpeed", 0.0f},
+                {"harvestMultiplier", 0.0f},
+                {"sellValueMultiplier", 0.0f},
+            };
+        
+        botType = RobertTypes.Lookup("Generic");
         inventory = GetComponent<ItemContainer>();
+        RefreshTraits();
     }
 
     public void SetRobertType(RobertType botType)
@@ -43,7 +53,10 @@ public class RobertTraits : MonoBehaviour
                 traits["mineSpeed"] = botType.mineSpeed;
                 traits["harvestMultiplier"] = botType.harvestMultiplier;
                 traits["sellValueMultiplier"] = botType.sellValueMultiplier;
-                traits[botType.upgradeTrait] = botType.traitValues[level];
+                if (botType.upgradeTrait != "None")
+                {
+                    traits[botType.upgradeTrait] = botType.traitValues[level];
+                }
             }
         }
     }
