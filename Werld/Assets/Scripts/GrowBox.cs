@@ -1,49 +1,20 @@
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GrowBox : MonoBehaviour
 {
+    public List<PlantModel> plantModels = new List<PlantModel>();
+
     private PlantEntity plant;
+    private PlantModel plantModel;
     private float harvestMultiplier = 1.0f;
-
-    public Renderer seedlingModel;
-    public Renderer youngModel;
-    public Renderer matureModel;
-    public Renderer witheredModel;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
-        seedlingModel.enabled = false;
-        youngModel.enabled = false;
-        matureModel.enabled = false;
-        witheredModel.enabled = false;
-
         if (plant != null)
         {
             plant.Update();
-
-            switch (plant.phase)
-            {
-                case PlantPhase.seedling:
-                    seedlingModel.enabled = true;
-                    break;
-                case PlantPhase.young:
-                    youngModel.enabled = true;
-                    break;
-                case PlantPhase.mature:
-                    matureModel.enabled = true;
-                    break;
-                case PlantPhase.withered:
-                    witheredModel.enabled = true;
-                    break;
-            }
+            plantModel.SetPhase(plant.phase);
         }
     }
 
@@ -51,7 +22,7 @@ public class GrowBox : MonoBehaviour
     {
         if (Empty())
         {
-            plant = CreatePlantFromSeeds(seeds);
+            CreatePlantFromSeeds(seeds);
         }
         return plant != null;
     }
@@ -64,6 +35,7 @@ public class GrowBox : MonoBehaviour
             if (other.AddItems(plantLoot))
             {
                 plant = null;
+                Destroy(plantModel);
             }
         }
     }
@@ -83,16 +55,22 @@ public class GrowBox : MonoBehaviour
         return plant == null;
     }
 
-    private PlantEntity CreatePlantFromSeeds(Item seeds)
+    private void CreatePlantFromSeeds(Item seeds)
     {
         Plant plantToGrow = Plants.FromSeeds(seeds);
+        Debug.Log(plantToGrow.name);
         if (seeds != null)
         {
-            return new PlantEntity(plantToGrow);
-        }
-        else
-        {
-            return null;
+            foreach (PlantModel model in plantModels)
+            {
+                if (model.plantName == plantToGrow.name)
+                {
+                    plant = new PlantEntity(plantToGrow);
+                    plantModel = Instantiate(model, transform);
+                }
+            }
         }
     }
+
+
 }

@@ -26,6 +26,8 @@ public class Robert : MonoBehaviour
         GetComponentInChildren<Beacon>().beaconName = "robert " + id;
         GetComponentInChildren<Label>().text = "rob_" + id;
         GetComponentInChildren<Label>().textColor = Color.white;
+
+        inventory.AddItem(Items.Lookup("Lettuce Seeds"), 30);
     }
 
     void OnDestroy()

@@ -33,6 +33,7 @@ public class PlantEntity
         {
             if (ageInSeconds >= plant.growthPhaseTimes[phaseNum - 1])
             {
+                Debug.Log(phaseNum);
                 phase = (PlantPhase)phaseNum;
                 return;
             }
