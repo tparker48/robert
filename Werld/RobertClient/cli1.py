@@ -4,4 +4,4 @@ from robapi import RobertController, ShipContoller
 robert = RobertController(0)
 robert.send_command("build_room_equipment", {"equipment": "GrowBox"})
 time.sleep(1)
-print(robert.plant_seed('Lettuce Seeds'))
+print(robert.plant_seed('Tomato Seeds'))

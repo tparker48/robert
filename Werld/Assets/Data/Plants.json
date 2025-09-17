@@ -7,6 +7,14 @@
             "growthPhaseTimes": [5.0, 10.0, 25.0],
             "harvestDropRange": [6,12],
             "seedDropRange": [0,1]
+        },
+        {
+            "name": "Tomato",
+            "harvestItem": "Tomato",
+            "seedItem": "Tomato Seeds",
+            "growthPhaseTimes": [5.0, 10.0, 25.0],
+            "harvestDropRange": [3,6],
+            "seedDropRange": [0,5]
         }
     ]
 }

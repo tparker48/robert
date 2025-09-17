@@ -9,7 +9,7 @@ public class HoverText : MonoBehaviour
 
     private int uniqueKeyCounter = 0;
 
-    public float baseFontSize = 24.0f;
+    public float baseFontSize = 18.0f;
 
     public static HoverText Instance;
     public Transform overlayObject;

@@ -3,42 +3,42 @@ using UnityEngine;
 public class PlantModel : MonoBehaviour
 {
     public string plantName;
-    public Renderer seedlingModel;
-    public Renderer youngModel;
-    public Renderer matureModel;
-    public Renderer witheredModel;
+    public GameObject seedlingModel;
+    public GameObject youngModel;
+    public GameObject matureModel;
+    public GameObject witheredModel;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        seedlingModel.enabled = false;
-        youngModel.enabled = false;
-        matureModel.enabled = false;
-        witheredModel.enabled = false;
+        seedlingModel.SetActive(false);
+        seedlingModel.SetActive(false);
+        youngModel.SetActive(false);
+        matureModel.SetActive(false);
+        witheredModel.SetActive(false);
     }
 
     public void SetPhase(PlantPhase phase)
     {
-        Debug.Log("hio");
-        seedlingModel.enabled = false;
-        youngModel.enabled = false;
-        matureModel.enabled = false;
-        witheredModel.enabled = false;
+        seedlingModel.SetActive(false);
+        youngModel.SetActive(false);
+        matureModel.SetActive(false);
+        witheredModel.SetActive(false);
 
         switch (phase)
         {
             case PlantPhase.seedling:
-                seedlingModel.enabled = true;
+                seedlingModel.SetActive(true);
                 break;
             case PlantPhase.young:
-                youngModel.enabled = true;
+                youngModel.SetActive(true);
                 break;
             case PlantPhase.mature:
-                matureModel.enabled = true;
+                matureModel.SetActive(true);
                 break;
             case PlantPhase.withered:
-                witheredModel.enabled = true;
+                witheredModel.SetActive(true);
                 break;
         }
     }

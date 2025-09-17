@@ -28,6 +28,7 @@ public class Robert : MonoBehaviour
         GetComponentInChildren<Label>().textColor = Color.white;
 
         inventory.AddItem(Items.Lookup("Lettuce Seeds"), 30);
+        inventory.AddItem(Items.Lookup("Tomato Seeds"), 30);
     }
 
     void OnDestroy()

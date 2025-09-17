@@ -133,8 +133,8 @@ Transform:
   m_GameObject: {fileID: 2452618906090962717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.85, y: 1, z: 0.85}
+  m_LocalPosition: {x: 0, y: 1.474, z: 0}
+  m_LocalScale: {x: 0.85, y: 2, z: 0.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9215913754607169222}
@@ -417,6 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantModels:
   - {fileID: 4326483175204724764, guid: 57335aa573926194fa85789fdb2ceae5, type: 3}
+  - {fileID: 4326483175204724764, guid: 66c8dffb66312e943b42d575630e3f82, type: 3}
 --- !u!114 &7667200599627760450
 MonoBehaviour:
   m_ObjectHideFlags: 0
